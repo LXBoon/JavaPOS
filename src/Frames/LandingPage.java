@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 
 public class LandingPage extends JFrame {
     //public static JInternalFrame frame2 = new JInternalFrame();
-    public static JFrame frame2 = new JFrame();
+    //public static JFrame f = new JFrame();
     public static void componentLoad(JFrame f){
         JLabel test = new JLabel("This project was made by:");
         test.setVisible(true);
@@ -37,12 +37,14 @@ public class LandingPage extends JFrame {
         test3.setFont(new Font("Serif", Font.BOLD, 30));
         f.add(test3);
 
-        SwingUtilities.updateComponentTreeUI(f);
+
         //Design.LoadDesinSP(f);
+        Design.loadDesign(f);
+        SwingUtilities.updateComponentTreeUI(f);
     }
 
     public LandingPage(){
-        componentLoad(frame2);
+        //componentLoad(f);
         //this loop stays last
     }
 

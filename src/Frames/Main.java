@@ -9,6 +9,5 @@ public class Main {
     public static int receiptNum = 0;
     public static void main(String[] args) {
         LoginFrame login = new LoginFrame();
-
     }
 }

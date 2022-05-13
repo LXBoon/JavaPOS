@@ -130,24 +130,7 @@ public class Design {
     int yPoss = 200;
     JLabel lName;
 
-    void addStuff(JLabel x, JTextField y,String z){
-        x = new JLabel(z);
-        x.setBounds(850,yPoss,125,30);
-        x.setBorder(BorderFactory.createEtchedBorder());
-        x.setOpaque(false);
-        x.setVisible(true);
-        y = new JTextField();
-        y.setBounds(900,250,125,30);
-        y.setBorder(BorderFactory.createEtchedBorder());
-        y.setVisible(true);
-        f.add(y);
-        f.add(x);
-        yPoss += 50;
-    }
 
-
-
-    public static boolean btnMI = false;
     static void tfDisable(){
         tfID.setEnabled(false);tfName.setEnabled(false);tfPrice.setEnabled(false);
         tfQ.setEnabled(false);
@@ -362,24 +345,23 @@ public class Design {
                     tfID.setEnabled(false);tfID.setBackground(new Color(154, 102, 102));
                     btnEdit.setEnabled(false);
                     btnSave.setEnabled(true);
+                    btnDelete.setEnabled(false);
                 }
             }
         });
         f.add(btnEdit);
         btnEdit.setFocusable(false);
         btnEdit.setBorder(BorderFactory.createEtchedBorder());
-        /*
 
 
-        btnEdit.setEnabled(false);
-        btnDelete.setEnabled(false);
 
-         */
+
+
+
         try{
-            btnInventory.setEnabled(true);
-            btnInventory.doClick();
-            refresh.doClick();
+
         }catch (Exception ex){
+            System.out.println("Edit error");
 
         }
 
@@ -531,46 +513,15 @@ public class Design {
     }
 
     public static void loadInventoryPage(){
+
         f.dispose();
         f = new JFrame();
-        f.setTitle("Manage Inventory");
-        //btnAddNew();
-        btnNew = new JButton("New Item");
-        btnNew.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("btnAddNew");
-                JOptionPane.showMessageDialog(null,"Now You can Add a new Item Click Add when you are done","Adding new Item",JOptionPane.INFORMATION_MESSAGE);
-                Design.tfDisable();
-                Design.tfEnable();
-                //tfDisable();
-                //tfEnable();
-                btnAdd.setEnabled(true);
-                btnSave.setEnabled(false);btnEdit.setEnabled(false);
-            }
-        });
-        InventoryFrame.btnAddNew(btnNew,btnAdd,btnSave,btnEdit,f);
 
-        loadFields();
-        tfDisable();
-        btnAdd();
-        btnDelete();
-        btnEdit();
-        btnSave();
-        btnRefresh();
-        search();
-        //Table();
-        setTable("IM");
-        //set yPos of Des,gn to 100 so btns on the left sid go back to original place
-        Design.yPos=100;
-        LoadFrame(f);
-        btnSellPageLoad(f);
-        btnInventoryLoad(f);
-        btnStaffLoad(f);
-        btnReportsLoad(f);
-        btnExitLoad(f);
-        leftPanelLoad(f);
-        rightPanelLoad(f);
+        f.setTitle("Manage Inventory");
+
+
+        InventoryFrame.inventoryDesign();
+        loadDesign(f);
         SwingUtilities.updateComponentTreeUI(f);
     }
     //--------------inventory Load End----------------
@@ -612,8 +563,8 @@ public class Design {
 
     public static void LoadFrame(JFrame f){
         int confirmed;
-        //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         DatabaseConn.foundUser = false;
         f.setSize(1080,720);
         f.setLayout(null);
@@ -629,7 +580,6 @@ public class Design {
         x.setVisible(true);
         x.setText(y);
         x.setFocusable(false);
-
         x.setBounds(40, yPos, 120, 50);
         x.setBackground(grayish);
         x.setForeground(fff);
@@ -680,8 +630,6 @@ public class Design {
                         System.out.println(ex);
                         btnInventory.setEnabled(true);
                     }
-
-
                 }
                 else mi = false;
             }
@@ -744,7 +692,6 @@ public class Design {
                     if (confirmed == JOptionPane.YES_OPTION) {
                         //f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
                         f.dispose();
-                        new LoginFrame();
                     }
 
                     DatabaseConn.foundUser = false;
@@ -784,7 +731,23 @@ public class Design {
         //f.add(lTime);
     }
 
+    public static void loadDesign(JFrame f){
+        //set yPos of Des,gn to 100 so btns on the left sid go back to original place
+        Design.yPos=100;
+        LoadFrame(f);
+        btnSellPageLoad(f);
+        btnInventoryLoad(f);
+        btnStaffLoad(f);
+        btnReportsLoad(f);
+        btnExitLoad(f);
+        leftPanelLoad(f);
+        rightPanelLoad(f);
+    }
 
+
+    public static void loadLandingPage(){
+        LandingPage.componentLoad(f);
+    }
 
     public static void main(String[] args) {
 

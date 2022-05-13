@@ -94,7 +94,7 @@ public class LoginFrame  implements ActionListener {
                 tfun.setText(null);
                 tfupass.setText(null);
                 f.dispose();
-                Design.LoadSellPage();
+                Design.loadLandingPage();
 
             }else {
                 uGood = false;

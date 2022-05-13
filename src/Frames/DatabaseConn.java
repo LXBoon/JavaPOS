@@ -16,7 +16,7 @@ public class DatabaseConn {
 
     public  static String connString ="jdbc:mysql://localhost:3306/myshopdb";
     public  static String user ="root";
-    public  static String password ="Root147*";
+    public  static String password ="Reet369*";
     public  static  boolean foundUser;
 
 
