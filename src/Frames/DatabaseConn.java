@@ -1,11 +1,7 @@
 package Frames;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DatabaseConn {
 
@@ -199,16 +195,5 @@ public class DatabaseConn {
             throw new RuntimeException(e);
         }
     }
-
-    public static void main(String[] args) {
-
-        //findUser("Admin","admin");
-        //displayItemList("items_table");
-        //addToItemList(2,"Watermelon",3.5,10);
-        //updateItemFromList(2,"Water Melon",5.5,25);
-
-
-    }
-
 }
 
