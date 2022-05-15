@@ -122,8 +122,6 @@ public class InventoryFrame  {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("btnAddNew");
                 JOptionPane.showMessageDialog(null,"Now You can Add a new Item Click Add when you are done","Adding new Item",JOptionPane.INFORMATION_MESSAGE);
-                Design.tfDisable();
-                Design.tfEnable();
                 tfDisable();
                 tfEnable();
                 Design.btnAdd.setEnabled(true);
@@ -150,14 +148,13 @@ public class InventoryFrame  {
                     double price = Double.parseDouble(Design.tfPrice.getText().trim());
                     int quantity = Integer.parseInt(Design.tfQ.getText().trim());
                     DatabaseConn.addToItemList(id,name,price,quantity);
-                    Design.dtm.setRowCount(0);
-                    DatabaseConn.displayItemList(Design.dtm);
                     tfDisable();
                     Design.btnAdd.setEnabled(false);
+                    Design.refresh.doClick();
                 }
                 catch (Exception exception){
                     JOptionPane.showMessageDialog(null,exception.toString());
-                    System.out.println(exception);
+                    System.out.println("Add error");
                 }
             }
         });
@@ -179,8 +176,7 @@ public class InventoryFrame  {
                 try{
                     //JOptionPane.showMessageDialog(null,"Delete seceded, Please refresh the data manually");
                     DatabaseConn.deleteFromItemList(Design.rowID);
-                    Design.dtm.setRowCount(0);
-                    DatabaseConn.displayItemList(Design.dtm);
+                    Design.refresh.doClick();
                 }
                 catch (Exception exception){
                     System.out.println(exception);
@@ -212,14 +208,15 @@ public class InventoryFrame  {
                     DatabaseConn.updateItemFromList(id,name,price,quantity);
                 }catch (Exception exception){
                     //JOptionPane.showMessageDialog(null,exception.toString());
+                    System.out.println("Save error");
                 }
 
 
                 JOptionPane.showMessageDialog(null,"Updated successfully");
                 tfDisable();
                 Design.btnSave.setEnabled(false);
-                //refresh.doClick();
-                Design.refresh.doClick(2);
+                Design.refresh.doClick();
+                //Design.refresh.doClick(2);
             }
         });
         Design.f.add(Design.btnSave);
@@ -294,22 +291,28 @@ public class InventoryFrame  {
             public void valueChanged(ListSelectionEvent event) {
                 // do some actions here, for example
                 // print first column value from selected row
-                String rowIndex = Design.jt.getValueAt(Design.jt.getSelectedRow(), 0).toString();
-                String name =Design.jt.getValueAt(Design.jt.getSelectedRow(), 1).toString();
-                String price =Design.jt.getValueAt(Design.jt.getSelectedRow(), 2).toString();
-                String quantity = Design.jt.getValueAt(Design.jt.getSelectedRow(), 3).toString();
-                Design.rowID = Long.parseLong(rowIndex);
-                tfDisable();
-                Design.tfID.setText(rowIndex);Design.tfName.setText(name);Design.tfPrice.setText(price);Design.tfQ.setText(quantity);
-                Design.btnEdit.setEnabled(true);Design.btnDelete.setEnabled(true);
-                Design.btnSave.setEnabled(false);
+                try{
+                    String rowIndex = Design.jt.getValueAt(Design.jt.getSelectedRow(), 0).toString();
+                    String name =Design.jt.getValueAt(Design.jt.getSelectedRow(), 1).toString();
+                    String price =Design.jt.getValueAt(Design.jt.getSelectedRow(), 2).toString();
+                    String quantity = Design.jt.getValueAt(Design.jt.getSelectedRow(), 3).toString();
+                    Design.rowID = Long.parseLong(rowIndex);
+                    tfDisable();
+                    Design.tfID.setText(rowIndex);Design.tfName.setText(name);Design.tfPrice.setText(price);Design.tfQ.setText(quantity);
+                    Design.btnEdit.setEnabled(true);Design.btnDelete.setEnabled(true);
+                    Design.btnSave.setEnabled(false);
+                }catch (Exception exception){
+                    System.out.println("val");
+                }
+
 
             }
         });
-        JInternalFrame i = new JInternalFrame("List");
-        i.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-        i.setBounds(220,70,300,500);
-        i.setVisible(true);
+        Design.i = new JInternalFrame("List");
+        Design.i.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
+        Design.i.setBounds(220,70,300,500);
+        Design.i.setVisible(true);
+        Design.i.setClosable(false);
         displayItemList(Design.dtm);
         Design.jt.setVisible(true);
         Design.jt.setBounds(50,50,200,200);
@@ -317,8 +320,9 @@ public class InventoryFrame  {
         sp.setVisible(true);
         sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        i.getContentPane().add(sp);
-        Design.f.add(i);
+        Design.i.getContentPane().add(sp);
+        Design.f.add(Design.i);
+
     }
 
     static void btnRefresh (){
@@ -330,12 +334,20 @@ public class InventoryFrame  {
         Design.refresh.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean de = false;
                 try{
+                    tfDisable();
                     Design.dtm.setRowCount(0);
-                    DatabaseConn.displayItemList(Design.dtm);
-                    JOptionPane.showMessageDialog(null,"Refreshed Table");
+                    de = true;
+                    //DatabaseConn.displayItemList(Design.dtm);
+                    //JOptionPane.showMessageDialog(null,"Refreshed Table");
                 }catch (Exception exception){
-                    System.out.println(exception);
+                    de = false;
+                    Design.refresh.doClick();
+                }
+                System.out.println(de);
+                if (de) {
+                    DatabaseConn.displayItemList(Design.dtm);
                 }
 
             }
@@ -344,6 +356,7 @@ public class InventoryFrame  {
         Design.refresh.setFocusable(false);
         Design.refresh.setBorder(BorderFactory.createEtchedBorder());
         Design.btnEdit.setEnabled(false);Design.btnSave.setEnabled(false);
+        SwingUtilities.updateComponentTreeUI(Design.f);
     }
     static void btnEdit(){
         Design.btnEdit = new JButton("Edit");
