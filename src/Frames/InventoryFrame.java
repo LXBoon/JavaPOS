@@ -14,7 +14,7 @@ public class InventoryFrame  {
 
 
 
-
+    static int insertRow;
     static void loadFields(){
         //Add new items
         JLabel lid = new JLabel("ID:");
@@ -181,16 +181,22 @@ public class InventoryFrame  {
 
             try {
                 DatabaseConn.updateItemFromList(id,name,price,quantity);
+                JOptionPane.showMessageDialog(null,"Updated successfully");
+                tfDisable();
+                Design.btnSave.setEnabled(false);
+                insertRow=Design.jt.getSelectedRow();
+                Design.refresh.doClick();
+
+
+
+
             }catch (Exception exception){
                 //JOptionPane.showMessageDialog(null,exception.toString());
                 System.out.println("Save error");
             }
 
 
-            JOptionPane.showMessageDialog(null,"Updated successfully");
-            tfDisable();
-            Design.btnSave.setEnabled(false);
-            Design.refresh.doClick();
+
             //Design.refresh.doClick(2);
         });
         Design.f.add(Design.btnSave);
@@ -266,6 +272,7 @@ public class InventoryFrame  {
                 String price =Design.jt.getValueAt(Design.jt.getSelectedRow(), 2).toString();
                 String quantity = Design.jt.getValueAt(Design.jt.getSelectedRow(), 3).toString();
                 Design.rowID = Long.parseLong(rowIndex);
+                insertRow=Design.jt.getSelectedRow();
                 tfDisable();
                 Design.tfID.setText(rowIndex);Design.tfName.setText(name);Design.tfPrice.setText(price);Design.tfQ.setText(quantity);
                 Design.btnEdit.setEnabled(true);Design.btnDelete.setEnabled(true);
@@ -276,7 +283,7 @@ public class InventoryFrame  {
 
 
         });
-        Design.i = new JInternalFrame("List");
+        Design.i = new JInternalFrame(("List"),false,false,false,false);
         Design.i.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
         Design.i.setBounds(220,70,300,500);
         Design.i.setVisible(true);
@@ -312,6 +319,8 @@ public class InventoryFrame  {
             System.out.println(de);
             if (de) {
                 DatabaseConn.displayItemList(Design.dtm);
+                //JOptionPane.showMessageDialog(null,insertRow);
+                Design.jt.setRowSelectionInterval(insertRow,insertRow);
             }
 
         });
@@ -345,6 +354,7 @@ public class InventoryFrame  {
 
 
     public static void inventoryDesign(){
+
         btnNewCreate();
         loadFields();
         tfDisable();

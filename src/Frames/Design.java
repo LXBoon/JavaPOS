@@ -15,6 +15,7 @@ public class Design {
 
     // Design components
     public static JFrame f = new JFrame();
+    public  static JDesktopPane desktopPane = new JDesktopPane();
     public static int yPos=100;
     public static Color grayish = new Color(100, 114, 140);
     public static Color darkGrayish = new Color(85, 85, 87);
@@ -68,6 +69,52 @@ public class Design {
 
 
         SwingUtilities.updateComponentTreeUI(f);
+    }
+    public static void btnSellPageLoad(JFrame f){
+        btnSellPage = new JButton();
+        btnLoad(btnSellPage, "Sell Page",f);
+        btnSellPage.addActionListener(evt -> {
+            if(evt.getSource()==btnSellPage){
+                try{
+                    //f.dispose();
+                    LoadSellPage();
+                    btnSellPage.setEnabled(false);
+                    //f.dispose();
+                }
+                catch (Exception ex){
+                    JOptionPane.showMessageDialog(null,ex);
+                }
+            }
+            else {
+                //sp = false;
+                btnSellPage.setEnabled(true);
+            }
+        });
+        f.add(btnSellPage);
+        yPos +=100;
+    }
+    public static void btnInventoryLoad(JFrame f){
+        btnInventory = new JButton();
+        btnLoad(btnInventory, "Manage Inventory",f);
+        btnInventory.addActionListener(evt -> {
+            if(evt.getSource()==btnInventory){
+                try{
+                    //f.dispose();
+                    loadInventoryPage();
+                    btnInventory.setEnabled(false);
+                    //f.dispose();
+                }
+                catch (Exception ex){
+                    JOptionPane.showMessageDialog(null,ex);
+                    btnInventory.setEnabled(true);
+                }
+            }
+            else {
+                btnInventory.setEnabled(true);
+            }
+        });
+        f.add(btnInventory);
+        yPos +=100;
     }
     public static void btnStaffLoad(JFrame f){
         btnStaff = new JButton();
@@ -199,6 +246,12 @@ public class Design {
     public static JLabel pageLabel;
     public static JInternalFrame i ;
 
+    //Sell page components
+    public static JTable jtsp;
+    public static DefaultTableModel dtmsp;
+
+    public static JButton btnNum;
+
 
 
 
@@ -222,76 +275,22 @@ public class Design {
     }
 
 
-    //Sell page components
-    public static JTable jtsp;
-    public static DefaultTableModel dtmsp;
+
 
     //load sell page
     public static void LoadSellPage(){
         f.dispose();
         f = new JFrame();
         setPageLabel("Sell Page");
-
-        JLabel test = new JLabel("This is selling page");
-        test.setVisible(true);
-        test.setBounds(950,500,200,200);
-        f.add(test);
-
-
+        SellingPage.loadSellingPage();
         loadDesign(f);
-
     }
 
 
 
 
 
-    public static void btnSellPageLoad(JFrame f){
-        btnSellPage = new JButton();
-        btnLoad(btnSellPage, "Sell Page",f);
-        btnSellPage.addActionListener(evt -> {
-            if(evt.getSource()==btnSellPage){
-                try{
-                    //f.dispose();
-                    LoadSellPage();
-                    btnSellPage.setEnabled(false);
-                    //f.dispose();
-                }
-                catch (Exception ex){
-                    JOptionPane.showMessageDialog(null,ex);
-                }
-            }
-            else {
-                //sp = false;
-                btnSellPage.setEnabled(true);
-            }
-        });
-        f.add(btnSellPage);
-        yPos +=100;
-    }
-    public static void btnInventoryLoad(JFrame f){
-        btnInventory = new JButton();
-        btnLoad(btnInventory, "Manage Inventory",f);
-        btnInventory.addActionListener(evt -> {
-            if(evt.getSource()==btnInventory){
-                try{
-                    //f.dispose();
-                    loadInventoryPage();
-                    btnInventory.setEnabled(false);
-                    //f.dispose();
-                }
-                catch (Exception ex){
-                    JOptionPane.showMessageDialog(null,ex);
-                    btnInventory.setEnabled(true);
-                }
-            }
-            else {
-                btnInventory.setEnabled(true);
-            }
-        });
-        f.add(btnInventory);
-        yPos +=100;
-    }
+
 
 
 
