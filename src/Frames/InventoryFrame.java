@@ -187,9 +187,6 @@ public class InventoryFrame  {
                 insertRow=Design.jt.getSelectedRow();
                 Design.refresh.doClick();
 
-
-
-
             }catch (Exception exception){
                 //JOptionPane.showMessageDialog(null,exception.toString());
                 System.out.println("Save error");
@@ -280,8 +277,6 @@ public class InventoryFrame  {
             }catch (Exception exception){
                 System.out.println("val");
             }
-
-
         });
         Design.i = new JInternalFrame(("List"),false,false,false,false);
         Design.i.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);

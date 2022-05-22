@@ -250,7 +250,9 @@ public class Design {
     public static JTable jtsp;
     public static DefaultTableModel dtmsp;
 
-    public static JButton btnNum;
+    public static JButton btnNewSell,btnNum,btnAddSell,btnEditSell,btnSaveSell,btnDeleteSell;
+    public static JTextField textFieldSell,textFieldQ,textFieldEditQ;
+    public static JLabel labelSell;
 
 
 
