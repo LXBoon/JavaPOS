@@ -76,10 +76,8 @@ public class Design {
         btnSellPage.addActionListener(evt -> {
             if(evt.getSource()==btnSellPage){
                 try{
-                    //f.dispose();
                     LoadSellPage();
                     btnSellPage.setEnabled(false);
-                    //f.dispose();
                 }
                 catch (Exception ex){
                     JOptionPane.showMessageDialog(null,ex);
@@ -99,10 +97,8 @@ public class Design {
         btnInventory.addActionListener(evt -> {
             if(evt.getSource()==btnInventory){
                 try{
-                    //f.dispose();
                     loadInventoryPage();
                     btnInventory.setEnabled(false);
-                    //f.dispose();
                 }
                 catch (Exception ex){
                     JOptionPane.showMessageDialog(null,ex);
@@ -249,8 +245,9 @@ public class Design {
     //Sell page components
     public static JTable jtsp;
     public static DefaultTableModel dtmsp;
+    public static int rn;
 
-    public static JButton btnNewSell,btnNum,btnAddSell,btnEditSell,btnSaveSell,btnDeleteSell;
+    public static JButton btnNewSell,btnNum,btnAddSell,btnEditSell,btnSaveSell,btnDeleteSell,btnCompletePurchase;
     public static JTextField textFieldSell,textFieldQ,textFieldEditQ;
     public static JLabel labelSell;
 
@@ -283,9 +280,11 @@ public class Design {
     public static void LoadSellPage(){
         f.dispose();
         f = new JFrame();
+        f.setTitle("Selling Page");
         setPageLabel("Sell Page");
         SellingPage.loadSellingPage();
         loadDesign(f);
+        SwingUtilities.updateComponentTreeUI(f);
     }
 
 

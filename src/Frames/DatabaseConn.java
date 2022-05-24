@@ -2,6 +2,10 @@ package Frames;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static java.sql.Date.valueOf;
 
 public class DatabaseConn {
 
@@ -249,23 +253,27 @@ public class DatabaseConn {
             preparedStmt.execute();
             System.out.println("Good");
         } catch (SQLException e) {
-            System.out.println("Error");
+            System.out.println("Error add sell");
+            System.out.println(e);
             throw new RuntimeException(e);
         }
     }
     public static void newReceipt(int receipt_id){
         try{
             int id= receipt_id;
+            SimpleDateFormat DH= new SimpleDateFormat("yyyy-MM-dd HH-mm:ss");
+            Date date = new Date(System.currentTimeMillis());
+            String Date = DH.format(date);
             conn = DriverManager.getConnection(connString, user, password);
-            st = conn.createStatement();//crating statement object
-            String query = "insert into receipt_table (ID) values (?)";
+            st = conn.createStatement();
+            String query = "insert into receipt_table (ID,Date) values (?,?)";
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setLong (1,id );
+            preparedStmt.setString(2,Date);
             preparedStmt.execute();
-            System.out.println("Good");
 
         }catch (Exception e){
-            System.out.println("Error");
+            System.out.println("Error new r");
         }
     }
 
@@ -292,8 +300,33 @@ public class DatabaseConn {
         return p;
     }
 
-    public static void main(String[] args) {
+    public static double getTotalPrice(int id){
+        double p = 0;
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            String sql ="select sum(Price) AS TotalPrice from sells_table where Recipt_id ='"+id+"'";
+            st = conn.createStatement();
+            ResultSet resultSet=st.executeQuery(sql);
+            if (resultSet.next()){
+                p = resultSet.getDouble("TotalPrice");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return p;
+    }
+    public static void setPurchase(int receipt_id,double TotalPrice, double paidAmount, double change,String type){
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            String sql ="update receipt_table set TotalPrice= '"+TotalPrice+"', Paidamount= '"+paidAmount+"' ,Changeamount= '"+change+"', Type='"+type+"' where ID = "+receipt_id+"";
+            PreparedStatement preparedStmt = conn.prepareStatement(sql);
+            preparedStmt.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public static void main(String[] args) {
 
     }
 
