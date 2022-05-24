@@ -14,9 +14,18 @@ public class DatabaseConn {
     static Statement st;
     static ResultSet rs;
 
+    //on device mysql - my php admin   host
+    /*
     public  static String connString ="jdbc:mysql://localhost:3306/myshopdb";
     public  static String user ="root";
     public  static String password ="Reet369*";
+
+     */
+
+    //online mysql - my php admin   host
+    public static String connString="jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11495022";
+    public static String user = "sql11495022";
+    public static String password = "rB154EAxrZ";
     public  static  boolean foundUser;
 
 
