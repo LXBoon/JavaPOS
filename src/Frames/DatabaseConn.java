@@ -13,19 +13,21 @@ public class DatabaseConn {
     static Connection conn;
     static Statement st;
     static ResultSet rs;
+    static PreparedStatement ps;
 
     //on device mysql - my php admin   host
-    /*
+
     public  static String connString ="jdbc:mysql://localhost:3306/myshopdb";
     public  static String user ="root";
     public  static String password ="Reet369*";
 
-     */
-
     //online mysql - my php admin   host
+    /*
     public static String connString="jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11495022";
     public static String user = "sql11495022";
     public static String password = "rB154EAxrZ";
+
+     */
     public  static  boolean foundUser;
 
 
@@ -34,11 +36,11 @@ public class DatabaseConn {
             conn = DriverManager.getConnection(connString, user, password);
             String sql ="select * from user_table where Name = '"+x+"' and Password ='"+y+"'";
             st = conn.createStatement();
-            ResultSet resultSet=st.executeQuery(sql);
+            rs=st.executeQuery(sql);
             //System.out.println(rs.getString("Name").equals(x) && rs.getString("Password").equals(y));
-            while (resultSet.next()){
+            while (rs.next()){
                 //System.out.println(resultSet.getString("Name") +" "+ resultSet.getString("Password"));
-                if (resultSet.getString("Name").equals(x) && resultSet.getString("Password").equals(y)){
+                if (rs.getString("Name").equals(x) && rs.getString("Password").equals(y)){
                     System.out.println("Found");
                     foundUser = true;
                     break;
@@ -50,6 +52,22 @@ public class DatabaseConn {
             System.out.println("Failed");
             foundUser = false;
             throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
     }
 
@@ -58,7 +76,7 @@ public class DatabaseConn {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con=DriverManager.getConnection(connString, user, password);
             Statement stmt=con.createStatement();
-            ResultSet rs=stmt.executeQuery("select * from user_table Where Name='Admin'");
+            rs=stmt.executeQuery("select * from user_table Where Name='Admin'");
             System.out.println("Connected");
             while(rs.next()) {
                 if (rs.getString("Name").equals("Admin")){
@@ -71,6 +89,22 @@ public class DatabaseConn {
         }catch(Exception e){
             System.out.println("Failed");
             System.out.println(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
     }
     public static String[] columns;
@@ -80,7 +114,7 @@ public class DatabaseConn {
             conn = DriverManager.getConnection(connString,user,password);
             st = conn.createStatement();//crating statement object
             String query = "SELECT * FROM items_table";//Storing MySQL query in A string variable
-            ResultSet rs = st.executeQuery(query);//executing query and storing result in ResultSet
+            rs = st.executeQuery(query);//executing query and storing result in ResultSet
             //System.out.println("Good");
             ResultSetMetaData rsd = rs.getMetaData();
             columns = new String[rsd.getColumnCount()];
@@ -102,6 +136,22 @@ public class DatabaseConn {
         } catch (SQLException e) {
             System.out.println("Bad");
             throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
     }
 
@@ -110,16 +160,32 @@ public class DatabaseConn {
             conn = DriverManager.getConnection(connString, user, password);
             st = conn.createStatement();//crating statement object
             String query = "insert into items_table (ID,Name,Price,Quantity) values(?,?,?,?)";//Storing MySQL query in A string variable
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setLong (1,id );
-            preparedStmt.setString (2, name);
-            preparedStmt.setDouble   (3, price);
-            preparedStmt.setInt(4, quantity);
-            preparedStmt.execute();
+            ps = conn.prepareStatement(query);
+            ps.setLong (1,id );
+            ps.setString (2, name);
+            ps.setDouble   (3, price);
+            ps.setInt(4, quantity);
+            ps.execute();
             System.out.println("Good");
         } catch (SQLException e) {
             System.out.println("Error");
             throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
     }
 
@@ -134,6 +200,22 @@ public class DatabaseConn {
         } catch (SQLException e) {
             System.out.println("Error");
             throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
 
 
@@ -145,18 +227,33 @@ public class DatabaseConn {
             conn = DriverManager.getConnection(connString,user,password);
             st = conn.createStatement();//crating statement object
             String query = "update items_table set Name = ?,Price=?,Quantity=? where ID =? ";//Storing MySQL query in A string variable
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString (1, name);
-            preparedStmt.setDouble   (2, price);
-            preparedStmt.setInt(3, quantity);
-            preparedStmt.setInt (4,id );
-
-            preparedStmt.execute();
+            ps = conn.prepareStatement(query);
+            ps.setString (1, name);
+            ps.setDouble   (2, price);
+            ps.setInt(3, quantity);
+            ps.setInt (4,id );
+            ps.execute();
 
             System.out.println("Good");
         } catch (SQLException e) {
             System.out.println("Error");
             throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
 
 
@@ -169,7 +266,7 @@ public class DatabaseConn {
             //WHERE CustomerName LIKE '%or%'
             st = conn.createStatement();//crating statement object
             String query = "SELECT * FROM items_table Where "+y+" like '%"+x+"%'";//Storing MySQL query in A string variable
-            ResultSet rs = st.executeQuery(query);//executing query and storing result in ResultSet
+            rs = st.executeQuery(query);//executing query and storing result in ResultSet
             //System.out.println("Good");
             ResultSetMetaData rsd = rs.getMetaData();
             columns = new String[rsd.getColumnCount()];
@@ -195,6 +292,22 @@ public class DatabaseConn {
 
             System.out.println("Error");
             throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
     }
 
@@ -205,13 +318,29 @@ public class DatabaseConn {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con=DriverManager.getConnection(connString, user, password);
             Statement stmt=con.createStatement();
-            ResultSet rs=stmt.executeQuery("select count(ID) from receipt_table");
+            rs=stmt.executeQuery("select count(ID) from receipt_table");
             rs.next();
             num=rs.getInt(1);
             con.close();
         }catch(Exception e){
             System.out.println("Failed");
             System.out.println(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
         return num+1;
     }
@@ -220,8 +349,8 @@ public class DatabaseConn {
         try {
             conn = DriverManager.getConnection(connString,user,password);
             st = conn.createStatement();//crating statement object
-            String query = "SELECT Name,Quantity,Price FROM sells_table where Recipt_id ='"+receiptNum+"'";//Storing MySQL query in A string variable
-            ResultSet rs = st.executeQuery(query);//executing query and storing result in ResultSet
+            String query = "SELECT * FROM sells_table where Recipt_id ='"+receiptNum+"'";//Storing MySQL query in A string variable
+            rs = st.executeQuery(query);//executing query and storing result in ResultSet
             //System.out.println("Good");
             ResultSetMetaData rsd = rs.getMetaData();
             columns = new String[rsd.getColumnCount()];
@@ -233,15 +362,33 @@ public class DatabaseConn {
                     tm.addColumn(rsd.getColumnName(i));
             }
             while (rs.next()){
+                int id =rs.getInt("ID");
+                long item_id = rs.getLong("Item_id");
                 String name = rs.getString("Name");
                 int quantity = rs.getInt("Quantity");
                 double price = rs.getDouble("Price");
-                tm.addRow(new Object[]{name,quantity,price });
+                tm.addRow(new Object[]{id,item_id,name,quantity,price });
             }
             conn.close();
         } catch (SQLException e) {
             System.out.println("Bad");
             throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
     }
     public static void addSell(long Item_id,String Item_name, int Item_quantity,double Item_price,int rec_id){
@@ -253,59 +400,130 @@ public class DatabaseConn {
             conn = DriverManager.getConnection(connString, user, password);
             st = conn.createStatement();//crating statement object
             String query = "insert into sells_table (Item_id,Name,Quantity,Price,Recipt_id) values(?,?,?,?,?)";//Storing MySQL query in A string variable
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setLong (1,id );
-            preparedStmt.setString (2, name);
-            preparedStmt.setInt(3, quantity);
-            preparedStmt.setDouble   (4, price);
-            preparedStmt.setInt(5, receipt_id);
-            preparedStmt.execute();
+            ps = conn.prepareStatement(query);
+            ps.setLong (1,id );
+            ps.setString (2, name);
+            ps.setInt(3, quantity);
+            ps.setDouble   (4, price);
+            ps.setInt(5, receipt_id);
+            ps.execute();
             System.out.println("Good");
         } catch (SQLException e) {
             System.out.println("Error add sell");
             System.out.println(e);
             throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
     }
-    public static void newReceipt(int receipt_id){
+    public static void newReceipt(int receipt_id,String date){
         try{
             int id= receipt_id;
-            SimpleDateFormat DH= new SimpleDateFormat("yyyy-MM-dd HH-mm:ss");
-            Date date = new Date(System.currentTimeMillis());
-            String Date = DH.format(date);
+            String Date = date;
             conn = DriverManager.getConnection(connString, user, password);
             st = conn.createStatement();
             String query = "insert into receipt_table (ID,Date) values (?,?)";
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setLong (1,id );
-            preparedStmt.setString(2,Date);
-            preparedStmt.execute();
+            ps = conn.prepareStatement(query);
+            ps.setLong (1,id );
+            ps.setString(2,Date);
+            ps.execute();
 
         }catch (Exception e){
             System.out.println("Error new r");
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
     }
 
     public static String getItemName(long id) throws SQLException {
         String n = null;
-        conn = DriverManager.getConnection(connString, user, password);
-        String sql ="select Name from items_table where ID = '"+id+"'";
-        st = conn.createStatement();
-        ResultSet resultSet=st.executeQuery(sql);
-        if (resultSet.next()){
-            n = resultSet.getString("Name");
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            String sql = "select Name from items_table where ID = '" + id + "'";
+            st = conn.createStatement();
+            rs = st.executeQuery(sql);
+            if (rs.next()) {
+                n = rs.getString("Name");
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
         return n;
     }
     public static double getItemPrice(long id) throws SQLException {
         double p = 0;
+        try {
             conn = DriverManager.getConnection(connString, user, password);
             String sql ="select Price from items_table where ID = '"+id+"'";
             st = conn.createStatement();
-            ResultSet resultSet=st.executeQuery(sql);
-            if (resultSet.next()){
-                p = resultSet.getDouble("Price");
+            rs=st.executeQuery(sql);
+            if (rs.next()){
+                p = rs.getDouble("Price");
             }
+        }catch (Exception e){
+            System.out.println(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+
         return p;
     }
 
@@ -315,12 +533,28 @@ public class DatabaseConn {
             conn = DriverManager.getConnection(connString, user, password);
             String sql ="select sum(Price) AS TotalPrice from sells_table where Recipt_id ='"+id+"'";
             st = conn.createStatement();
-            ResultSet resultSet=st.executeQuery(sql);
-            if (resultSet.next()){
-                p = resultSet.getDouble("TotalPrice");
+            rs=st.executeQuery(sql);
+            if (rs.next()){
+                p = rs.getDouble("TotalPrice");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
         return p;
     }
@@ -328,14 +562,60 @@ public class DatabaseConn {
         try {
             conn = DriverManager.getConnection(connString, user, password);
             String sql ="update receipt_table set TotalPrice= '"+TotalPrice+"', Paidamount= '"+paidAmount+"' ,Changeamount= '"+change+"', Type='"+type+"' where ID = "+receipt_id+"";
-            PreparedStatement preparedStmt = conn.prepareStatement(sql);
-            preparedStmt.execute();
+            ps = conn.prepareStatement(sql);
+            ps.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+    public static void deleteSell(int id,int rn ){
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            st = conn.createStatement();
+            String query1 = "delete from  sells_table where Recipt_id="+rn+" and ID = "+id+"";
+            st.executeUpdate(query1);
+            System.out.println("Record is deleted from the table successfully..................");
+        } catch (SQLException e) {
+            System.out.println("Error");
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
         }
     }
 
+
     public static void main(String[] args) {
+        deleteSell(52,23);
 
     }
 

@@ -10,12 +10,14 @@ import java.awt.print.PrinterException;
 import java.io.Serial;
 import java.security.Key;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 import static Frames.DatabaseConn.*;
 
 public class SellingPage {
-    static boolean no = false, q = false;
+    static boolean no = false, q = false, e=false;
 
 
     static Font myFont = new Font("SansSerif", Font.BOLD, 20);
@@ -25,7 +27,7 @@ public class SellingPage {
     static JRadioButton cash,card;
     static ButtonGroup paymentType ;
 
-    static String type;
+    static String type,name,ogQty,date;
     static double paid,change,totalP;
 
     static void newSellTable(){
@@ -39,6 +41,12 @@ public class SellingPage {
         };
         Design.jtsp.getSelectionModel().addListSelectionListener(event -> {
             try{
+                name = Design.jtsp.getValueAt(Design.jtsp.getSelectedRow(),0).toString();
+                ogQty = Design.jtsp.getValueAt(Design.jtsp.getSelectedRow(),1).toString();
+                JOptionPane.showMessageDialog(null,Design.rn);
+                Design.textFieldEditQ.setText(ogQty);
+                Design.btnEditSell.setEnabled(true);
+                Design.btnDeleteSell.setEnabled(true);
             }catch (Exception exception){
                 System.out.println("val");
             }
@@ -74,7 +82,10 @@ public class SellingPage {
             Design.btnAddSell.setEnabled(true);
             try{
                 Design.rn= DatabaseConn.GetReceiptNum();
-                newReceipt(Design.rn);
+                SimpleDateFormat DH= new SimpleDateFormat("yyyy-MM-dd HH-mm:ss");
+                Date datef = new Date(System.currentTimeMillis());
+                date = DH.format(datef);
+                newReceipt(Design.rn,date);
                 System.out.println(Design.rn);
 
             }catch (Exception exception){
@@ -228,44 +239,6 @@ public class SellingPage {
     }
 
     static void tableButtons(){
-        Design.btnEditSell = new JButton("Edit Quantity");
-        Design.btnEditSell.setBounds(550,150,120,20);
-        Design.btnEditSell.setVisible(true);
-        Design.btnEditSell.setFocusable(false);
-        Design.btnEditSell.setBackground(new Color(255, 158, 0));
-        Design.btnEditSell.setEnabled(false);
-        Design.btnEditSell.addActionListener(e->{
-            Design.btnAddSell.setEnabled(false);
-            Design.btnDeleteSell.setEnabled(false);
-            Design.textFieldEditQ.setEnabled(true);
-            Design.btnSaveSell.setEnabled(true);
-        });
-        Design.f.add(Design.btnEditSell);
-
-        Design.textFieldEditQ = new JTextField();
-        Design.textFieldEditQ.setBounds(680,150,120,20);
-        Design.textFieldEditQ.setVisible(true);
-        Design.textFieldEditQ.setEnabled(false);
-        Design.f.add(Design.textFieldEditQ);
-
-        Design.btnSaveSell = new JButton("Save");
-        Design.btnSaveSell.setBounds(680,175,75,20);
-        Design.btnSaveSell.setVisible(true);
-        Design.btnSaveSell.setFocusable(false);
-        Design.btnSaveSell.setBackground(Color.green);
-        Design.btnSaveSell.setEnabled(false);
-        Design.btnSaveSell.addActionListener(e->{
-            Design.btnAddSell.setEnabled(true);
-            Design.btnDeleteSell.setEnabled(true);
-            Design.textFieldEditQ.setEnabled(false);
-            Design.textFieldEditQ.setText(null);
-            Design.btnSaveSell.setEnabled(false);
-            Design.textFieldSell.requestFocus();
-        });
-        Design.f.add(Design.btnSaveSell);
-
-
-
         Design.btnDeleteSell = new JButton("Delete");
         Design.btnDeleteSell.setBounds(550,175,120,20);
         Design.btnDeleteSell.setVisible(true);
@@ -298,30 +271,32 @@ public class SellingPage {
                 JOptionPane.showMessageDialog(null,"Total price:  "+totalP+"\nPaid: "+paid+"\nchange:  "+change+" ");
 
                 String areaString = "--------------- RECEIPT ---------------";
-                area1.setText(areaString+"\n");
+                area1.setText("Receipt NO:"+Design.rn+"\n");
+                area1.setText(area1.getText()+"\nDate:"+date+"\n");
+                area1.setText(area1.getText()+"\n"+areaString+"\n");
+                /*
+                area1.setText(area1.getText()+"\nName\tQuantity\tPrice\n");
+                area1.setText(area1.getText()+"\n----\t--------\t-----\n");
+                 */
                 for (int i =0;i<Design.jtsp.getRowCount();i++){
-                    String name = Design.jtsp.getValueAt(i,0).toString();
-                    String quantity = Design.jtsp.getValueAt(i,1).toString();
-                    String price = Design.jtsp.getValueAt(i,2).toString();
+                    String name = Design.jtsp.getValueAt(i,2).toString();
+                    String quantity = Design.jtsp.getValueAt(i,3).toString();
+                    String price = Design.jtsp.getValueAt(i,4).toString();
                     area1.setText(area1.getText()+"\n"+name+"\t"+quantity+"\t"+price+"\n");
                 }
                 area1.setText(area1.getText()+"--------------------------------------\n"
                         +"Total Price: "+getTotalPrice(Design.rn)+"\nPaid amount: "+ paid+"\nChange: "+change);
+                area1.setText(area1.getText()+"");
                 area1.print();
-                Design.f.dispose();
-                Design.LoadSellPage();
+                Design.dtmsp.setRowCount(0);
+                Design.btnNewSell.doClick();
+                q=false;
+                no=true;
 
 
             } catch (PrinterException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-
-
-
-
-
-
-
         });
         Design.f.add(Design.btnCompletePurchase);
 
