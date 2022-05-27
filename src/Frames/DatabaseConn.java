@@ -463,7 +463,7 @@ public class DatabaseConn {
         }
     }
 
-    public static String getItemName(long id) throws SQLException {
+    public static String getItemName(long id){
         String n = null;
         try {
             conn = DriverManager.getConnection(connString, user, password);
@@ -494,7 +494,7 @@ public class DatabaseConn {
         }
         return n;
     }
-    public static double getItemPrice(long id) throws SQLException {
+    public static double getItemPrice(long id){
         double p = 0;
         try {
             conn = DriverManager.getConnection(connString, user, password);
@@ -584,11 +584,11 @@ public class DatabaseConn {
             }
         }
     }
-    public static void deleteSell(int id,int rn ){
+    public static void deleteSell(int id,long itemID ){
         try {
             conn = DriverManager.getConnection(connString, user, password);
             st = conn.createStatement();
-            String query1 = "delete from  sells_table where Recipt_id="+rn+" and ID = "+id+"";
+            String query1 = "delete from  sells_table where ID="+id+" and Item_id = "+itemID+"";
             st.executeUpdate(query1);
             System.out.println("Record is deleted from the table successfully..................");
         } catch (SQLException e) {

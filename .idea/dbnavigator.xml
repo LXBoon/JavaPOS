@@ -40,6 +40,11 @@
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="b711f631-8f65-4c06-937d-0860d441c33c" dataset="myshopdb.user_table" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="b711f631-8f65-4c06-937d-0860d441c33c" dataset="myshopdb.items_table" active-filter-id="" />
+    <filter-actions connection-id="b711f631-8f65-4c06-937d-0860d441c33c" dataset="myshopdb.sells_table" active-filter-id="b2f22e49-dc48-44a7-8b1c-2762f2ad1adc">
+      <filter id="b2f22e49-dc48-44a7-8b1c-2762f2ad1adc" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="ID" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
