@@ -17,7 +17,7 @@ import java.util.Vector;
 import static Frames.DatabaseConn.*;
 
 public class SellingPage {
-    static boolean no = false, q = false, e=false;
+    static boolean no = false, q = false, eq=false;
 
 
     static Font myFont = new Font("SansSerif", Font.BOLD, 20);
@@ -43,15 +43,18 @@ public class SellingPage {
         };
         Design.jtsp.getSelectionModel().addListSelectionListener(event -> {
             try{
+
+
                 sellItemID = Integer.parseInt(Design.jtsp.getValueAt(Design.jtsp.getSelectedRow(),0).toString());
                 itemID = Long.parseLong(Design.jtsp.getValueAt(Design.jtsp.getSelectedRow(),1).toString());
                 ogQty = Design.jtsp.getValueAt(Design.jtsp.getSelectedRow(),3).toString();
                 Design.btnDeleteSell.setEnabled(true);
-                JOptionPane.showMessageDialog(null,sellItemID+"\n"+itemID);
+                Design.btnEditSell.setEnabled(true);
+                //JOptionPane.showMessageDialog(null,ogQty);
                 Design.textFieldEditQ.setText(ogQty);
 
             }catch (Exception exception){
-                System.out.println("val");
+                System.out.println(exception);
             }
         });
         Design.i = new JInternalFrame(("Receipt"),false,false,false,false);
@@ -116,6 +119,7 @@ public class SellingPage {
                 Design.textFieldSell.setText(null);
                 no=true;
                 q=false;
+                eq =false;
             }
             @Override
             public void mousePressed(MouseEvent e) {
@@ -151,6 +155,7 @@ public class SellingPage {
                 Design.textFieldQ.setText(null);
                 q=true;
                 no=false;
+                eq =false;
             }
             @Override
             public void mousePressed(MouseEvent e) {
@@ -190,6 +195,7 @@ public class SellingPage {
             Design.textFieldQ.setText("1");
             no=true;
             q=false;
+            eq =false;
             Design.textFieldSell.requestFocus();
         });
         Design.f.add(Design.btnAddSell);
@@ -212,6 +218,10 @@ public class SellingPage {
                 String og = Design.textFieldSell.getText();
                 Design.textFieldSell.setText(og+ finalBtn.getText());
             }
+            else if (eq){
+                String og = Design.textFieldSell.getText();
+                Design.textFieldSell.setText(og+ finalBtn.getText());
+            }
         });
 
         Design.f.add(btn);
@@ -229,14 +239,112 @@ public class SellingPage {
     }
 
     static void tableButtons(){
+
+        Design.btnEditSell = new JButton("Edit Quantity");
+        Design.btnEditSell.setBounds(550,125,120,30);
+        Design.btnEditSell.setVisible(true);
+        Design.btnEditSell.setFocusable(false);
+        Design.btnEditSell.setEnabled(false);
+        Design.btnEditSell.addActionListener(e->{
+
+            Design.btnSaveSell.setEnabled(true);
+            Design.btnDeleteSell.setEnabled(false);
+            Design.textFieldEditQ.setEnabled(true);
+            Design.textFieldEditQ.transferFocus();
+            no=false;
+            q=false;
+            eq=true;
+
+
+        });
+        Design.btnEditSell.setBackground(new Color(255, 220, 2));
+        Design.f.add(Design.btnEditSell);
+
+        Design.textFieldEditQ = new JTextField();
+        Design.textFieldEditQ.setBounds(690,125,60,20);
+        Design.textFieldEditQ.setVisible(true);
+        Design.textFieldEditQ.setEnabled(false);
+        Design.textFieldEditQ.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Design.textFieldEditQ.setText(null);
+                q=true;
+                no=false;
+                eq =false;
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        Design.f.add(Design.textFieldEditQ);
+
+        Design.btnSaveSell = new JButton("Save");
+        Design.btnSaveSell.setBounds(690,150,120,25);
+        Design.btnSaveSell.setVisible(true);
+        Design.btnSaveSell.setFocusable(false);
+        Design.btnSaveSell.setEnabled(false);
+        Design.btnSaveSell.addActionListener(e->{
+            int qty = 0;
+            double price=0;
+            try {
+                qty = Integer.parseInt(Design.textFieldEditQ.getText());
+                price = qty * getItemPrice(itemID);
+
+                if (qty>=1) {
+                    updateQuantity(sellItemID, itemID, qty, price);
+                    Design.jtsp.clearSelection();
+                    Design.dtmsp.setRowCount(0);
+                    sellTable(Design.dtmsp, Design.rn);
+                    String totPrice = String.valueOf(DatabaseConn.getTotalPrice(Design.rn));
+                    TotalPrice.setText(totPrice);
+                    Design.textFieldSell.setText(null);
+                    Design.textFieldQ.setText("1");
+                    no = true;
+                    q = false;
+                    eq = false;
+                    Design.textFieldSell.requestFocus();
+                    Design.textFieldEditQ.setEnabled(false);
+                }else JOptionPane.showMessageDialog(null,"can't be 0 or less");
+            }catch (NumberFormatException exception) {
+                JOptionPane.showMessageDialog(null, "is empty");
+            }
+
+
+
+
+
+
+        });
+        Design.btnSaveSell.setBackground(new Color(138, 246, 0));
+        Design.f.add(Design.btnSaveSell);
+
+
         Design.btnDeleteSell = new JButton("Delete");
-        Design.btnDeleteSell.setBounds(550,175,120,20);
+        Design.btnDeleteSell.setBounds(550,175,120,30);
         Design.btnDeleteSell.setVisible(true);
         Design.btnDeleteSell.setFocusable(false);
         Design.btnDeleteSell.setEnabled(false);
         Design.btnDeleteSell.addActionListener(e->{
             DatabaseConn.deleteSell(sellItemID,itemID);
 
+            Design.jtsp.clearSelection();
             Design.dtmsp.setRowCount(0);
             sellTable(Design.dtmsp,Design.rn);
             String totPrice= String.valueOf(DatabaseConn.getTotalPrice(Design.rn));
@@ -245,6 +353,7 @@ public class SellingPage {
             Design.textFieldQ.setText("1");
             no=true;
             q=false;
+            eq = false;
             Design.textFieldSell.requestFocus();
 
         });
@@ -308,17 +417,9 @@ public class SellingPage {
 
 
 
-        JLabel label = new JLabel();
-        label.setText("Total: ");
-        label.setBounds(250,600,120,20);
-        label.setVisible(true);
-        label.setFont(myFont);
-        Design.f.add(label);
 
-        TotalPrice = new JLabel();
-        TotalPrice.setBounds(370,600,120,20);
-        TotalPrice.setVisible(true);
-        Design.f.add(TotalPrice);
+
+
 
         area1 = new JTextArea();
         area1.setBounds(600,250,200,300);
@@ -365,6 +466,18 @@ public class SellingPage {
         paidAmount.setBounds(550,400,120,50);
         paidAmount.setVisible(false);
         Design.f.add(paidAmount);
+
+        JLabel label = new JLabel();
+        label.setText("Total: ");
+        label.setBounds(250,600,120,20);
+        label.setVisible(true);
+        label.setFont(myFont);
+        Design.f.add(label);
+
+        TotalPrice = new JLabel();
+        TotalPrice.setBounds(370,600,120,20);
+        TotalPrice.setVisible(true);
+        Design.f.add(TotalPrice);
 
     }
 

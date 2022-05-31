@@ -613,9 +613,36 @@ public class DatabaseConn {
         }
     }
 
+    public static void updateQuantity(int id, long itemID,int qty,double price){
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            String sql ="update sells_table set Quantity = '"+qty+"', Price = '"+price+"'  where ID="+id+" and Item_id = "+itemID+"";
+            ps = conn.prepareStatement(sql);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
-        deleteSell(52,23);
+
 
     }
 
