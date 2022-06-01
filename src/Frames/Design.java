@@ -117,7 +117,9 @@ public class Design {
         btnLoad(btnStaff,"Manage Staff",f);
         btnStaff.addActionListener(evt -> {
             if(evt.getSource()==btnStaff){
-                showMessageDialog(null, "btn Manage Staff");
+                //showMessageDialog(null, "btn Manage Staff");
+                loadStaffPage();
+                btnStaff.setEnabled(false);
             }
         });
         f.add(btnStaff);
@@ -251,6 +253,12 @@ public class Design {
     public static JTextField textFieldSell,textFieldQ,textFieldEditQ;
     public static JLabel labelSell;
 
+    //Staff page components
+    public static JTable jtST;
+    public static DefaultTableModel dtmST;
+
+    public static JButton btnNewStaff;
+    public static JTextField textFieldId,textFieldFN,textFieldLN,textFieldPhone,textFieldEM,textFieldPosition,textFieldSalary;
 
 
 
@@ -283,6 +291,16 @@ public class Design {
         f.setTitle("Selling Page");
         setPageLabel("Sell Page");
         SellingPage.loadSellingPage();
+        loadDesign(f);
+        SwingUtilities.updateComponentTreeUI(f);
+    }
+
+    public static void loadStaffPage(){
+        f.dispose();
+        f = new JFrame();
+        f.setTitle("Staff Management Page");
+        setPageLabel("Staff Management Page");
+        StaffManageFrame.loadStaffManageFrame();
         loadDesign(f);
         SwingUtilities.updateComponentTreeUI(f);
     }

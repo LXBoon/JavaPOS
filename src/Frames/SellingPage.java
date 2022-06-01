@@ -487,9 +487,6 @@ public class SellingPage {
         test.setVisible(true);
         test.setBounds(950,500,200,200);
         Design.f.add(test);
-
-
-
         newSellTable();
         try{
             Design.dtmsp.setRowCount(0);

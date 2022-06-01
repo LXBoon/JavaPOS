@@ -641,6 +641,91 @@ public class DatabaseConn {
     }
 
 
+    public static void showStaffTable(DefaultTableModel tm){
+        try {
+            conn = DriverManager.getConnection(connString,user,password);
+            st = conn.createStatement();//crating statement object
+            String query = "SELECT * FROM staff_table";//Storing MySQL query in A string variable
+            rs = st.executeQuery(query);//executing query and storing result in ResultSet
+            //System.out.println("Good");
+            ResultSetMetaData rsd = rs.getMetaData();
+            columns = new String[rsd.getColumnCount()];
+            for (int i = 1; i<= rsd.getColumnCount();i++){
+                columns[i-1]= rsd.getColumnLabel(i);
+                if (tm.getColumnCount()>= columns.length){
+                }
+                else
+                    tm.addColumn(rsd.getColumnName(i));
+            }
+            while (rs.next()){
+                String id = rs.getString("ID");
+                String idNum = rs.getString("IdNum");
+                String name = rs.getString("FirstName");
+                String price = rs.getString("LastName");
+                String phone = rs.getString("Phone");
+                String email = rs.getString("Email");
+                String position = rs.getString("Position");
+                String salary = rs.getString("Salary");
+                tm.addRow(new Object[]{id,idNum, name,price,phone,email,position,salary });
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Bad");
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+
+    public static void addStaff(long id, String fn, String ln, long phone, String email, String position, double salary){
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            st = conn.createStatement();//crating statement object
+            String query = "insert into staff_table (IdNum,FirstName,LastName,Phone,Email,Position,Salary) values(?,?,?,?,?,?,?)";//Storing MySQL query in A string variable
+            ps = conn.prepareStatement(query);
+            ps.setLong(1,id);
+            ps.setString(2,fn);
+            ps.setString(3,ln);
+            ps.setLong(4,phone);
+            ps.setString(5,email);
+            ps.setString(6,position);
+            ps.setDouble(7,salary);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+
     public static void main(String[] args) {
 
 
