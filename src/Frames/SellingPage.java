@@ -43,8 +43,6 @@ public class SellingPage {
         };
         Design.jtsp.getSelectionModel().addListSelectionListener(event -> {
             try{
-
-
                 sellItemID = Integer.parseInt(Design.jtsp.getValueAt(Design.jtsp.getSelectedRow(),0).toString());
                 itemID = Long.parseLong(Design.jtsp.getValueAt(Design.jtsp.getSelectedRow(),1).toString());
                 ogQty = Design.jtsp.getValueAt(Design.jtsp.getSelectedRow(),3).toString();

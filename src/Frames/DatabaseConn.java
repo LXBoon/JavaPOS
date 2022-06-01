@@ -262,12 +262,10 @@ public class DatabaseConn {
     public static void search(DefaultTableModel tm,String x,String y){
         try {
             conn = DriverManager.getConnection(connString, user, password);
-            //SELECT * FROM Customers
-            //WHERE CustomerName LIKE '%or%'
+
             st = conn.createStatement();//crating statement object
-            String query = "SELECT * FROM items_table Where "+y+" like '%"+x+"%'";//Storing MySQL query in A string variable
-            rs = st.executeQuery(query);//executing query and storing result in ResultSet
-            //System.out.println("Good");
+            String query = "SELECT * FROM items_table Where "+y+" like '%"+x+"%'";
+            rs = st.executeQuery(query);
             ResultSetMetaData rsd = rs.getMetaData();
             columns = new String[rsd.getColumnCount()];
             for (int i = 1; i<= rsd.getColumnCount();i++){
@@ -726,8 +724,119 @@ public class DatabaseConn {
         }
     }
 
-    public static void main(String[] args) {
+    public static void updateStaff(int id, long iDNum,String firstName,String lastName,long phone,String email,String position, double salary){
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            String sql ="update staff_table set IdNum = '"+iDNum+"', FirstName = '"+firstName+"', LastName ='"+lastName+"', Phone='"+phone+ "'," +
+                    " Email='"+email+"', Position='"+position+"', Salary='"+salary+"' where ID=?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,id);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
 
+    public static void deleteStaff(int id){
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            st = conn.createStatement();
+            String query1 = "delete from staff_table where ID="+id+"";
+            st.executeUpdate(query1);
+            System.out.println("Record is deleted from the table successfully..................");
+        } catch (SQLException e) {
+            System.out.println("Error");
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+
+    public static void searchStaff(DefaultTableModel tm,String x, String y){
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            //SELECT * FROM Customers
+            //WHERE CustomerName LIKE '%or%'
+            st = conn.createStatement();//crating statement object
+            String query = "SELECT * FROM staff_table Where "+y+" like '%"+x+"%'";
+            rs = st.executeQuery(query);
+            ResultSetMetaData rsd = rs.getMetaData();
+            columns = new String[rsd.getColumnCount()];
+            for (int i = 1; i<= rsd.getColumnCount();i++){
+                columns[i-1]= rsd.getColumnLabel(i).toString();
+                if (tm.getColumnCount()>= columns.length){
+
+                }
+                else {
+                    tm.addColumn(rsd.getColumnName(i));
+                }
+            }
+            while (rs.next()){
+                String id = rs.getString("ID");
+                String idNum = rs.getString("IdNum");
+                String name = rs.getString("FirstName");
+                String price = rs.getString("LastName");
+                String phone = rs.getString("Phone");
+                String email = rs.getString("Email");
+                String position = rs.getString("Position");
+                String salary = rs.getString("Salary");
+                tm.addRow(new Object[]{id,idNum, name,price,phone,email,position,salary });
+            }
+            conn.close();
+        } catch (SQLException e) {
+
+            System.out.println("Error");
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+
+    public static void main(String[] args) {
 
     }
 
