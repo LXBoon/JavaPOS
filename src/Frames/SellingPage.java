@@ -387,17 +387,17 @@ public class SellingPage {
                 area1.setText("Receipt NO:"+Design.rn+"\n");
                 area1.setText(area1.getText()+"\nDate:"+date+"\n");
                 area1.setText(area1.getText()+"\n"+areaString+"\n");
-                /*
+
                 area1.setText(area1.getText()+"\nName\tQuantity\tPrice\n");
-                area1.setText(area1.getText()+"\n----\t--------\t-----\n");
-                 */
+                area1.setText(area1.getText()+"\n--------------------------------------------\n");
+
                 for (int i =0;i<Design.jtsp.getRowCount();i++){
                     String name = Design.jtsp.getValueAt(i,2).toString();
                     String quantity = Design.jtsp.getValueAt(i,3).toString();
                     String price = Design.jtsp.getValueAt(i,4).toString();
                     area1.setText(area1.getText()+"\n"+name+"\t"+quantity+"\t"+price+"\n");
                 }
-                area1.setText(area1.getText()+"--------------------------------------\n"
+                area1.setText(area1.getText()+"--------------------------------------------\n"
                         +"Total Price: "+getTotalPrice(Design.rn)+"\nPaid amount: "+ paid+"\nChange: "+change);
                 area1.setText(area1.getText()+"");
                 area1.print();

@@ -257,7 +257,7 @@ public class Design {
     public static JTable jtST;
     public static DefaultTableModel dtmST;
 
-    public static JButton btnNewStaff;
+    public static JButton btnNewStaff,deleteStaff,editStaff;
     public static JTextField textFieldId,textFieldFN,textFieldLN,textFieldPhone,textFieldEM,textFieldPosition,textFieldSalary;
 
 

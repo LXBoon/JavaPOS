@@ -97,7 +97,7 @@ public class StaffManageFrame {
 
     static void loadButtons(){
         Design.btnNewStaff = new JButton("New Staff");
-        Design.btnNewStaff.setBounds(900,80,100,20);
+        Design.btnNewStaff.setBounds(930,100,120,20);
         Design.btnNewStaff.setEnabled(true);
         Design.btnNewStaff.setFocusable(false);
         Design.btnNewStaff.setBackground(new Color(108, 255, 141));
@@ -111,6 +111,22 @@ public class StaffManageFrame {
 
         });
         Design.f.add(Design.btnNewStaff);
+
+
+        Design.deleteStaff = new JButton("Delete");
+        Design.deleteStaff.setBounds(800,100,120,20); // Change x and y locations
+        Design.deleteStaff.setFocusable(false);
+        Design.deleteStaff.setVisible(true);
+        Design.deleteStaff.setBackground(Color.red);
+        Design.deleteStaff.setForeground(Color.white);
+        Design.f.add(Design.deleteStaff);
+
+        Design.editStaff = new JButton("Edit");
+        Design.editStaff.setBounds(800,130,120,20); // Change x and y locations
+        Design.editStaff.setFocusable(false);
+        Design.editStaff.setVisible(true);
+        Design.editStaff.setBackground(Color.yellow);
+        Design.f.add(Design.editStaff);
 
 
     }
@@ -239,10 +255,7 @@ public class StaffManageFrame {
 
 
     public static void loadStaffManageFrame(){
-        JLabel test = new JLabel("Staff manage ");
-        test.setVisible(true);
-        test.setBounds(950,500,200,200);
-        Design.f.add(test);
+
 
         loadButtons();
         staffTable();
