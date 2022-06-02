@@ -352,9 +352,9 @@ public class DatabaseConn {
             //System.out.println("Good");
             ResultSetMetaData rsd = rs.getMetaData();
             columns = new String[rsd.getColumnCount()];
-            for (int i = 1; i<= rsd.getColumnCount();i++){
+            for (int i = 1; i<= rsd.getColumnCount()-1;i++){
                 columns[i-1]= rsd.getColumnLabel(i).toString();
-                if (tm.getColumnCount()>= columns.length){
+                if (tm.getColumnCount()>= columns.length-1){
                 }
                 else
                     tm.addColumn(rsd.getColumnName(i));
@@ -365,7 +365,7 @@ public class DatabaseConn {
                 String name = rs.getString("Name");
                 int quantity = rs.getInt("Quantity");
                 double price = rs.getDouble("Price");
-                tm.addRow(new Object[]{id,item_id,name,quantity,price });
+                tm.addRow(new Object[]{id,item_id,name,quantity,price});
             }
             conn.close();
         } catch (SQLException e) {

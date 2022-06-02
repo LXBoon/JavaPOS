@@ -234,32 +234,7 @@ public class Design {
     }
 
 
-    //inventory components
-
-    public static JTable jt;
-    public static DefaultTableModel dtm;
-    public static long rowID;
-    public static JTextField tfID ,tfName,tfPrice,tfQ;
-    public static  JButton btnEdit,refresh,btnDelete,btnAdd,btnNew,btnSave;
     public static JLabel pageLabel;
-    public static JInternalFrame i ;
-
-    //Sell page components
-    public static JTable jtsp;
-    public static DefaultTableModel dtmsp;
-    public static int rn;
-
-    public static JButton btnNewSell,btnNum,btnAddSell,btnEditSell,btnSaveSell,btnDeleteSell,btnCompletePurchase;
-    public static JTextField textFieldSell,textFieldQ,textFieldEditQ;
-    public static JLabel labelSell;
-
-    //Staff page components
-    public static JTable jtST;
-    public static DefaultTableModel dtmST;
-
-    public static JButton btnNewStaff,deleteStaff,editStaff;
-    public static JTextField textFieldId,textFieldFN,textFieldLN,textFieldPhone,textFieldEM,textFieldPosition,textFieldSalary;
-
 
 
     //load landing page
@@ -295,6 +270,7 @@ public class Design {
         SwingUtilities.updateComponentTreeUI(f);
     }
 
+    //staff page load
     public static void loadStaffPage(){
         f.dispose();
         f = new JFrame();
@@ -304,6 +280,9 @@ public class Design {
         loadDesign(f);
         SwingUtilities.updateComponentTreeUI(f);
     }
+
+
+    //report page load
 
 
 

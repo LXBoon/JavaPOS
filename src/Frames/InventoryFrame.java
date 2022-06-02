@@ -10,9 +10,17 @@ import java.io.Serial;
 
 import static Frames.DatabaseConn.displayItemList;
 
+
+
+
 public class InventoryFrame  {
 
-
+    static JTable jt;
+    static DefaultTableModel dtm;
+    static long rowID;
+    static JTextField tfID ,tfName,tfPrice,tfQ;
+    static  JButton btnEdit,refresh,btnDelete,btnAdd,btnNew,btnSave;
+    static JInternalFrame i ;
 
     static int insertRow;
     static void loadFields(){
@@ -22,11 +30,11 @@ public class InventoryFrame  {
         lid.setBorder(BorderFactory.createEtchedBorder());
         lid.setOpaque(false);
         lid.setVisible(true);
-        Design.tfID = new JTextField();
-        Design.tfID.setBounds(900,150,125,30);
-        Design.tfID.setBorder(BorderFactory.createEtchedBorder());
-        Design.tfID.setVisible(true);
-        Design.f.add(Design.tfID);
+        tfID = new JTextField();
+        tfID.setBounds(900,150,125,30);
+        tfID.setBorder(BorderFactory.createEtchedBorder());
+        tfID.setVisible(true);
+        Design.f.add(tfID);
         Design.f.add(lid);
 
         JLabel lName = new JLabel("Name:");
@@ -34,11 +42,11 @@ public class InventoryFrame  {
         lName.setBorder(BorderFactory.createEtchedBorder());
         lName.setOpaque(false);
         lName.setVisible(true);
-        Design.tfName = new JTextField();
-        Design.tfName.setBounds(900,200,125,30);
-        Design.tfName.setBorder(BorderFactory.createEtchedBorder());
-        Design.tfName.setVisible(true);
-        Design.f.add(Design.tfName);
+        tfName = new JTextField();
+        tfName.setBounds(900,200,125,30);
+        tfName.setBorder(BorderFactory.createEtchedBorder());
+        tfName.setVisible(true);
+        Design.f.add(tfName);
         Design.f.add(lName);
 
 
@@ -47,11 +55,11 @@ public class InventoryFrame  {
         lPrice.setBorder(BorderFactory.createEtchedBorder());
         lPrice.setOpaque(false);
         lPrice.setVisible(true);
-        Design.tfPrice = new JTextField();
-        Design.tfPrice.setBounds(900,250,125,30);
-        Design.tfPrice.setBorder(BorderFactory.createEtchedBorder());
-        Design.tfPrice.setVisible(true);
-        Design.f.add(Design.tfPrice);
+        tfPrice = new JTextField();
+        tfPrice.setBounds(900,250,125,30);
+        tfPrice.setBorder(BorderFactory.createEtchedBorder());
+        tfPrice.setVisible(true);
+        Design.f.add(tfPrice);
         Design.f.add(lPrice);
 
         JLabel lQ = new JLabel("Quantity:");
@@ -59,12 +67,12 @@ public class InventoryFrame  {
         lQ.setBorder(BorderFactory.createEtchedBorder());
         lQ.setOpaque(false);
         lQ.setVisible(true);
-        Design.tfQ = new JTextField();
-        Design.tfQ.setBounds(900,300,125,30);
-        Design.tfQ.setBorder(BorderFactory.createEtchedBorder());
+        tfQ = new JTextField();
+        tfQ.setBounds(900,300,125,30);
+        tfQ.setBorder(BorderFactory.createEtchedBorder());
 
-        Design.tfQ.setVisible(true);
-        Design.f.add(Design.tfQ);
+        tfQ.setVisible(true);
+        Design.f.add(tfQ);
         Design.f.add(lQ);
 
 
@@ -72,120 +80,120 @@ public class InventoryFrame  {
     }
 
     static void tfDisable(){
-        Design.tfID.setEnabled(false);Design.tfName.setEnabled(false);Design.tfPrice.setEnabled(false);
-        Design.tfQ.setEnabled(false);
-        Design.tfID.setBackground(new Color(154, 102, 102));
-        Design.tfName.setBackground(new Color(154, 102, 102));
-        Design.tfPrice.setBackground(new Color(154, 102, 102));
-        Design.tfQ.setBackground(new Color(154, 102, 102));
-        Design.tfID.setForeground(Color.BLACK);Design.tfName.setForeground(Color.BLACK);
-        Design.tfPrice.setForeground(Color.BLACK);Design.tfQ.setForeground(Color.BLACK);
-        Design.tfID.setText(null);Design.tfName.setText(null);Design.tfPrice.setText(null);Design.tfQ.setText(null);
+        tfID.setEnabled(false);tfName.setEnabled(false);tfPrice.setEnabled(false);
+        tfQ.setEnabled(false);
+        tfID.setBackground(new Color(154, 102, 102));
+        tfName.setBackground(new Color(154, 102, 102));
+        tfPrice.setBackground(new Color(154, 102, 102));
+        tfQ.setBackground(new Color(154, 102, 102));
+        tfID.setForeground(Color.BLACK);tfName.setForeground(Color.BLACK);
+        tfPrice.setForeground(Color.BLACK);tfQ.setForeground(Color.BLACK);
+        tfID.setText(null);tfName.setText(null);tfPrice.setText(null);tfQ.setText(null);
     }
     static void tfEnable(){
-        Design.tfID.setEnabled(true);Design.tfName.setEnabled(true);Design.tfPrice.setEnabled(true);
-        Design.tfQ.setEnabled(true);
-        Design.tfID.setBackground(Color.white); Design.tfName.setBackground(Color.white);
-        Design.tfPrice.setBackground(Color.white); Design.tfQ.setBackground(Color.white);
+        tfID.setEnabled(true);tfName.setEnabled(true);tfPrice.setEnabled(true);
+        tfQ.setEnabled(true);
+        tfID.setBackground(Color.white); tfName.setBackground(Color.white);
+        tfPrice.setBackground(Color.white); tfQ.setBackground(Color.white);
     }
 
 
 
     public static void btnNewCreate(){
-        Design.btnNew = new JButton("New Item");
-        Design.btnNew.setBounds(950,115,65,25);
-        Design.btnNew.setVisible(true);
-        Design.btnNew.setForeground(Color.white);
-        Design.btnNew.setBackground(new Color(45, 168, 34));
-        Design.f.add(Design.btnNew);
-        Design.btnNew.setFocusable(false);
-        Design.btnNew.setBorder(BorderFactory.createEtchedBorder());
+        btnNew = new JButton("New Item");
+        btnNew.setBounds(950,115,65,25);
+        btnNew.setVisible(true);
+        btnNew.setForeground(Color.white);
+        btnNew.setBackground(new Color(45, 168, 34));
+        Design.f.add(btnNew);
+        btnNew.setFocusable(false);
+        btnNew.setBorder(BorderFactory.createEtchedBorder());
         SwingUtilities.updateComponentTreeUI(Design.f);
-        Design.btnNew.setEnabled(true);
-        Design.btnNew.addActionListener(e -> {
+        btnNew.setEnabled(true);
+        btnNew.addActionListener(e -> {
             System.out.println("btnAddNew");
             JOptionPane.showMessageDialog(null,"Now You can Add a new Item Click Add when you are done","Adding new Item",JOptionPane.INFORMATION_MESSAGE);
             tfDisable();
             tfEnable();
-            Design.btnAdd.setEnabled(true);
-            Design.btnSave.setEnabled(false);
-            Design.btnEdit.setEnabled(false);
-            Design.btnDelete.setEnabled(false);
+            btnAdd.setEnabled(true);
+            btnSave.setEnabled(false);
+            btnEdit.setEnabled(false);
+            btnDelete.setEnabled(false);
         });
 
     }
 
     static void btnAdd(){
-        Design.btnAdd = new JButton("Add");
-        Design.btnAdd.setBounds(950,350,65,25);
-        Design.btnAdd.setVisible(true);
-        Design.btnAdd.setForeground(Color.white);
-        Design.btnAdd.setBackground(new Color(45, 168, 34));
+        btnAdd = new JButton("Add");
+        btnAdd.setBounds(950,350,65,25);
+        btnAdd.setVisible(true);
+        btnAdd.setForeground(Color.white);
+        btnAdd.setBackground(new Color(45, 168, 34));
 
-        Design.btnAdd.addActionListener(e -> {
+        btnAdd.addActionListener(e -> {
             try{
-                long id = Long.parseLong(Design.tfID.getText().trim());
-                String name = Design.tfName.getText().trim();
-                double price = Double.parseDouble(Design.tfPrice.getText().trim());
-                int quantity = Integer.parseInt(Design.tfQ.getText().trim());
+                long id = Long.parseLong(tfID.getText().trim());
+                String name = tfName.getText().trim();
+                double price = Double.parseDouble(tfPrice.getText().trim());
+                int quantity = Integer.parseInt(tfQ.getText().trim());
                 DatabaseConn.addToItemList(id,name,price,quantity);
                 tfDisable();
-                Design.btnAdd.setEnabled(false);
-                Design.refresh.doClick();
+                btnAdd.setEnabled(false);
+                refresh.doClick();
             }
             catch (Exception exception){
                 JOptionPane.showMessageDialog(null,exception.toString());
                 System.out.println("Add error");
             }
         });
-        Design.f.add(Design.btnAdd);
-        Design.btnAdd.setFocusable(false);
-        Design.btnAdd.setBorder(BorderFactory.createEtchedBorder());
-        Design.btnAdd.setEnabled(false);
+        Design.f.add(btnAdd);
+        btnAdd.setFocusable(false);
+        btnAdd.setBorder(BorderFactory.createEtchedBorder());
+        btnAdd.setEnabled(false);
     }
 
     static void btnDelete(){
-        Design.btnDelete = new JButton("Delete");
-        Design.btnDelete.setBounds(875,350,65,25);
-        Design.btnDelete.setVisible(true);
-        Design.btnDelete.setForeground(Color.white);
-        Design.btnDelete.setBackground(new Color(199, 30, 4));
-        Design.btnDelete.addActionListener(e -> {
+        btnDelete = new JButton("Delete");
+        btnDelete.setBounds(875,350,65,25);
+        btnDelete.setVisible(true);
+        btnDelete.setForeground(Color.white);
+        btnDelete.setBackground(new Color(199, 30, 4));
+        btnDelete.addActionListener(e -> {
             try{
                 //JOptionPane.showMessageDialog(null,"Delete seceded, Please refresh the data manually");
-                DatabaseConn.deleteFromItemList(Design.rowID);
-                Design.refresh.doClick();
+                DatabaseConn.deleteFromItemList(rowID);
+                refresh.doClick();
             }
             catch (Exception exception){
                 JOptionPane.showMessageDialog(null,e);
             }
         });
-        Design.f.add(Design.btnDelete);
-        Design.btnDelete.setFocusable(false);
-        Design.btnDelete.setBorder(BorderFactory.createEtchedBorder());
-        Design.btnDelete.setEnabled(false);
+        Design.f.add(btnDelete);
+        btnDelete.setFocusable(false);
+        btnDelete.setBorder(BorderFactory.createEtchedBorder());
+        btnDelete.setEnabled(false);
     }
 
     static void btnSave (){
-        Design.btnSave = new JButton("Save");
-        Design.btnSave.setBounds(775,185,65,25);
-        Design.btnSave.setVisible(true);
-        Design.btnSave.setForeground(Color.BLACK);
-        Design.btnSave.setBackground(new Color(12, 255, 0));
-        Design.btnSave.addActionListener(e -> {
+        btnSave = new JButton("Save");
+        btnSave.setBounds(775,185,65,25);
+        btnSave.setVisible(true);
+        btnSave.setForeground(Color.BLACK);
+        btnSave.setBackground(new Color(12, 255, 0));
+        btnSave.addActionListener(e -> {
             System.out.println("btnSave");
-            int id = Integer.parseInt(Design.tfID.getText().trim());
-            String name = Design.tfName.getText().trim();
-            double price = Double.parseDouble(Design.tfPrice.getText().trim());
-            int quantity = Integer.parseInt(Design.tfQ.getText().trim());
+            int id = Integer.parseInt(tfID.getText().trim());
+            String name = tfName.getText().trim();
+            double price = Double.parseDouble(tfPrice.getText().trim());
+            int quantity = Integer.parseInt(tfQ.getText().trim());
 
             try {
                 DatabaseConn.updateItemFromList(id,name,price,quantity);
                 JOptionPane.showMessageDialog(null,"Updated successfully");
                 tfDisable();
-                Design.btnSave.setEnabled(false);
-                insertRow=Design.jt.getSelectedRow();
-                Design.refresh.doClick();
+                btnSave.setEnabled(false);
+                insertRow=jt.getSelectedRow();
+                refresh.doClick();
 
             }catch (Exception exception){
                 //JOptionPane.showMessageDialog(null,exception.toString());
@@ -194,12 +202,12 @@ public class InventoryFrame  {
 
 
 
-            //Design.refresh.doClick(2);
+            //refresh.doClick(2);
         });
-        Design.f.add(Design.btnSave);
-        Design.btnSave.setFocusable(false);
-        Design.btnSave.setBorder(BorderFactory.createEtchedBorder());
-        Design.btnSave.setEnabled(false);
+        Design.f.add(btnSave);
+        btnSave.setFocusable(false);
+        btnSave.setBorder(BorderFactory.createEtchedBorder());
+        btnSave.setEnabled(false);
     }
 
     static void search(){
@@ -225,126 +233,126 @@ public class InventoryFrame  {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
-                Design.dtm.setRowCount(0);
+                dtm.setRowCount(0);
                 String by = cb.getItemAt(cb.getSelectedIndex());
-                DatabaseConn.search(Design.dtm,searchText.getText(),by);
+                DatabaseConn.search(dtm,searchText.getText(),by);
                 searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
-                Design.dtm.setRowCount(0);
+                dtm.setRowCount(0);
                 String by = cb.getItemAt(cb.getSelectedIndex());
-                DatabaseConn.search(Design.dtm,searchText.getText(),by);
+                DatabaseConn.search(dtm,searchText.getText(),by);
                 searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
-                Design.dtm.setRowCount(0);
+                dtm.setRowCount(0);
                 String by = cb.getItemAt(cb.getSelectedIndex());
-                DatabaseConn.search(Design.dtm,searchText.getText(),by);
+                DatabaseConn.search(dtm,searchText.getText(),by);
                 searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
             }
         });
         Design.f.add(search);
     }
     static void Table(){
-        Design.dtm = new DefaultTableModel();
-        Design.jt = new JTable(Design.dtm){
+        dtm = new DefaultTableModel();
+        jt = new JTable(dtm){
             @Serial
             private static final long serialVersionUID = 1L;
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-        Design.jt.getSelectionModel().addListSelectionListener(event -> {
+        jt.getSelectionModel().addListSelectionListener(event -> {
             // do some actions here, for example
             // print first column value from selected row
             try{
-                String rowIndex = Design.jt.getValueAt(Design.jt.getSelectedRow(), 0).toString();
-                String name =Design.jt.getValueAt(Design.jt.getSelectedRow(), 1).toString();
-                String price =Design.jt.getValueAt(Design.jt.getSelectedRow(), 2).toString();
-                String quantity = Design.jt.getValueAt(Design.jt.getSelectedRow(), 3).toString();
-                Design.rowID = Long.parseLong(rowIndex);
-                insertRow=Design.jt.getSelectedRow();
+                String rowIndex = jt.getValueAt(jt.getSelectedRow(), 0).toString();
+                String name =jt.getValueAt(jt.getSelectedRow(), 1).toString();
+                String price =jt.getValueAt(jt.getSelectedRow(), 2).toString();
+                String quantity = jt.getValueAt(jt.getSelectedRow(), 3).toString();
+                rowID = Long.parseLong(rowIndex);
+                insertRow=jt.getSelectedRow();
                 tfDisable();
-                Design.tfID.setText(rowIndex);Design.tfName.setText(name);Design.tfPrice.setText(price);Design.tfQ.setText(quantity);
-                Design.btnEdit.setEnabled(true);Design.btnDelete.setEnabled(true);
-                Design.btnSave.setEnabled(false);
+                tfID.setText(rowIndex);tfName.setText(name);tfPrice.setText(price);tfQ.setText(quantity);
+                btnEdit.setEnabled(true);btnDelete.setEnabled(true);
+                btnSave.setEnabled(false);
             }catch (Exception exception){
                 System.out.println("val");
             }
         });
-        Design.i = new JInternalFrame(("List"),false,false,false,false);
-        Design.i.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-        Design.i.setBounds(220,70,300,500);
-        Design.i.setVisible(true);
-        Design.i.setClosable(false);
-        displayItemList(Design.dtm);
-        Design.jt.setVisible(true);
-        Design.jt.setBounds(50,50,200,200);
-        JScrollPane sp=new JScrollPane(Design.jt);
+        i = new JInternalFrame(("List"),false,false,false,false);
+        i.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
+        i.setBounds(220,70,300,500);
+        i.setVisible(true);
+        i.setClosable(false);
+        displayItemList(dtm);
+        jt.setVisible(true);
+        jt.setBounds(50,50,200,200);
+        JScrollPane sp=new JScrollPane(jt);
         sp.setVisible(true);
         sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        Design.i.getContentPane().add(sp);
-        Design.f.add(Design.i);
+        i.getContentPane().add(sp);
+        Design.f.add(i);
 
     }
 
     static void btnRefresh (){
-        Design.refresh = new JButton("Refresh");
-        Design.refresh.setBounds(800,350,65,25);
-        Design.refresh.setVisible(true);
-        Design.refresh.setForeground(Color.white);
-        Design.refresh.setBackground(new Color(1, 22, 62));
-        Design.refresh.addActionListener(e -> {
+        refresh = new JButton("Refresh");
+        refresh.setBounds(800,350,65,25);
+        refresh.setVisible(true);
+        refresh.setForeground(Color.white);
+        refresh.setBackground(new Color(1, 22, 62));
+        refresh.addActionListener(e -> {
             boolean de;
             try{
                 tfDisable();
-                Design.dtm.setRowCount(0);
+                dtm.setRowCount(0);
                 de = true;
             }catch (Exception exception){
                 de = false;
-                Design.refresh.doClick();
+                refresh.doClick();
             }
             System.out.println(de);
             if (de) {
-                DatabaseConn.displayItemList(Design.dtm);
+                DatabaseConn.displayItemList(dtm);
                 //JOptionPane.showMessageDialog(null,insertRow);
-                Design.jt.setRowSelectionInterval(insertRow,insertRow);
+                jt.setRowSelectionInterval(insertRow,insertRow);
             }
 
         });
-        Design.f.add(Design.refresh);
-        Design.refresh.setFocusable(false);
-        Design.refresh.setBorder(BorderFactory.createEtchedBorder());
-        Design.btnEdit.setEnabled(false);Design.btnSave.setEnabled(false);
+        Design.f.add(refresh);
+        refresh.setFocusable(false);
+        refresh.setBorder(BorderFactory.createEtchedBorder());
+        btnEdit.setEnabled(false);btnSave.setEnabled(false);
         SwingUtilities.updateComponentTreeUI(Design.f);
     }
     static void btnEdit(){
-        Design.btnEdit = new JButton("Edit");
-        Design.btnEdit.setBounds(775,150,65,25);
-        Design.btnEdit.setVisible(true);
-        Design.btnEdit.setForeground(Color.white);
-        Design.btnEdit.setBackground(new Color(255, 158, 0));
-        Design.btnEdit.addActionListener(e -> {
-            if (e.getSource()==Design.btnEdit) {
+        btnEdit = new JButton("Edit");
+        btnEdit.setBounds(775,150,65,25);
+        btnEdit.setVisible(true);
+        btnEdit.setForeground(Color.white);
+        btnEdit.setBackground(new Color(255, 158, 0));
+        btnEdit.addActionListener(e -> {
+            if (e.getSource()==btnEdit) {
                 System.out.println("btnEdit");
                 JOptionPane.showMessageDialog(null, "Now You can Edit Click Save when you are done");
                 tfEnable();
-                Design.tfID.setEnabled(false);Design.tfID.setBackground(new Color(154, 102, 102));
-                Design.btnEdit.setEnabled(false);
-                Design.btnSave.setEnabled(true);
-                Design.btnDelete.setEnabled(false);
+                tfID.setEnabled(false);tfID.setBackground(new Color(154, 102, 102));
+                btnEdit.setEnabled(false);
+                btnSave.setEnabled(true);
+                btnDelete.setEnabled(false);
             }
         });
-        Design.f.add(Design.btnEdit);
-        Design.btnEdit.setFocusable(false);
-        Design.btnEdit.setBorder(BorderFactory.createEtchedBorder());
+        Design.f.add(btnEdit);
+        btnEdit.setFocusable(false);
+        btnEdit.setBorder(BorderFactory.createEtchedBorder());
     }
 
 
@@ -366,7 +374,7 @@ public class InventoryFrame  {
 
 
     public static void main(String[] args) {
-        Design.loadInventoryPage();
+
     }
 
 

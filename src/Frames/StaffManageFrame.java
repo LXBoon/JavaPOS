@@ -24,9 +24,16 @@ public class StaffManageFrame {
     //static JLabel l;
     static int y=50,x=250,slcId;
 
+
+    static JTable jtST;
+    static DefaultTableModel dtmST;
+    static JInternalFrame i;
+
+    static JButton btnNewStaff,deleteStaff,editStaff;
+
     static void staffTable(){
-        Design.dtmST = new DefaultTableModel();
-        Design.jtST = new JTable(Design.dtmST){
+        dtmST = new DefaultTableModel();
+        jtST = new JTable(dtmST){
             @Serial
             private static final long serialVersionUID = 1L;
             public boolean isCellEditable(int row, int column) {
@@ -40,128 +47,130 @@ public class StaffManageFrame {
                 return component;
             }
         };
-        Design.jtST.getSelectionModel().addListSelectionListener(event -> {
+        jtST.getSelectionModel().addListSelectionListener(event -> {
             try{
-                slcId = Integer.parseInt(Design.jtST.getValueAt(Design.jtST.getSelectedRow(),0).toString());
-                slcIDNum = Design.jtST.getValueAt(Design.jtST.getSelectedRow(),1).toString();
-                slcFN = Design.jtST.getValueAt(Design.jtST.getSelectedRow(),2).toString();
-                slcLN = Design.jtST.getValueAt(Design.jtST.getSelectedRow(),3).toString();
-                slcPhoneNum = Design.jtST.getValueAt(Design.jtST.getSelectedRow(),4).toString();
-                slcEmail = Design.jtST.getValueAt(Design.jtST.getSelectedRow(),5).toString();
-                slcPosition =Design.jtST.getValueAt(Design.jtST.getSelectedRow(),6).toString();
-                slcSalary = Design.jtST.getValueAt(Design.jtST.getSelectedRow(),7).toString();
-                Design.deleteStaff.setEnabled(true);
-                Design.editStaff.setEnabled(true);
+                slcId = Integer.parseInt(jtST.getValueAt(jtST.getSelectedRow(),0).toString());
+                slcIDNum = jtST.getValueAt(jtST.getSelectedRow(),1).toString();
+                slcFN = jtST.getValueAt(jtST.getSelectedRow(),2).toString();
+                slcLN = jtST.getValueAt(jtST.getSelectedRow(),3).toString();
+                slcPhoneNum = jtST.getValueAt(jtST.getSelectedRow(),4).toString();
+                slcEmail = jtST.getValueAt(jtST.getSelectedRow(),5).toString();
+                slcPosition =jtST.getValueAt(jtST.getSelectedRow(),6).toString();
+                slcSalary = jtST.getValueAt(jtST.getSelectedRow(),7).toString();
+                deleteStaff.setEnabled(true);
+                editStaff.setEnabled(true);
 
             }catch (Exception exception){
                 System.out.println(exception);
             }
         });
-        Design.i = new JInternalFrame(("Staff"),false,false,false,false);
-        Design.i.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-        Design.i.setBounds(220,250,775,400);
-        Design.i.setVisible(true);
-        Design.i.setClosable(false);
-        Design.i.addMouseListener(new MouseListener() {
+        i = new JInternalFrame(("Staff"),false,false,false,false);
+        i.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
+        i.setBounds(220,250,775,400);
+        i.setVisible(true);
+        i.setClosable(false);
+        i.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Design.i.setLocation(220,250);
+                i.setLocation(220,250);
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                Design.i.setLocation(220,250);
+                i.setLocation(220,250);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                Design.i.setLocation(220,250);
+                i.setLocation(220,250);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                Design.i.setLocation(220,250);
+                i.setLocation(220,250);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                Design.i.setLocation(220,250);
+                i.setLocation(220,250);
             }
         });
-        Design.i.setEnabled(false);
+        i.setEnabled(false);
 
-        showStaffTable(Design.dtmST);
+        showStaffTable(dtmST);
 
-        Design.jtST.setVisible(true);
-        Design.jtST.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        Design.jtST.setDragEnabled(false);
+        jtST.setVisible(true);
+        jtST.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jtST.setDragEnabled(false);
 
-        //Design.jtST.setBounds(50,50,200,200);
-        JScrollPane sp=new JScrollPane(Design.jtST);
+        //jtST.setBounds(50,50,200,200);
+        JScrollPane sp=new JScrollPane(jtST);
         sp.setVisible(true);
         sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        Design.i.getContentPane().add(sp);
-        Design.f.add(Design.i);
+        i.getContentPane().add(sp);
+        Design.f.add(i);
     }
 
     static void loadButtons(){
-        Design.btnNewStaff = new JButton("New Staff");
-        Design.btnNewStaff.setBounds(930,100,120,20);
-        Design.btnNewStaff.setEnabled(true);
-        Design.btnNewStaff.setFocusable(false);
-        Design.btnNewStaff.setBackground(new Color(108, 255, 141));
-        Design.btnNewStaff.addActionListener(e->{
+        btnNewStaff = new JButton("New Staff");
+        btnNewStaff.setBounds(930,100,120,20);
+        btnNewStaff.setEnabled(true);
+        btnNewStaff.setFocusable(false);
+        btnNewStaff.setBackground(new Color(108, 255, 141));
+        btnNewStaff.addActionListener(e->{
             try{
-                Design.f.setEnabled(false);
+                f.setEnabled(false);
                 newStaffFrame();
-                Design.jtST.clearSelection();
+                jtST.clearSelection();
             }catch (Exception exception){
                 System.out.println(exception);
             }
 
         });
-        Design.f.add(Design.btnNewStaff);
+        Design.f.add(btnNewStaff);
 
 
-        Design.deleteStaff = new JButton("Delete");
-        Design.deleteStaff.setBounds(800,100,120,20); // Change x and y locations
-        Design.deleteStaff.setFocusable(false);
-        Design.deleteStaff.setEnabled(false);
-        Design.deleteStaff.setVisible(true);
-        Design.deleteStaff.setBackground(Color.red);
-        Design.deleteStaff.setForeground(Color.white);
-        Design.deleteStaff.addActionListener(e->{
+        deleteStaff = new JButton("Delete");
+        deleteStaff.setBounds(800,100,120,20); // Change x and y locations
+        deleteStaff.setFocusable(false);
+        deleteStaff.setEnabled(false);
+        deleteStaff.setVisible(true);
+        deleteStaff.setBackground(Color.red);
+        deleteStaff.setForeground(Color.white);
+        deleteStaff.addActionListener(e->{
             //delete from sql
             deleteStaff(slcId);
-            Design.dtmST.setRowCount(0);
-            showStaffTable(Design.dtmST);
+            dtmST.setRowCount(0);
+            showStaffTable(dtmST);
             JOptionPane.showMessageDialog(null,"Updated "+fn+" "+ln+" to Staff");
-            Design.deleteStaff.setEnabled(false);
-            Design.editStaff.setEnabled(false);
-            Design.jtST.clearSelection();
+            deleteStaff.setEnabled(false);
+            editStaff.setEnabled(false);
+            jtST.clearSelection();
         });
-        Design.f.add(Design.deleteStaff);
+        Design.f.add(deleteStaff);
 
 
-        Design.editStaff = new JButton("Edit");
-        Design.editStaff.setBounds(800,130,120,20); // Change x and y locations
-        Design.editStaff.setFocusable(false);
-        Design.editStaff.setEnabled(false);
-        Design.editStaff.setVisible(true);
-        Design.editStaff.setBackground(Color.yellow);
-        Design.editStaff.addActionListener(e->{
+        editStaff = new JButton("Edit");
+        editStaff.setBounds(800,130,120,20); // Change x and y locations
+        editStaff.setFocusable(false);
+        editStaff.setEnabled(false);
+        editStaff.setVisible(true);
+        editStaff.setBackground(Color.yellow);
+        editStaff.addActionListener(e->{
             //Update sql
             UpdateStaffFrame();
-            Design.deleteStaff.setEnabled(false);
-            Design.editStaff.setEnabled(false);
-            Design.jtST.clearSelection();
+            deleteStaff.setEnabled(false);
+            editStaff.setEnabled(false);
+            jtST.clearSelection();
         });
-        Design.f.add(Design.editStaff);
+        Design.f.add(editStaff);
 
 
     }
 
+
+    //create tf of new frames (new/update) staff
     static void createTF(JTextField tf,String text){
         tf.setBounds(x,y,100,20);
         tf.setVisible(true);
@@ -205,13 +214,13 @@ public class StaffManageFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                Design.f.setEnabled(true);
+                f.setEnabled(true);
                 y=50;
             }
 
             @Override
             public void windowClosed(WindowEvent e) {
-                Design.f.setEnabled(true);
+                f.setEnabled(true);
                 y=50;
             }
 
@@ -232,7 +241,7 @@ public class StaffManageFrame {
 
             @Override
             public void windowDeactivated(WindowEvent e) {
-                Design.f.setEnabled(true);
+                f.setEnabled(true);
                 y=50;
             }
         });
@@ -266,8 +275,8 @@ public class StaffManageFrame {
                 addStaff(ID,fn,ln, Phone, Email, Position, Salary);
 
                 f.dispose();
-                Design.dtmST.setRowCount(0);
-                showStaffTable(Design.dtmST);
+                dtmST.setRowCount(0);
+                showStaffTable(dtmST);
                 JOptionPane.showMessageDialog(null,"Added "+fn+" "+ln+" to Staff");
                 id.setText(null);FN.setText(null);LN.setText(null);
                 phone.setText(null);email.setText(null);position.setText(null);
@@ -292,6 +301,9 @@ public class StaffManageFrame {
         cancel.setFocusable(false);
         cancel.setVisible(true);
         cancel.addActionListener(e->{
+            id.setText(null);FN.setText(null);LN.setText(null);
+            phone.setText(null);email.setText(null);position.setText(null);
+            salary.setText(null);
             f.dispose();
         });
         f.add(cancel);
@@ -310,13 +322,13 @@ public class StaffManageFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                Design.f.setEnabled(true);
+                f.setEnabled(true);
                 y=50;
             }
 
             @Override
             public void windowClosed(WindowEvent e) {
-                Design.f.setEnabled(true);
+                f.setEnabled(true);
                 y=50;
             }
 
@@ -337,7 +349,7 @@ public class StaffManageFrame {
 
             @Override
             public void windowDeactivated(WindowEvent e) {
-                Design.f.setEnabled(true);
+                f.setEnabled(true);
                 y=50;
             }
         });
@@ -373,8 +385,8 @@ public class StaffManageFrame {
 
 
                 f.dispose();
-                Design.dtmST.setRowCount(0);
-                showStaffTable(Design.dtmST);
+                dtmST.setRowCount(0);
+                showStaffTable(dtmST);
                 JOptionPane.showMessageDialog(null,"Updated "+fn+" "+ln+" to Staff");
                 id.setText(null);FN.setText(null);LN.setText(null);
                 phone.setText(null);email.setText(null);position.setText(null);
@@ -399,6 +411,9 @@ public class StaffManageFrame {
         cancel.setFocusable(false);
         cancel.setVisible(true);
         cancel.addActionListener(e->{
+            id.setText(null);FN.setText(null);LN.setText(null);
+            phone.setText(null);email.setText(null);position.setText(null);
+            salary.setText(null);
             f.dispose();
         });
         f.add(cancel);
@@ -408,6 +423,7 @@ public class StaffManageFrame {
         JLabel label = new JLabel("Search in table By:");
         label.setBounds(300,120,200,40);
         Design.f.add(label);
+
         JTextField search;
         search = new JTextField();
         String[] columns ={"ID","IDNum","FirstName","LastName","Phone","Email","Position","Salary"};
@@ -415,37 +431,39 @@ public class StaffManageFrame {
         cb.setBounds(300, 150,90,20);
         cb.addActionListener(e -> search.setText(null));
         Design.f.add(cb);
+
         JLabel searchText = new JLabel();
         searchText.setBounds(300,220,500,40);
         searchText.setVisible(true);
         Design.f.add(searchText);
+
         search.setBounds(300,180,200,40);
         search.setVisible(true);
         search.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
-                Design.dtmST.setRowCount(0);
+                dtmST.setRowCount(0);
                 String by = cb.getItemAt(cb.getSelectedIndex());
-                searchStaff(Design.dtmST,searchText.getText(),by);
+                searchStaff(dtmST,searchText.getText(),by);
                 searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
-                Design.dtmST.setRowCount(0);
+                dtmST.setRowCount(0);
                 String by = cb.getItemAt(cb.getSelectedIndex());
-                searchStaff(Design.dtmST,searchText.getText(),by);
+                searchStaff(dtmST,searchText.getText(),by);
                 searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
-                Design.dtmST.setRowCount(0);
+                dtmST.setRowCount(0);
                 String by = cb.getItemAt(cb.getSelectedIndex());
-                searchStaff(Design.dtmST,searchText.getText(),by);
+                searchStaff(dtmST,searchText.getText(),by);
                 searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
             }
         });
