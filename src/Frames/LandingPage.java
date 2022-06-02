@@ -11,6 +11,9 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 
 import java.time.format.DateTimeFormatter;
@@ -20,6 +23,11 @@ import java.time.format.DateTimeFormatter;
 public class LandingPage extends JFrame {
     //public static JInternalFrame frame2 = new JInternalFrame();
     //public static JFrame f = new JFrame();
+
+
+    static Font myFontN= new Font("Courier", Font.PLAIN, 20);
+    static Font myFontB= new Font("Courier", Font.BOLD, 20);
+
     public static void componentLoad(JFrame f){
         JLabel test = new JLabel("This project was made by:");
         test.setVisible(true);
@@ -38,7 +46,172 @@ public class LandingPage extends JFrame {
         f.add(test3);
 
 
-        //Design.LoadDesinSP(f);
+
+        ImageIcon twitterIcon = new ImageIcon(new ImageIcon("images/twitter-icon.png").getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+        JLabel twitter = new JLabel("@MustafaW97", twitterIcon, JLabel.CENTER);
+        twitter.setBounds(200,400,300,70);
+        twitter.setFont(myFontN);
+        twitter.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        Desktop.getDesktop().browse(new URI("https://twitter.com/MustafaW97"));
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (URISyntaxException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                twitter.setFont(myFontB);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                twitter.setFont(myFontN);
+            }
+        });
+        Design.f.add(twitter);
+
+
+        ImageIcon gitIcon = new ImageIcon(new ImageIcon("images/github-icon.png").getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+        JLabel gitHub = new JLabel("LXBoon", gitIcon, JLabel.CENTER);
+        gitHub.setBounds(400,400,300,70);
+        gitHub.setFont(myFontN);
+        gitHub.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        Desktop.getDesktop().browse(new URI("https://github.com/LXBoon"));
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (URISyntaxException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                gitHub.setFont(myFontB);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                gitHub.setFont(myFontN);
+            }
+        });
+        Design.f.add(gitHub);
+
+
+        ImageIcon linkedINIcon = new ImageIcon(new ImageIcon("images/linkedin-icon.png").getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+        JLabel linkedIN = new JLabel("MUSTAFA WAISULLAH", linkedINIcon, JLabel.CENTER);
+        linkedIN.setBounds(650,400,300,70);
+        linkedIN.setFont(myFontN);
+        linkedIN.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        Desktop.getDesktop().browse(new URI("https://www.linkedin.com/in/mustafa-w-0a5813224/"));
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (URISyntaxException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                linkedIN.setFont(myFontB);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                linkedIN.setFont(myFontN);
+            }
+        });
+        Design.f.add(linkedIN);
+
+
+        ImageIcon emailIcon = new ImageIcon(new ImageIcon("images/email-icon.jpg").getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+        JLabel email = new JLabel("mustafa.waisullah.1997@gmail.com\n", emailIcon, JLabel.CENTER);
+        email.setBounds(220,500,700,70);
+        email.setFont(myFontN);
+        email.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        String address = "mustafa.waisullah.1997@gmail.com";
+                        Desktop.getDesktop().mail(new URI("mailto:" + address + "?subject=Hello"));
+                    } catch (URISyntaxException | IOException ex) {
+                        // ...
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                email.setFont(myFontB);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                email.setFont(myFontN);
+            }
+        });
+        Design.f.add(email);
+
+
+
+
         Design.loadDesign(f);
         SwingUtilities.updateComponentTreeUI(f);
     }
