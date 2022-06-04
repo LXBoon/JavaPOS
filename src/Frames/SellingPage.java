@@ -1,7 +1,10 @@
 package Frames;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -10,6 +13,7 @@ import java.awt.print.PrinterException;
 import java.io.Serial;
 import java.security.Key;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
@@ -22,7 +26,7 @@ public class SellingPage {
     static DefaultTableModel dtmsp;
     static int rn;
 
-    static JButton btnNewSell,btnNum,btnAddSell,btnEditSell,btnSaveSell,btnDeleteSell,btnCompletePurchase;
+    static JButton btnNewSell,btnNum,btnAddSell,btnEditSell,btnSaveSell,btnDeleteSell,btnCompletePurchase,refresh;
     static JTextField textFieldSell,textFieldQ,textFieldEditQ;
     static JLabel labelSell;
     static JInternalFrame i;
@@ -32,17 +36,18 @@ public class SellingPage {
 
     
     static Font myFont = new Font("SansSerif", Font.BOLD, 20);
-    static JLabel TotalPrice;
+    static JLabel TotalPrice,totalTax;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
     static JTextArea area1;
     static JTextArea paidAmount;
     static JRadioButton cash,card;
     static ButtonGroup paymentType ;
 
     static String type,ogQty,date;
-    static double paid,change,totalP;
-    static int sellItemID;//the ID off sell table
+    static double paid,change,totalP,totTax,totPrice;
+    static int sellItemID,rowIndex;//the ID off sell table
     static long itemID;
-    
+
     
 
     static void newSellTable(){
@@ -54,18 +59,43 @@ public class SellingPage {
                 return false;
             }
         };
-        jtsp.getSelectionModel().addListSelectionListener(event -> {
-            try{
-                sellItemID = Integer.parseInt(jtsp.getValueAt(jtsp.getSelectedRow(),0).toString());
-                itemID = Long.parseLong(jtsp.getValueAt(jtsp.getSelectedRow(),1).toString());
-                ogQty = jtsp.getValueAt(jtsp.getSelectedRow(),3).toString();
-                btnDeleteSell.setEnabled(true);
-                btnEditSell.setEnabled(true);
-                //JOptionPane.showMessageDialog(null,ogQty);
-                textFieldEditQ.setText(ogQty);
 
-            }catch (Exception exception){
-                System.out.println(exception);
+        /*
+        listener.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try{
+                    sellItemID = Integer.parseInt(jtsp.getValueAt(jtsp.getSelectedRow(),0).toString());
+                    itemID = Long.parseLong(jtsp.getValueAt(jtsp.getSelectedRow(),1).toString());
+                    ogQty = jtsp.getValueAt(jtsp.getSelectedRow(),3).toString();
+                    btnDeleteSell.setEnabled(true);
+                    btnEditSell.setEnabled(true);
+                    //JOptionPane.showMessageDialog(null,ogQty);
+                    textFieldEditQ.setText(ogQty);
+                }catch (Exception exception){
+                    throw new RuntimeException(exception);
+                }
+            }
+        });
+
+         */
+
+
+        jtsp.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try{
+                    sellItemID = Integer.parseInt(jtsp.getValueAt(jtsp.getSelectedRow(),0).toString());
+                    itemID = Long.parseLong(jtsp.getValueAt(jtsp.getSelectedRow(),1).toString());
+                    ogQty = jtsp.getValueAt(jtsp.getSelectedRow(),3).toString();
+                    btnDeleteSell.setEnabled(true);
+                    btnEditSell.setEnabled(true);
+                    //JOptionPane.showMessageDialog(null,ogQty);
+                    textFieldEditQ.setText(ogQty);
+
+                }catch (Exception exception){
+                    throw new RuntimeException(exception);
+                }
             }
         });
         i = new JInternalFrame(("Receipt"),false,false,false,false);
@@ -93,6 +123,9 @@ public class SellingPage {
         btnNewSell.setFocusable(false);
         btnNewSell.setBackground(new Color(108, 255, 141));
         btnNewSell.addActionListener(e->{
+            totalP = 0;
+            totTax = 0;
+            btnNewSell.setEnabled(false);
             textFieldQ.setEnabled(true);
             textFieldQ.setText("1");
             textFieldSell.setEnabled(true);
@@ -103,10 +136,10 @@ public class SellingPage {
                 Date datef = new Date(System.currentTimeMillis());
                 date = DH.format(datef);
                 newReceipt(rn,date);
-                System.out.println(rn);
+
 
             }catch (Exception exception){
-                System.out.println(exception);
+                throw new RuntimeException(exception);
             }
 
         });
@@ -190,18 +223,32 @@ public class SellingPage {
         btnAddSell.setFocusable(false);
         btnAddSell.setEnabled(false);
         btnAddSell.addActionListener(e->{
+
             long id = Long.parseLong(textFieldSell.getText().trim());
             int quantity = Integer.parseInt(textFieldQ.getText());
-            double price = 0;
-            price = quantity * DatabaseConn.getItemPrice(id);
-            String name=null;
-            name = getItemName(id);
-            addSell(id,name,quantity,price,rn);
-            System.out.println(rn);
-            dtmsp.setRowCount(0);
-            sellTable(dtmsp,rn);
-            String totPrice= String.valueOf(DatabaseConn.getTotalPrice(rn));
-            TotalPrice.setText(totPrice);
+            double price = quantity * DatabaseConn.getItemPrice(id);;
+            double tax = getItemTax(id);
+
+            String name = getItemName(id);
+
+            addSell(id,name,quantity,price,tax,rn);
+            double taxX = price * tax / 100;
+            JOptionPane.showMessageDialog(null,taxX);
+            totTax += taxX;
+
+
+
+            refresh.doClick();
+
+            totPrice= DatabaseConn.getTotalPrice(rn);
+            TotalPrice.setText(df.format(totPrice));
+
+            //totTax = DatabaseConn.getTotalTax(rn);
+            totalTax.setText(df.format(totTax));
+
+
+
+
             textFieldSell.setText(null);
             textFieldQ.setText("1");
             no=true;
@@ -316,15 +363,22 @@ public class SellingPage {
             double price=0;
             try {
                 qty = Integer.parseInt(textFieldEditQ.getText());
-                price = qty * getItemPrice(itemID);
-
                 if (qty>=1) {
-                    updateQuantity(sellItemID, itemID, qty, price);
-                    jtsp.clearSelection();
-                    dtmsp.setRowCount(0);
-                    sellTable(dtmsp, rn);
-                    String totPrice = String.valueOf(DatabaseConn.getTotalPrice(rn));
-                    TotalPrice.setText(totPrice);
+                    long id = itemID;
+                    int quantity = Integer.parseInt(ogQty);
+                    price = quantity * DatabaseConn.getItemPrice(id);;
+                    double tax = getItemTax(id);
+                    double taxX = price * tax / 100;
+                    totTax -= taxX;
+
+                    id = itemID;
+                    quantity = qty;
+                    price = quantity * DatabaseConn.getItemPrice(id);;
+                    tax = getItemTax(id);
+                    taxX = price * tax / 100;
+                    totTax += taxX;
+                    totalTax.setText(df.format(totTax));
+
                     textFieldSell.setText(null);
                     textFieldQ.setText("1");
                     no = true;
@@ -332,19 +386,52 @@ public class SellingPage {
                     eq = false;
                     textFieldSell.requestFocus();
                     textFieldEditQ.setEnabled(false);
+
+
+                    updateQuantity(sellItemID, itemID, qty, price);
+                    totPrice= DatabaseConn.getTotalPrice(rn);
+                    TotalPrice.setText(df.format(totPrice));
+
+                    DatabaseConn.sellTable(dtmsp,rn);
+
+                    refresh.doClick();
+
+
                 }else JOptionPane.showMessageDialog(null,"can't be 0 or less");
             }catch (NumberFormatException exception) {
                 JOptionPane.showMessageDialog(null, "is empty");
             }
-
-
-
-
-
-
         });
         btnSaveSell.setBackground(new Color(138, 246, 0));
         Design.f.add(btnSaveSell);
+
+        refresh = new JButton("Refresh");
+        refresh.setBounds(750,400,65,25);
+        refresh.setVisible(true);
+        refresh.setForeground(Color.white);
+        refresh.setBackground(new Color(1, 22, 62));
+        refresh.addActionListener(e -> {
+            boolean de;
+            try{
+
+                dtmsp.setRowCount(0);
+                de = true;
+            }catch (Exception exception){
+                de = false;
+                refresh.doClick();
+            }
+            if (de) {
+                DatabaseConn.sellTable(dtmsp,rn);
+                //JOptionPane.showMessageDialog(null,insertRow);
+                //jt.setRowSelectionInterval(insertRow,insertRow);
+            }
+
+        });
+        Design.f.add(refresh);
+        refresh.setFocusable(false);
+        refresh.setBorder(BorderFactory.createEtchedBorder());
+        refresh.setVisible(false);
+        SwingUtilities.updateComponentTreeUI(Design.f);
 
 
         btnDeleteSell = new JButton("Delete");
@@ -353,19 +440,41 @@ public class SellingPage {
         btnDeleteSell.setFocusable(false);
         btnDeleteSell.setEnabled(false);
         btnDeleteSell.addActionListener(e->{
-            DatabaseConn.deleteSell(sellItemID,itemID);
 
-            jtsp.clearSelection();
-            dtmsp.setRowCount(0);
-            sellTable(dtmsp,rn);
-            String totPrice= String.valueOf(DatabaseConn.getTotalPrice(rn));
-            TotalPrice.setText(totPrice);
+            long id = itemID;
+            int quantity = Integer.parseInt(ogQty);
+            double price = quantity * DatabaseConn.getItemPrice(id);;
+            double tax = getItemTax(id);
+            double taxX = price * tax / 100;
+            totTax -= taxX;
+            totalTax.setText(df.format(totTax));
+
+
+
+
             textFieldSell.setText(null);
             textFieldQ.setText("1");
             no=true;
             q=false;
             eq = false;
             textFieldSell.requestFocus();
+
+
+
+
+
+            DatabaseConn.deleteSell(sellItemID,itemID);
+
+
+            refresh.doClick();
+
+
+
+
+            totPrice = DatabaseConn.getTotalPrice(rn);
+            TotalPrice.setText(df.format(totPrice));
+
+            //jtsp.clearSelection();
 
         });
         btnDeleteSell.setBackground(new Color(199, 30, 4));
@@ -391,25 +500,29 @@ public class SellingPage {
                     type = "cash";
                 }
                 else change = 0;
-                setPurchase(rn,totalP,paid,change,type);
-                JOptionPane.showMessageDialog(null,"Total price:  "+totalP+"\nPaid: "+paid+"\nchange:  "+change+" ");
+                String ch =df.format(change);
+                double chng= Double.parseDouble(ch);
+                setPurchase(rn,totalP,paid,chng,type,totTax);
 
-                String areaString = "--------------- RECEIPT ---------------";
+                JOptionPane.showMessageDialog(null,"Total price:  "+totalP+"\nPaid: "+paid+"\nchange:  "+chng+" ");
+
+                String areaString = "------------------- RECEIPT -------------------";
                 area1.setText("Receipt NO:"+rn+"\n");
                 area1.setText(area1.getText()+"\nDate:"+date+"\n");
                 area1.setText(area1.getText()+"\n"+areaString+"\n");
 
-                area1.setText(area1.getText()+"\nName\tQuantity\tPrice\n");
-                area1.setText(area1.getText()+"\n--------------------------------------------\n");
+                area1.setText(area1.getText()+"\nName\tQuantity\tPrice\tTax\n");
+                area1.setText(area1.getText()+"\n----------------------------------------------------\n");
 
                 for (int i =0;i<jtsp.getRowCount();i++){
                     String name = jtsp.getValueAt(i,2).toString();
                     String quantity = jtsp.getValueAt(i,3).toString();
                     String price = jtsp.getValueAt(i,4).toString();
-                    area1.setText(area1.getText()+"\n"+name+"\t"+quantity+"\t"+price+"\n");
+                    String tax =jtsp.getValueAt(i,5).toString();
+                    area1.setText(area1.getText()+"\n"+name+"\t"+quantity+"\t"+price+"\t"+tax+"\n");
                 }
-                area1.setText(area1.getText()+"--------------------------------------------\n"
-                        +"Total Price: "+getTotalPrice(rn)+"\nPaid amount: "+ paid+"\nChange: "+change);
+                area1.setText(area1.getText()+"-----------------------------------------------------\n"
+                        +"Total Price: "+totalP+"\nTotal Tax:"+totTax+"\nPaid amount: "+ paid+"\nChange: "+change);
                 area1.setText(area1.getText()+"");
                 area1.print();
                 dtmsp.setRowCount(0);
@@ -419,9 +532,16 @@ public class SellingPage {
                 paidAmount.setText(null);
                 paidAmount.setVisible(false);
                 TotalPrice.setText(null);
+                totalTax.setText(null);
+                btnNewSell.setEnabled(true);
+                totalP=0;
+                totTax=0;
+
+
 
             } catch (PrinterException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
+                throw new RuntimeException(ex);
             }
         });
         Design.f.add(btnCompletePurchase);
@@ -445,7 +565,6 @@ public class SellingPage {
         cash.setFont(myFont);
         cash.addActionListener(e->{
             if(cash.isSelected()){
-                System.out.println("cash");
                 paidAmount.setVisible(true);
             }
 
@@ -459,7 +578,6 @@ public class SellingPage {
         card.setFont(myFont);
         card.addActionListener(e->{
             if(card.isSelected()){
-                System.out.println("card");
                 paidAmount.setVisible(false);
             }
 
@@ -490,6 +608,22 @@ public class SellingPage {
         TotalPrice.setVisible(true);
         Design.f.add(TotalPrice);
 
+
+        JLabel labelTax = new JLabel();
+        labelTax.setText("Tax: ");
+        labelTax.setBounds(250,622,120,20);
+        labelTax.setVisible(true);
+        labelTax.setFont(myFont);
+        Design.f.add(labelTax);
+
+        totalTax = new JLabel();
+        totalTax.setBounds(370,622,120,20);
+        totalTax.setVisible(true);
+        Design.f.add(totalTax);
+
+
+
+
     }
 
 
@@ -503,7 +637,7 @@ public class SellingPage {
             dtmsp.setRowCount(0);
         }
         catch (Exception e){
-            System.out.println(e);
+            throw new RuntimeException(e);
         }
         loadSellField(labelSell);
         loadButtons();

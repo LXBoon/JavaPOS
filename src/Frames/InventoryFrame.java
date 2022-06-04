@@ -18,7 +18,7 @@ public class InventoryFrame  {
     static JTable jt;
     static DefaultTableModel dtm;
     static long rowID;
-    static JTextField tfID ,tfName,tfPrice,tfQ;
+    static JTextField tfID ,tfName,tfPrice,tfTax,tfQ;
     static  JButton btnEdit,refresh,btnDelete,btnAdd,btnNew,btnSave;
     static JInternalFrame i ;
 
@@ -62,13 +62,28 @@ public class InventoryFrame  {
         Design.f.add(tfPrice);
         Design.f.add(lPrice);
 
+
+        JLabel lTax = new JLabel("Tax:");
+        lTax.setBounds(850,300,125,30);
+        lTax.setBorder(BorderFactory.createEtchedBorder());
+        lTax.setOpaque(false);
+        lTax.setVisible(true);
+        tfTax = new JTextField();
+        tfTax.setBounds(900,300,125,30);
+        tfTax.setBorder(BorderFactory.createEtchedBorder());
+        tfTax.setVisible(true);
+        Design.f.add(tfTax);
+        Design.f.add(lTax);
+
+
+
         JLabel lQ = new JLabel("Quantity:");
-        lQ.setBounds(850,300,125,30);
+        lQ.setBounds(850,350,125,30);
         lQ.setBorder(BorderFactory.createEtchedBorder());
         lQ.setOpaque(false);
         lQ.setVisible(true);
         tfQ = new JTextField();
-        tfQ.setBounds(900,300,125,30);
+        tfQ.setBounds(900,350,125,30);
         tfQ.setBorder(BorderFactory.createEtchedBorder());
 
         tfQ.setVisible(true);
@@ -81,20 +96,22 @@ public class InventoryFrame  {
 
     static void tfDisable(){
         tfID.setEnabled(false);tfName.setEnabled(false);tfPrice.setEnabled(false);
-        tfQ.setEnabled(false);
+        tfQ.setEnabled(false);tfTax.setEnabled(false);
         tfID.setBackground(new Color(154, 102, 102));
         tfName.setBackground(new Color(154, 102, 102));
         tfPrice.setBackground(new Color(154, 102, 102));
         tfQ.setBackground(new Color(154, 102, 102));
+        tfTax.setBackground(new Color(154, 102, 102));
         tfID.setForeground(Color.BLACK);tfName.setForeground(Color.BLACK);
         tfPrice.setForeground(Color.BLACK);tfQ.setForeground(Color.BLACK);
-        tfID.setText(null);tfName.setText(null);tfPrice.setText(null);tfQ.setText(null);
+        tfID.setText(null);tfName.setText(null);tfPrice.setText(null);tfQ.setText(null);tfTax.setText(null);
     }
     static void tfEnable(){
         tfID.setEnabled(true);tfName.setEnabled(true);tfPrice.setEnabled(true);
-        tfQ.setEnabled(true);
+        tfQ.setEnabled(true);tfTax.setEnabled(true);
         tfID.setBackground(Color.white); tfName.setBackground(Color.white);
         tfPrice.setBackground(Color.white); tfQ.setBackground(Color.white);
+        tfTax.setBackground(Color.white);
     }
 
 
@@ -125,7 +142,7 @@ public class InventoryFrame  {
 
     static void btnAdd(){
         btnAdd = new JButton("Add");
-        btnAdd.setBounds(950,350,65,25);
+        btnAdd.setBounds(950,400,65,25);
         btnAdd.setVisible(true);
         btnAdd.setForeground(Color.white);
         btnAdd.setBackground(new Color(45, 168, 34));
@@ -136,14 +153,16 @@ public class InventoryFrame  {
                 String name = tfName.getText().trim();
                 double price = Double.parseDouble(tfPrice.getText().trim());
                 int quantity = Integer.parseInt(tfQ.getText().trim());
-                DatabaseConn.addToItemList(id,name,price,quantity);
+                int tax = Integer.parseInt(tfTax.getText());
+                DatabaseConn.addToItemList(id,name,price,quantity,tax);
                 tfDisable();
                 btnAdd.setEnabled(false);
                 refresh.doClick();
             }
             catch (Exception exception){
-                JOptionPane.showMessageDialog(null,exception.toString());
+                //JOptionPane.showMessageDialog(null,exception.toString());
                 System.out.println("Add error");
+                throw new RuntimeException(exception);
             }
         });
         Design.f.add(btnAdd);
@@ -154,7 +173,7 @@ public class InventoryFrame  {
 
     static void btnDelete(){
         btnDelete = new JButton("Delete");
-        btnDelete.setBounds(875,350,65,25);
+        btnDelete.setBounds(875,400,65,25);
         btnDelete.setVisible(true);
         btnDelete.setForeground(Color.white);
         btnDelete.setBackground(new Color(199, 30, 4));
@@ -186,23 +205,15 @@ public class InventoryFrame  {
             String name = tfName.getText().trim();
             double price = Double.parseDouble(tfPrice.getText().trim());
             int quantity = Integer.parseInt(tfQ.getText().trim());
-
-            try {
-                DatabaseConn.updateItemFromList(id,name,price,quantity);
-                JOptionPane.showMessageDialog(null,"Updated successfully");
-                tfDisable();
-                btnSave.setEnabled(false);
-                insertRow=jt.getSelectedRow();
-                refresh.doClick();
-
-            }catch (Exception exception){
-                //JOptionPane.showMessageDialog(null,exception.toString());
-                System.out.println("Save error");
-            }
+            int tax = Integer.parseInt(tfTax.getText().trim());
 
 
+            DatabaseConn.updateItemFromList(id,name,price,tax,quantity);
+            tfDisable();
+            btnSave.setEnabled(false);
+            insertRow=jt.getSelectedRow();
+            refresh.doClick();
 
-            //refresh.doClick(2);
         });
         Design.f.add(btnSave);
         btnSave.setFocusable(false);
@@ -212,22 +223,22 @@ public class InventoryFrame  {
 
     static void search(){
         JLabel label = new JLabel("Search in table By:");
-        label.setBounds(520,120,200,40);
+        label.setBounds(250,50,200,40);
         Design.f.add(label);
         JTextField search;
         search = new JTextField();
-        String[] columns ={"ID","Name","Price","Quantity"};
+        String[] columns ={"ID","Name","Price","TaxPercentage","Quantity"};
         JComboBox<String> cb=new JComboBox<>(columns);
-        cb.setBounds(525, 150,90,20);
+        cb.setBounds(250, 80,90,20);
         cb.addActionListener(e -> search.setText(null));
         Design.f.add(cb);
         JLabel searchText = new JLabel();
-        searchText.setBounds(525,220,200,40);
+        searchText.setBounds(250,150,200,40);
         searchText.setVisible(true);
         Design.f.add(searchText);
 
 
-        search.setBounds(525,180,200,40);
+        search.setBounds(250,110,200,40);
         search.setVisible(true);
         search.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -258,6 +269,8 @@ public class InventoryFrame  {
             }
         });
         Design.f.add(search);
+
+
     }
     static void Table(){
         dtm = new DefaultTableModel();
@@ -275,20 +288,21 @@ public class InventoryFrame  {
                 String rowIndex = jt.getValueAt(jt.getSelectedRow(), 0).toString();
                 String name =jt.getValueAt(jt.getSelectedRow(), 1).toString();
                 String price =jt.getValueAt(jt.getSelectedRow(), 2).toString();
-                String quantity = jt.getValueAt(jt.getSelectedRow(), 3).toString();
+                String tax = jt.getValueAt(jt.getSelectedRow(), 3).toString();
+                String quantity = jt.getValueAt(jt.getSelectedRow(), 4).toString();
                 rowID = Long.parseLong(rowIndex);
                 insertRow=jt.getSelectedRow();
                 tfDisable();
-                tfID.setText(rowIndex);tfName.setText(name);tfPrice.setText(price);tfQ.setText(quantity);
+                tfID.setText(rowIndex);tfName.setText(name);tfPrice.setText(price);tfQ.setText(quantity);tfTax.setText(tax);
                 btnEdit.setEnabled(true);btnDelete.setEnabled(true);
                 btnSave.setEnabled(false);
             }catch (Exception exception){
-                System.out.println("val");
+                throw new RuntimeException(exception);
             }
         });
         i = new JInternalFrame(("List"),false,false,false,false);
         i.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-        i.setBounds(220,70,300,500);
+        i.setBounds(220,200,550,400);
         i.setVisible(true);
         i.setClosable(false);
         displayItemList(dtm);
@@ -305,7 +319,7 @@ public class InventoryFrame  {
 
     static void btnRefresh (){
         refresh = new JButton("Refresh");
-        refresh.setBounds(800,350,65,25);
+        refresh.setBounds(800,400,65,25);
         refresh.setVisible(true);
         refresh.setForeground(Color.white);
         refresh.setBackground(new Color(1, 22, 62));
@@ -319,7 +333,6 @@ public class InventoryFrame  {
                 de = false;
                 refresh.doClick();
             }
-            System.out.println(de);
             if (de) {
                 DatabaseConn.displayItemList(dtm);
                 //JOptionPane.showMessageDialog(null,insertRow);

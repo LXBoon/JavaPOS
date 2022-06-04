@@ -80,7 +80,8 @@ public class Design {
                     btnSellPage.setEnabled(false);
                 }
                 catch (Exception ex){
-                    JOptionPane.showMessageDialog(null,ex);
+                    //JOptionPane.showMessageDialog(null,ex);
+                    throw new RuntimeException(ex);
                 }
             }
             else {
@@ -101,8 +102,9 @@ public class Design {
                     btnInventory.setEnabled(false);
                 }
                 catch (Exception ex){
-                    JOptionPane.showMessageDialog(null,ex);
+                    //JOptionPane.showMessageDialog(null,ex);
                     btnInventory.setEnabled(true);
+                    throw new RuntimeException(ex);
                 }
             }
             else {

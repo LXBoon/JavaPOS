@@ -1,5 +1,6 @@
 package Frames;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -37,19 +38,18 @@ public class DatabaseConn {
             String sql ="select * from user_table where Name = '"+x+"' and Password ='"+y+"'";
             st = conn.createStatement();
             rs=st.executeQuery(sql);
-            //System.out.println(rs.getString("Name").equals(x) && rs.getString("Password").equals(y));
+
             while (rs.next()){
-                //System.out.println(resultSet.getString("Name") +" "+ resultSet.getString("Password"));
+
                 if (rs.getString("Name").equals(x) && rs.getString("Password").equals(y)){
-                    System.out.println("Found");
+
                     foundUser = true;
                     break;
                 }
             }
             conn.close();
-            //System.out.println("Connected");
+
         } catch (SQLException e) {
-            System.out.println("Failed");
             foundUser = false;
             throw new RuntimeException(e);
         }finally {
@@ -77,18 +77,15 @@ public class DatabaseConn {
             Connection con=DriverManager.getConnection(connString, user, password);
             Statement stmt=con.createStatement();
             rs=stmt.executeQuery("select * from user_table Where Name='Admin'");
-            System.out.println("Connected");
+
             while(rs.next()) {
                 if (rs.getString("Name").equals("Admin")){
                     break;
                 }
-                System.out.println(rs.getInt("ID") + "," + rs.getString("Name") + "," + rs.getString("Password"));
-
             }
             con.close();
         }catch(Exception e){
-            System.out.println("Failed");
-            System.out.println(e);
+            throw new RuntimeException(e);
         }finally {
             if (rs != null) {
                 try {
@@ -115,7 +112,7 @@ public class DatabaseConn {
             st = conn.createStatement();//crating statement object
             String query = "SELECT * FROM items_table";//Storing MySQL query in A string variable
             rs = st.executeQuery(query);//executing query and storing result in ResultSet
-            //System.out.println("Good");
+
             ResultSetMetaData rsd = rs.getMetaData();
             columns = new String[rsd.getColumnCount()];
             for (int i = 1; i<= rsd.getColumnCount();i++){
@@ -129,12 +126,12 @@ public class DatabaseConn {
                 String id = rs.getString("ID");
                 String name = rs.getString("Name");
                 String price = rs.getString("Price");
+                String tax = rs.getString("TaxPercentage");
                 String quantity = rs.getString("Quantity");
-                tm.addRow(new Object[]{id, name,price,quantity });
+                tm.addRow(new Object[]{id, name,price,tax,quantity });
             }
             conn.close();
         } catch (SQLException e) {
-            System.out.println("Bad");
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -155,20 +152,21 @@ public class DatabaseConn {
         }
     }
 
-    public  static void addToItemList(long id,String name, double price,int quantity ){
+    public  static void addToItemList(long id,String name, double price,int quantity,int tax ){
         try {
             conn = DriverManager.getConnection(connString, user, password);
             st = conn.createStatement();//crating statement object
-            String query = "insert into items_table (ID,Name,Price,Quantity) values(?,?,?,?)";//Storing MySQL query in A string variable
+            String query = "insert into items_table (ID,Name,Price,TaxPercentage,Quantity) values(?,?,?,?,?)";//Storing MySQL query in A string variable
             ps = conn.prepareStatement(query);
             ps.setLong (1,id );
             ps.setString (2, name);
             ps.setDouble   (3, price);
-            ps.setInt(4, quantity);
+            ps.setInt(4,tax);
+            ps.setInt(5, quantity);
             ps.execute();
-            System.out.println("Good");
+
         } catch (SQLException e) {
-            System.out.println("Error");
+
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -196,9 +194,8 @@ public class DatabaseConn {
             st = conn.createStatement();
             String query1 = "delete from  items_table where ID="+x;
             st.executeUpdate(query1);
-            System.out.println("Record is deleted from the table successfully..................");
+
         } catch (SQLException e) {
-            System.out.println("Error");
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -222,21 +219,22 @@ public class DatabaseConn {
 
     }
 
-    public static void  updateItemFromList(int id,String name, double price,int quantity){
+    public static void  updateItemFromList(int id,String name, double price,int quantity, int tax){
         try {
             conn = DriverManager.getConnection(connString,user,password);
             st = conn.createStatement();//crating statement object
-            String query = "update items_table set Name = ?,Price=?,Quantity=? where ID =? ";//Storing MySQL query in A string variable
+            String query = "update items_table set Name = ?,Price=?,TaxPercentage =?,Quantity=? where ID =? ";//Storing MySQL query in A string variable
             ps = conn.prepareStatement(query);
             ps.setString (1, name);
             ps.setDouble   (2, price);
             ps.setInt(3, quantity);
-            ps.setInt (4,id );
+            ps.setInt(4,tax);
+            ps.setInt (5,id );
             ps.execute();
+            JOptionPane.showMessageDialog(null,"Updated successfully");
 
-            System.out.println("Good");
         } catch (SQLException e) {
-            System.out.println("Error");
+            JOptionPane.showMessageDialog(null,"Updated failed");
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -270,7 +268,7 @@ public class DatabaseConn {
             columns = new String[rsd.getColumnCount()];
             for (int i = 1; i<= rsd.getColumnCount();i++){
                 columns[i-1]= rsd.getColumnLabel(i).toString();
-                //System.out.println(rsd.getColumnName(i));
+
                 if (tm.getColumnCount()>= columns.length){
 
                 }
@@ -281,14 +279,13 @@ public class DatabaseConn {
                 String id = rs.getString("ID");
                 String name = rs.getString("Name");
                 String price = rs.getString("Price");
+                String tax = rs.getString("TaxPercentage");
                 String quantity = rs.getString("Quantity");
-                tm.addRow(new Object[]{id, name,price,quantity });//Adding row in Table
-                //System.out.println(rs.getInt("ID") + "," + rs.getString("Name") + "," + rs.getString("Price") +","+rs.getString("Quantity"));
+                tm.addRow(new Object[]{id, name,price,tax,quantity });//Adding row in Table
+
             }
             conn.close();
         } catch (SQLException e) {
-
-            System.out.println("Error");
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -321,8 +318,7 @@ public class DatabaseConn {
             num=rs.getInt(1);
             con.close();
         }catch(Exception e){
-            System.out.println("Failed");
-            System.out.println(e);
+            throw new RuntimeException(e);
         }finally {
             if (rs != null) {
                 try {
@@ -349,15 +345,14 @@ public class DatabaseConn {
             st = conn.createStatement();//crating statement object
             String query = "SELECT * FROM sells_table where Recipt_id ='"+receiptNum+"'";//Storing MySQL query in A string variable
             rs = st.executeQuery(query);//executing query and storing result in ResultSet
-            //System.out.println("Good");
+
             ResultSetMetaData rsd = rs.getMetaData();
             columns = new String[rsd.getColumnCount()];
             for (int i = 1; i<= rsd.getColumnCount()-1;i++){
-                columns[i-1]= rsd.getColumnLabel(i).toString();
-                if (tm.getColumnCount()>= columns.length-1){
-                }
-                else
+                columns[i-1]= rsd.getColumnLabel(i);
+                if (tm.getColumnCount()!= columns.length-1){
                     tm.addColumn(rsd.getColumnName(i));
+                }
             }
             while (rs.next()){
                 int id =rs.getInt("ID");
@@ -365,11 +360,11 @@ public class DatabaseConn {
                 String name = rs.getString("Name");
                 int quantity = rs.getInt("Quantity");
                 double price = rs.getDouble("Price");
-                tm.addRow(new Object[]{id,item_id,name,quantity,price});
+                double tax = rs.getDouble("Tax");
+                tm.addRow(new Object[]{id,item_id,name,quantity,price,tax});
             }
             conn.close();
         } catch (SQLException e) {
-            System.out.println("Bad");
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -389,26 +384,25 @@ public class DatabaseConn {
             }
         }
     }
-    public static void addSell(long Item_id,String Item_name, int Item_quantity,double Item_price,int rec_id){
+    public static void addSell(long Item_id,String Item_name, int Item_quantity,double Item_price,double TaxPercentage,int rec_id){
         try {
             long id= Item_id;
             String name=Item_name;
             int quantity=Item_quantity,receipt_id=rec_id;
             double price=Item_price;
+            double tax = TaxPercentage;
             conn = DriverManager.getConnection(connString, user, password);
             st = conn.createStatement();//crating statement object
-            String query = "insert into sells_table (Item_id,Name,Quantity,Price,Recipt_id) values(?,?,?,?,?)";//Storing MySQL query in A string variable
+            String query = "insert into sells_table (Item_id,Name,Quantity,Price,Tax,Recipt_id) values(?,?,?,?,?,?)";//Storing MySQL query in A string variable
             ps = conn.prepareStatement(query);
             ps.setLong (1,id );
             ps.setString (2, name);
             ps.setInt(3, quantity);
             ps.setDouble   (4, price);
-            ps.setInt(5, receipt_id);
+            ps.setDouble(5,tax);
+            ps.setInt(6, receipt_id);
             ps.execute();
-            System.out.println("Good");
         } catch (SQLException e) {
-            System.out.println("Error add sell");
-            System.out.println(e);
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -441,7 +435,7 @@ public class DatabaseConn {
             ps.execute();
 
         }catch (Exception e){
-            System.out.println("Error new r");
+            throw new RuntimeException(e);
         }finally {
             if (rs != null) {
                 try {
@@ -472,7 +466,7 @@ public class DatabaseConn {
                 n = rs.getString("Name");
             }
         }catch (Exception e){
-            System.out.println(e);
+            throw new RuntimeException(e);
         }finally {
             if (rs != null) {
                 try {
@@ -503,7 +497,7 @@ public class DatabaseConn {
                 p = rs.getDouble("Price");
             }
         }catch (Exception e){
-            System.out.println(e);
+            throw new RuntimeException(e);
         }finally {
             if (rs != null) {
                 try {
@@ -524,6 +518,41 @@ public class DatabaseConn {
 
         return p;
     }
+
+    public static int getItemTax(long id){
+        int tax = 0;
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            String sql ="select TaxPercentage from items_table where ID = '"+id+"'";
+            st = conn.createStatement();
+            rs=st.executeQuery(sql);
+            if (rs.next()){
+                tax = rs.getInt("TaxPercentage");
+            }
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { }
+            }
+        }
+        return tax;
+    }
+
+
+
 
     public static double getTotalPrice(int id){
         double p = 0;
@@ -556,11 +585,14 @@ public class DatabaseConn {
         }
         return p;
     }
-    public static void setPurchase(int receipt_id,double TotalPrice, double paidAmount, double change,String type){
+
+
+    public static void setPurchase(int receipt_id,double TotalPrice, double paidAmount, double change,String type,double tax){
         try {
             conn = DriverManager.getConnection(connString, user, password);
-            String sql ="update receipt_table set TotalPrice= '"+TotalPrice+"', Paidamount= '"+paidAmount+"' ,Changeamount= '"+change+"', Type='"+type+"' where ID = "+receipt_id+"";
+            String sql ="update receipt_table set TotalPrice= '"+TotalPrice+"', Paidamount= '"+paidAmount+"' ,Changeamount= '"+change+"', Type='"+type+"', TotalTax='"+tax+"' where ID = ?";
             ps = conn.prepareStatement(sql);
+            ps.setInt(1,receipt_id);
             ps.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -588,9 +620,9 @@ public class DatabaseConn {
             st = conn.createStatement();
             String query1 = "delete from  sells_table where ID="+id+" and Item_id = "+itemID+"";
             st.executeUpdate(query1);
-            System.out.println("Record is deleted from the table successfully..................");
+
         } catch (SQLException e) {
-            System.out.println("Error");
+
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -645,7 +677,7 @@ public class DatabaseConn {
             st = conn.createStatement();//crating statement object
             String query = "SELECT * FROM staff_table";//Storing MySQL query in A string variable
             rs = st.executeQuery(query);//executing query and storing result in ResultSet
-            //System.out.println("Good");
+
             ResultSetMetaData rsd = rs.getMetaData();
             columns = new String[rsd.getColumnCount()];
             for (int i = 1; i<= rsd.getColumnCount();i++){
@@ -668,7 +700,7 @@ public class DatabaseConn {
             }
             conn.close();
         } catch (SQLException e) {
-            System.out.println("Bad");
+
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -759,9 +791,9 @@ public class DatabaseConn {
             st = conn.createStatement();
             String query1 = "delete from staff_table where ID="+id+"";
             st.executeUpdate(query1);
-            System.out.println("Record is deleted from the table successfully..................");
+
         } catch (SQLException e) {
-            System.out.println("Error");
+
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -815,7 +847,7 @@ public class DatabaseConn {
             conn.close();
         } catch (SQLException e) {
 
-            System.out.println("Error");
+
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -837,6 +869,8 @@ public class DatabaseConn {
     }
 
     public static void main(String[] args) {
+
+
 
     }
 
