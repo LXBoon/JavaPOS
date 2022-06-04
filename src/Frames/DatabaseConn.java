@@ -868,6 +868,65 @@ public class DatabaseConn {
         }
     }
 
+    public static void logTable(DefaultTableModel tm){
+        //SELECT * FROM myshopdb.item_log_table;
+        try {
+            conn = DriverManager.getConnection(connString,user,password);
+            st = conn.createStatement();//crating statement object
+            String query = "SELECT * FROM myshopdb.item_log_table";//Storing MySQL query in A string variable
+            rs = st.executeQuery(query);//executing query and storing result in ResultSet
+
+            ResultSetMetaData rsd = rs.getMetaData();
+            columns = new String[rsd.getColumnCount()];
+            for (int i = 1; i<= rsd.getColumnCount();i++){
+                columns[i-1]= rsd.getColumnLabel(i);
+                if (tm.getColumnCount()>= columns.length){
+                }
+                else
+                    tm.addColumn(rsd.getColumnName(i));
+            }
+            String Data[][] = new String[500][11];
+            while (rs.next()){
+                String id = rs.getString(1);
+                String itemID = rs.getString(2);
+                String Date = rs.getString(3);
+                String type = rs.getString(4);
+                String oldName = rs.getString(5);
+                String oldPrice = rs.getString(6);
+                String oldTax = rs.getString(7);
+                String oldQuantity = rs.getString(8);
+                String newName = rs.getString(9);
+                String newPrice = rs.getString(10);
+                String newTax = rs.getString(11);
+                String newQuantity = rs.getString(12);
+                tm.addRow(new Object[]{id,itemID,Date,type,oldName,oldPrice,oldTax,oldQuantity,newName,newPrice,newTax,newQuantity});
+            }
+            conn.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+
+
+
+
+
     public static void main(String[] args) {
 
 

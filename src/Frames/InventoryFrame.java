@@ -161,7 +161,6 @@ public class InventoryFrame  {
             }
             catch (Exception exception){
                 //JOptionPane.showMessageDialog(null,exception.toString());
-                System.out.println("Add error");
                 throw new RuntimeException(exception);
             }
         });
@@ -184,7 +183,8 @@ public class InventoryFrame  {
                 refresh.doClick();
             }
             catch (Exception exception){
-                JOptionPane.showMessageDialog(null,e);
+                System.out.println(exception);
+                throw new RuntimeException(exception);
             }
         });
         Design.f.add(btnDelete);

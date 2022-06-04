@@ -132,8 +132,7 @@ public class Design {
         btnLoad(btnReports,"Reports",f);
         btnReports.addActionListener(evt -> {
             if(evt.getSource()==btnReports){
-                showMessageDialog(null, "btn Reports");
-
+                loadReportPage();
             }
         });
         f.add(btnReports);
@@ -285,6 +284,15 @@ public class Design {
 
 
     //report page load
+    public static void loadReportPage(){
+        f.dispose();
+        f = new JFrame();
+        f.setTitle("Report Page");
+        setPageLabel("Report Page");
+        ReportFrame.loadReportFrame();
+        loadDesign(f);
+        SwingUtilities.updateComponentTreeUI(f);
+    }
 
 
 
