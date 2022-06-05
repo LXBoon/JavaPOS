@@ -16,7 +16,7 @@ import static Frames.DatabaseConn.*;
 
 public class StaffManageFrame {
 
-    static JFrame f;
+    static JFrame f = new JFrame("Adding new Staff");
     static JTextField id=new JTextField() ,FN =new JTextField(),LN=new JTextField(),phone=new JTextField(),email=new JTextField(),position=new JTextField(),salary=new JTextField();
     static long ID,Phone;
     static String fn,ln,Email,Position,slcFN,slcLN,slcEmail,slcPosition,slcIDNum,slcPhoneNum,slcSalary;
@@ -120,11 +120,11 @@ public class StaffManageFrame {
         btnNewStaff.setBackground(new Color(108, 255, 141));
         btnNewStaff.addActionListener(e->{
             try{
-                f.setEnabled(false);
+                Design.f.setEnabled(false);
                 newStaffFrame();
                 jtST.clearSelection();
             }catch (Exception exception){
-                System.out.println(exception);
+                throw new RuntimeException(exception);
             }
 
         });
@@ -204,7 +204,7 @@ public class StaffManageFrame {
     }
 
     static void newStaffFrame(){
-        f = new JFrame("Adding new Staff");
+
         f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         f.addWindowListener(new WindowListener() {
             @Override
@@ -273,7 +273,7 @@ public class StaffManageFrame {
                 Position = position.getText();
                 Salary = Double.parseDouble(salary.getText());
                 addStaff(ID,fn,ln, Phone, Email, Position, Salary);
-
+                Design.f.setEnabled(true);
                 f.dispose();
                 dtmST.setRowCount(0);
                 showStaffTable(dtmST);
@@ -283,8 +283,9 @@ public class StaffManageFrame {
                 salary.setText(null);
 
 
+
             }catch (Exception exception){
-                System.out.println(exception);
+                throw new RuntimeException(exception);
             }
 
         });
@@ -301,10 +302,13 @@ public class StaffManageFrame {
         cancel.setFocusable(false);
         cancel.setVisible(true);
         cancel.addActionListener(e->{
+            Design.f.setEnabled(true);
             id.setText(null);FN.setText(null);LN.setText(null);
             phone.setText(null);email.setText(null);position.setText(null);
+            Design.f.setEnabled(true);
             salary.setText(null);
             f.dispose();
+            Design.f.setEnabled(true);
         });
         f.add(cancel);
 
@@ -312,7 +316,6 @@ public class StaffManageFrame {
 
     }
     static void UpdateStaffFrame(){
-        f = new JFrame("Adding new Staff");
         f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         f.addWindowListener(new WindowListener() {
             @Override

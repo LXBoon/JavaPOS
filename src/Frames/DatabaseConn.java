@@ -972,6 +972,57 @@ public class DatabaseConn {
         }
     }
 
+    public static void staffLogTable(DefaultTableModel tm){
+        //SELECT * FROM myshopdb.item_log_table;
+        try {
+            conn = DriverManager.getConnection(connString,user,password);
+            st = conn.createStatement();//crating statement object
+            String query = "SELECT * FROM staff_log_table";//Storing MySQL query in A string variable
+            rs = st.executeQuery(query);//executing query and storing result in ResultSet
+
+            ResultSetMetaData rsd = rs.getMetaData();
+            columns = new String[rsd.getColumnCount()];
+            for (int i = 1; i<= rsd.getColumnCount();i++){
+                columns[i-1]= rsd.getColumnLabel(i);
+                if (tm.getColumnCount()!= columns.length){
+                    tm.addColumn(rsd.getColumnName(i));
+                }
+
+            }
+            while (rs.next()){
+                String ID = rs.getString(1);String date = rs.getString(2);
+                String type = rs.getString(3);String staffID = rs.getString(4);
+                String oldID = rs.getString(5);String oldFN = rs.getString(6);
+                String oldLN = rs.getString(7);String oldPH = rs.getString(8);
+                String oldE = rs.getString(9);String oldPO = rs.getString(10);
+                String oldSalary = rs.getString(11);String newID = rs.getString(12);
+                String FN = rs.getString(13);String LN = rs.getString(14);
+                String PH = rs.getString(15);String E = rs.getString(16);
+                String PO = rs.getString(17);String salary = rs.getString(18);
+                tm.addRow(new Object[]{ID,date,type,staffID,oldID,oldFN,oldLN,oldPH,oldE,oldPO,oldSalary,newID,FN,LN,PH,E,PO,salary});
+            }
+            conn.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+
 
 
 

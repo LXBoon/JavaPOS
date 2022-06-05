@@ -167,8 +167,20 @@ public class ReportFrame {
             public void actionPerformed(ActionEvent e) {
                 if (cb.getSelectedIndex()==0){
                     dtm.setRowCount(0);
+                    dtm.setColumnCount(0);
                     DatabaseConn.itemLogTable(dtm);
                     table ="item_log_table";
+
+                    for (int i =0;i<DatabaseConn.columns.length;i++){
+                        comboBox.addItem(DatabaseConn.columns[i]);
+                    }
+                    comboBox.setVisible(true);
+                }
+                else if (cb.getSelectedIndex()==2){
+                    dtm.setRowCount(0);
+                    dtm.setColumnCount(0);
+                    DatabaseConn.staffLogTable(dtm);
+                    table ="staff_log_table";
                     for (int i =0;i<DatabaseConn.columns.length;i++){
                         comboBox.addItem(DatabaseConn.columns[i]);
                     }
