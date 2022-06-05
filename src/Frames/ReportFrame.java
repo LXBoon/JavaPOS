@@ -7,21 +7,19 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.Serial;
 
-import static Frames.DatabaseConn.searchStaff;
-import static Frames.DatabaseConn.showStaffTable;
+import static Frames.DatabaseConn.*;
 
 public class ReportFrame {
     
     static DefaultTableModel dtm;
     static JTable jt;
     static JInternalFrame i;
-
+    static String table;
+    static String columns[];
+    static JComboBox<String> comboBox;
 
     
     static void reportTable(){
@@ -103,43 +101,63 @@ public class ReportFrame {
 
         JTextField search;
         search = new JTextField();
-        String[] columns ={"Item Log","Sell Log","Staff Log"};
-        JComboBox<String> cb=new JComboBox<>(columns);
+
+        String[] column ={"Item Log","Sell Log","Staff Log"};
+        JComboBox<String> cb=new JComboBox<>(column);
         cb.setBounds(300, 150,90,20);
         cb.addActionListener(e -> search.setText(null));
         Design.f.add(cb);
+        cb.setSelectedIndex(-1);
+
         JLabel searchText = new JLabel();
         searchText.setBounds(300,220,500,40);
         searchText.setVisible(true);
         Design.f.add(searchText);
         search.setBounds(300,180,200,40);
         search.setVisible(true);
+
+
+        comboBox = new JComboBox<>();
+        comboBox.setBounds(400, 150,90,20);
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                search.setText(null);
+            }
+        });
+        comboBox.setVisible(false);
+        Design.f.add(comboBox);
+
         search.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
                 dtm.setRowCount(0);
-                String by = cb.getItemAt(cb.getSelectedIndex());
-                searchStaff(dtm,searchText.getText(),by);
-                searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
+
+                String by = comboBox.getItemAt(comboBox.getSelectedIndex());
+                itemLogSearch(dtm,searchText.getText(),by);
+                searchText.setText("Searching ' "+search.getText().trim()+" ' in "+table+" By "+by);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
+
                 searchText.setText(search.getText().trim());
                 dtm.setRowCount(0);
-                String by = cb.getItemAt(cb.getSelectedIndex());
-                searchStaff(dtm,searchText.getText(),by);
-                searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
+
+                String by = comboBox.getItemAt(comboBox.getSelectedIndex());
+                itemLogSearch(dtm,searchText.getText(),by);
+                searchText.setText("Searching ' "+search.getText().trim()+" ' in "+table+" By "+by);
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
                 dtm.setRowCount(0);
-                String by = cb.getItemAt(cb.getSelectedIndex());
-                searchStaff(dtm,searchText.getText(),by);
-                searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
+
+                String by = comboBox.getItemAt(comboBox.getSelectedIndex());
+                itemLogSearch(dtm,searchText.getText(),by);
+                searchText.setText("Searching ' "+search.getText().trim()+" ' in "+table+" By "+by);
             }
         });
         Design.f.add(search);
@@ -148,7 +166,13 @@ public class ReportFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (cb.getSelectedIndex()==0){
-                    DatabaseConn.logTable(dtm);
+                    dtm.setRowCount(0);
+                    DatabaseConn.itemLogTable(dtm);
+                    table ="item_log_table";
+                    for (int i =0;i<DatabaseConn.columns.length;i++){
+                        comboBox.addItem(DatabaseConn.columns[i]);
+                    }
+                    comboBox.setVisible(true);
                 }
             }
         });
