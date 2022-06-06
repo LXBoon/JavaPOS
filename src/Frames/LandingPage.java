@@ -88,7 +88,7 @@ public class LandingPage extends JFrame {
         Design.f.add(twitter);
 
 
-        ImageIcon gitIcon = new ImageIcon(new ImageIcon("images/github-icon.png").getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+        ImageIcon gitIcon = new ImageIcon(new ImageIcon("images/github-icon.png").getImage().getScaledInstance(100, 70, Image.SCALE_DEFAULT));
         JLabel gitHub = new JLabel("LXBoon", gitIcon, JLabel.CENTER);
         gitHub.setBounds(400,400,300,70);
         gitHub.setFont(myFontN);

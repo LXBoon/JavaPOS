@@ -130,6 +130,8 @@ public class SellingPage {
             textFieldQ.setText("1");
             textFieldSell.setEnabled(true);
             btnAddSell.setEnabled(true);
+            btnCompletePurchase.setEnabled(true);
+            btnCancelPurchase.setEnabled(true);
             try{
                 rn= DatabaseConn.GetReceiptNum();
                 SimpleDateFormat DH= new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -197,8 +199,8 @@ public class SellingPage {
             @Override
             public void mouseClicked(MouseEvent e) {
                 textFieldQ.setText(null);
-                q=true;
                 no=false;
+                q=true;
                 eq =false;
             }
             @Override
@@ -227,26 +229,33 @@ public class SellingPage {
             int ItemQuantity = DatabaseConn.getItemQuantity(id);
             if (ItemQuantity>0){
                 int quantity = Integer.parseInt(textFieldQ.getText());
-                double price = quantity * DatabaseConn.getItemPrice(id);;
-                double tax = getItemTax(id);
-                String name = getItemName(id);
-                double taxX = price * tax / 100;
-                price += taxX;
-                price = Double.parseDouble(df.format(price));
-                addSell(id,name,quantity,price,tax,rn);
+                if (ItemQuantity-quantity>=0){
+                    double price = quantity * DatabaseConn.getItemPrice(id);;
+                    double tax = getItemTax(id);
+                    String name = getItemName(id);
+                    double taxX = price * tax / 100;
+                    price += taxX;
+                    price = Double.parseDouble(df.format(price));
+                    addSell(id,name,quantity,price,tax,rn);
 
-                totTax += taxX;
-                refresh.doClick();
-                totPrice= DatabaseConn.getTotalPrice(rn);
-                TotalPrice.setText(df.format(totPrice));
-                //totTax = DatabaseConn.getTotalTax(rn);
-                totalTax.setText(df.format(totTax));
-                textFieldSell.setText(null);
-                textFieldQ.setText("1");
-                no=true;
-                q=false;
-                eq =false;
-                textFieldSell.requestFocus();
+                    totTax += taxX;
+                    refresh.doClick();
+                    totPrice= DatabaseConn.getTotalPrice(rn);
+                    TotalPrice.setText(df.format(totPrice));
+                    //totTax = DatabaseConn.getTotalTax(rn);
+                    totalTax.setText(df.format(totTax));
+                    textFieldSell.setText(null);
+                    textFieldQ.setText("1");
+                    no=true;
+                    q=false;
+                    eq =false;
+                    textFieldSell.requestFocus();
+                }
+                else {
+                    JOptionPane.showMessageDialog(null,"Can not sell Item amount that exceeds the amount in Inventory\n" +
+                            "Inventory Item Count: "+ItemQuantity);
+                    textFieldSell.setText(null);
+                }
             } else {
                 JOptionPane.showMessageDialog(null,"Ran out of Item in Inventory");
                 textFieldSell.setText(null);
@@ -273,8 +282,8 @@ public class SellingPage {
                 textFieldSell.setText(og+ finalBtn.getText());
             }
             else if (eq){
-                String og = textFieldSell.getText();
-                textFieldSell.setText(og+ finalBtn.getText());
+                String og = textFieldEditQ.getText();
+                textFieldEditQ.setText(og+ finalBtn.getText());
             }
         });
 
@@ -306,9 +315,7 @@ public class SellingPage {
             textFieldEditQ.transferFocus();
             no=false;
             q=false;
-            eq=true;
-
-
+            eq =true;
         });
         btnEditSell.setBackground(new Color(255, 220, 2));
         Design.f.add(btnEditSell);
@@ -321,9 +328,9 @@ public class SellingPage {
             @Override
             public void mouseClicked(MouseEvent e) {
                 textFieldEditQ.setText(null);
-                q=true;
                 no=false;
-                eq =false;
+                q=false;
+                eq =true;
             }
 
             @Override
@@ -358,45 +365,40 @@ public class SellingPage {
             double price=0;
             try {
                 qty = Integer.parseInt(textFieldEditQ.getText());
+                long id = itemID;
+                int ItemQuantity = DatabaseConn.getItemQuantity(id);
                 if (qty>=1) {
-
-                    long id = itemID;
-                    int quantity = Integer.parseInt(ogQty);
-                    price = quantity * DatabaseConn.getItemPrice(id);;
-                    double tax = getItemTax(id);
-                    double taxX = price * tax / 100;
-                    totTax -= taxX;
-
-                    id = itemID;
-                    quantity = qty;
-                    price = quantity * DatabaseConn.getItemPrice(id);;
-                    tax = getItemTax(id);
-                    taxX = price * tax / 100;
-
-                    totTax += taxX;
-                    totalTax.setText(df.format(totTax));
-
-
-
-                    textFieldSell.setText(null);
-                    textFieldQ.setText("1");
-                    no = true;
-                    q = false;
-                    eq = false;
-                    textFieldSell.requestFocus();
-                    textFieldEditQ.setEnabled(false);
-
-
-                    updateQuantity(sellItemID, itemID, qty, price);
-                    totPrice= DatabaseConn.getTotalPrice(rn);
-                    totPrice+=taxX;
-                    TotalPrice.setText(df.format(totPrice));
-
-                    DatabaseConn.sellTable(dtmsp,rn);
-
-                    refresh.doClick();
-
-
+                    if (ItemQuantity-qty>=0){
+                        int quantity = Integer.parseInt(ogQty);
+                        price = quantity * DatabaseConn.getItemPrice(id);;
+                        double tax = getItemTax(id);
+                        double taxX = price * tax / 100;
+                        totTax -= taxX;
+                        id = itemID;
+                        quantity = qty;
+                        price = quantity * DatabaseConn.getItemPrice(id);;
+                        tax = getItemTax(id);
+                        taxX = price * tax / 100;
+                        totTax += taxX;
+                        totalTax.setText(df.format(totTax));
+                        textFieldSell.setText(null);
+                        textFieldQ.setText("1");
+                        no = true;
+                        q = false;
+                        eq = false;
+                        textFieldSell.requestFocus();
+                        textFieldEditQ.setEnabled(false);
+                        updateQuantity(sellItemID, itemID, qty, price);
+                        totPrice= DatabaseConn.getTotalPrice(rn);
+                        totPrice+=taxX;
+                        TotalPrice.setText(df.format(totPrice));
+                        DatabaseConn.sellTable(dtmsp,rn);
+                        refresh.doClick();
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null,"Can not sell Item amount that exceeds the amount in Inventory\n" +
+                                "Inventory Item Count: "+ItemQuantity);
+                    }
                 }else JOptionPane.showMessageDialog(null,"can't be 0 or less");
             }catch (NumberFormatException exception) {
                 JOptionPane.showMessageDialog(null, "is empty");
@@ -404,7 +406,6 @@ public class SellingPage {
         });
         btnSaveSell.setBackground(new Color(138, 246, 0));
         Design.f.add(btnSaveSell);
-
         refresh = new JButton("Refresh");
         refresh.setBounds(750,400,65,25);
         refresh.setVisible(true);
@@ -427,7 +428,6 @@ public class SellingPage {
             }
         });
         Design.f.add(refresh);
-
         refresh.setFocusable(false);
         refresh.setBorder(BorderFactory.createEtchedBorder());
         refresh.setVisible(false);
@@ -457,12 +457,13 @@ public class SellingPage {
             TotalPrice.setText(df.format(totPrice));
         });
         btnDeleteSell.setBackground(new Color(199, 30, 4));
+        btnDeleteSell.setForeground(Color.white);
         Design.f.add(btnDeleteSell);
-
         btnCompletePurchase = new JButton("Complete Purchase");
         btnCompletePurchase.setBounds(550,500,150,30);
         btnCompletePurchase.setVisible(true);
         btnCompletePurchase.setFocusable(false);
+        btnCompletePurchase.setEnabled(false);
         btnCompletePurchase.setBackground(new Color(121, 255, 106));
         btnCompletePurchase.addActionListener(e->{
             try {
@@ -515,7 +516,8 @@ public class SellingPage {
                 btnNewSell.setEnabled(true);
                 totalP=0;
                 totTax=0;
-
+                btnCompletePurchase.setEnabled(false);
+                btnCancelPurchase.setEnabled(false);
 
 
             } catch (PrinterException ex) {
@@ -524,12 +526,13 @@ public class SellingPage {
             }
         });
         Design.f.add(btnCompletePurchase);
-
         btnCancelPurchase = new JButton("Cansel Purchase");
         btnCancelPurchase.setBounds(550,550,150,30);
         btnCancelPurchase.setVisible(true);
         btnCancelPurchase.setFocusable(false);
+        btnCancelPurchase.setEnabled(false);
         btnCancelPurchase.setBackground(new Color(243, 35, 35));
+        btnCancelPurchase.setForeground(Color.white);
         btnCancelPurchase.addActionListener(e->{
             try {
 
@@ -552,20 +555,20 @@ public class SellingPage {
                 btnNewSell.setEnabled(true);
                 totalP=0;
                 totTax=0;
+                btnCompletePurchase.setEnabled(false);
+                btnCancelPurchase.setEnabled(false);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 throw new RuntimeException(ex);
             }
         });
         Design.f.add(btnCancelPurchase);
-
         area1 = new JTextArea();
         area1.setBounds(600,250,200,300);
         area1.setVisible(false);
         JScrollPane sp = new JScrollPane(area1);
         Design.f.getContentPane().add(sp);
         Design.f.add(area1);
-
         cash = new JRadioButton("Cash");
         cash.setBounds(550,300,120,50);
         cash.setFont(myFont);

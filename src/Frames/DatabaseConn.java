@@ -6,6 +6,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static Frames.DatabaseConn.calculateProfit;
 import static Frames.DatabaseConn.itemLogSearch;
 import static java.sql.Date.valueOf;
 
@@ -1097,7 +1098,6 @@ public class DatabaseConn {
                 if (tm.getColumnCount()!= columns.length){
                     tm.addColumn(rsd.getColumnName(i));
                 }
-
             }
             while (rs.next()){
                 String id = rs.getString(1);
@@ -1186,8 +1186,10 @@ public class DatabaseConn {
         }
     }
 
-    public static double calculateProfit(String dateStart,String dateEnd){
+    public static double calculateProfit(int sYear,int sMonth,int sDay ,int eYear,int eMonth,int eDay){
         double p = 0;
+        String dateStart = (sYear+"-"+sMonth+"-"+sDay);
+        String dateEnd = (eYear+"-"+eMonth+"-"+eDay);
         try {
             conn = DriverManager.getConnection(connString,user,password);
             st = conn.createStatement();//crating statement object
@@ -1222,8 +1224,10 @@ public class DatabaseConn {
     }
 
 
-    public static double calculateTax(String dateStart,String dateEnd){
+    public static double calculateTax(int sYear,int sMonth,int sDay ,int eYear,int eMonth,int eDay){
         double p = 0;
+        String dateStart = (sYear+"-"+sMonth+"-"+sDay);
+        String dateEnd = (eYear+"-"+eMonth+"-"+eDay);
         try {
             conn = DriverManager.getConnection(connString,user,password);
             st = conn.createStatement();//crating statement object
@@ -1257,11 +1261,63 @@ public class DatabaseConn {
         return p;
     }
 
+    public static void  receiptTableBetween(DefaultTableModel tm,int sYear,int sMonth,int sDay ,int eYear,int eMonth,int eDay){
+        String dateStart = (sYear+"-"+sMonth+"-"+sDay);
+        String dateEnd = (eYear+"-"+eMonth+"-"+eDay);
+        try {
+            conn = DriverManager.getConnection(connString,user,password);
+            st = conn.createStatement();//crating statement object
+            String query = "SELECT * FROM receipt_table WHERE (Date BETWEEN '"+dateStart+"' AND '"+dateEnd+"')";//Storing MySQL query in A string variable
+            rs = st.executeQuery(query);//executing query and storing result in ResultSet
+
+            ResultSetMetaData rsd = rs.getMetaData();
+            columns = new String[rsd.getColumnCount()];
+            for (int i = 1; i<= rsd.getColumnCount();i++){
+                columns[i-1]= rsd.getColumnLabel(i);
+                if (tm.getColumnCount()!= columns.length){
+                    tm.addColumn(rsd.getColumnName(i));
+                }
+            }
+            while (rs.next()){
+                String id = rs.getString(1);
+                String date = rs.getString(2);
+                String totp = rs.getString(3);
+                String paid = rs.getString(4);
+                String change = rs.getString(5);
+                String typ = rs.getString(6);
+                String totT= rs.getString(7);
+                if (id !=null && date !=null && totp !=null && paid !=null && change !=null && typ!=null &&totT!=null ){
+                    tm.addRow(new Object[]{id,date,totp,paid,change,typ,totT});
+                }
+            }
+            conn.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+
 
 
 
     public static void main(String[] args) {
 
+        //System.out.println(calculateProfit("2022-6-5","2022-6-6"));
 
 
 

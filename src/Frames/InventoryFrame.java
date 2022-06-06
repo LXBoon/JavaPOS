@@ -213,13 +213,15 @@ public class InventoryFrame  {
                 double price = Double.parseDouble(tfPrice.getText().trim());
                 int quantity = Integer.parseInt(tfQ.getText().trim());
                 int tax = Integer.parseInt(tfTax.getText().trim());
+                if (quantity>=0){
+                    DatabaseConn.updateItemFromList(id,name,price,tax,quantity);
+                    tfDisable();
+                    btnSave.setEnabled(false);
+                    insertRow=jt.getSelectedRow();
+                    refresh.doClick();
+                }
+                else JOptionPane.showMessageDialog(null,"Quantity can't be below 0");
 
-
-                DatabaseConn.updateItemFromList(id,name,price,tax,quantity);
-                tfDisable();
-                btnSave.setEnabled(false);
-                insertRow=jt.getSelectedRow();
-                refresh.doClick();
             }catch (NumberFormatException exception){
                 JOptionPane.showMessageDialog(null,"Wrong input type");
             }
