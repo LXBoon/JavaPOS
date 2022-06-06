@@ -403,6 +403,7 @@ public class DatabaseConn {
             ps.setInt(6, receipt_id);
             ps.execute();
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,e);
             throw new RuntimeException(e);
         }finally {
             if (rs != null) {
@@ -551,7 +552,66 @@ public class DatabaseConn {
         return tax;
     }
 
+    public static int getItemQuantity(long id){
+        int n = 0;
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            String sql = "select Quantity from items_table where ID = '" + id + "'";
+            st = conn.createStatement();
+            rs = st.executeQuery(sql);
+            if (rs.next()) {
+                n = Integer.parseInt(rs.getString("Quantity"));
+            }
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+        return n;
+    }
 
+    public static void cancelPurchase(int id,long itemID){
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            st = conn.createStatement();
+            String query1 = "delete from  sells_table where ID="+id+" and Item_id = "+itemID+"";
+            st.executeUpdate(query1);
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
 
 
     public static double getTotalPrice(int id){
@@ -1023,11 +1083,185 @@ public class DatabaseConn {
         }
     }
 
+    public static void receiptTable(DefaultTableModel tm){
+        try {
+            conn = DriverManager.getConnection(connString,user,password);
+            st = conn.createStatement();//crating statement object
+            String query = "SELECT * FROM receipt_table";//Storing MySQL query in A string variable
+            rs = st.executeQuery(query);//executing query and storing result in ResultSet
+
+            ResultSetMetaData rsd = rs.getMetaData();
+            columns = new String[rsd.getColumnCount()];
+            for (int i = 1; i<= rsd.getColumnCount();i++){
+                columns[i-1]= rsd.getColumnLabel(i);
+                if (tm.getColumnCount()!= columns.length){
+                    tm.addColumn(rsd.getColumnName(i));
+                }
+
+            }
+            while (rs.next()){
+                String id = rs.getString(1);
+                String date = rs.getString(2);
+                String totp = rs.getString(3);
+                String paid = rs.getString(4);
+                String change = rs.getString(5);
+                String typ = rs.getString(6);
+                String totT= rs.getString(7);
+                if (id !=null && date !=null && totp !=null && paid !=null && change !=null && typ!=null &&totT!=null ){
+                    tm.addRow(new Object[]{id,date,totp,paid,change,typ,totT});
+                }
+            }
+            conn.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+
+
+    public static void sellsTableSearch(DefaultTableModel tm,int rID){
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            //SELECT * FROM Customers
+            //WHERE CustomerName LIKE '%or%'
+            st = conn.createStatement();//crating statement object
+            String query = "SELECT myshopdb.sells_table.Item_id, myshopdb.sells_table.Name, myshopdb.sells_table.Quantity, myshopdb.sells_table.Price,myshopdb.sells_table.Tax, myshopdb.sells_table.Recipt_id FROM myshopdb.sells_table \n" +
+                    "left JOIN myshopdb.receipt_table ON \n" +
+                    "myshopdb.sells_table.Recipt_id = receipt_table.ID \n" +
+                    "where receipt_table.TotalTax is not null and myshopdb.sells_table.Recipt_id="+rID+";";
+            rs = st.executeQuery(query);
+            ResultSetMetaData rsd = rs.getMetaData();
+            columns = new String[rsd.getColumnCount()];
+            for (int i = 1; i<= rsd.getColumnCount();i++){
+                columns[i-1]= rsd.getColumnLabel(i);
+                if (tm.getColumnCount()!= columns.length){
+                    tm.addColumn(rsd.getColumnName(i));
+                }
+            }
+            while (rs.next()){
+                String id = rs.getString(1);
+                String name = rs.getString(2);
+                String quantity = rs.getString(3);
+                String price = rs.getString(4);
+                String tax = rs.getString(5);
+                String rn = rs.getString(6);
+                tm.addRow(new Object[]{id,name,quantity,price,tax,rn});
+            }
+            conn.close();
+        } catch (SQLException e) {
+
+
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+
+    public static double calculateProfit(String dateStart,String dateEnd){
+        double p = 0;
+        try {
+            conn = DriverManager.getConnection(connString,user,password);
+            st = conn.createStatement();//crating statement object
+            String query = "SELECT sum(TotalPrice) as tot FROM receipt_table where Date BETWEEN '"+dateStart+" ' AND '"+dateEnd+"' and TotalTax is not null ";//Storing MySQL query in A string variable
+            rs = st.executeQuery(query);//executing query and storing result in ResultSet
+
+            ResultSetMetaData rsd = rs.getMetaData();
+            columns = new String[rsd.getColumnCount()];
+            if (rs.next()){
+                p = rs.getDouble("tot");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+        return p;
+    }
+
+
+    public static double calculateTax(String dateStart,String dateEnd){
+        double p = 0;
+        try {
+            conn = DriverManager.getConnection(connString,user,password);
+            st = conn.createStatement();//crating statement object
+            String query = "SELECT sum(TotalTax) as tot FROM receipt_table where Date BETWEEN '"+dateStart+" ' AND '"+dateEnd+"' and TotalTax is not null";//Storing MySQL query in A string variable
+            rs = st.executeQuery(query);//executing query and storing result in ResultSet
+
+            ResultSetMetaData rsd = rs.getMetaData();
+            columns = new String[rsd.getColumnCount()];
+            if (rs.next()){
+                p = rs.getDouble("tot");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+        return p;
+    }
 
 
 
 
     public static void main(String[] args) {
+
 
 
 

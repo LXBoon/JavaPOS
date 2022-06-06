@@ -154,14 +154,21 @@ public class InventoryFrame  {
                 double price = Double.parseDouble(tfPrice.getText().trim());
                 int quantity = Integer.parseInt(tfQ.getText().trim());
                 int tax = Integer.parseInt(tfTax.getText());
-                DatabaseConn.addToItemList(id,name,price,quantity,tax);
-                tfDisable();
-                btnAdd.setEnabled(false);
-                refresh.doClick();
+
+                if (tax<0){
+                    JOptionPane.showMessageDialog(null,"Tax format is wrong please do not use decimal numbers if tax percentage is 0.8 you can write it as 8 ," +
+                            "\nif it is 0.18 you can write it as 18 and so on ");
+                }
+                else {
+                    DatabaseConn.addToItemList(id,name,price,quantity,tax);
+                    tfDisable();
+                    btnAdd.setEnabled(false);
+                    refresh.doClick();
+                }
+
             }
             catch (Exception exception){
-                //JOptionPane.showMessageDialog(null,exception.toString());
-                throw new RuntimeException(exception);
+                JOptionPane.showMessageDialog(null,exception.toString());
             }
         });
         Design.f.add(btnAdd);
@@ -200,19 +207,23 @@ public class InventoryFrame  {
         btnSave.setForeground(Color.BLACK);
         btnSave.setBackground(new Color(12, 255, 0));
         btnSave.addActionListener(e -> {
-            System.out.println("btnSave");
-            int id = Integer.parseInt(tfID.getText().trim());
-            String name = tfName.getText().trim();
-            double price = Double.parseDouble(tfPrice.getText().trim());
-            int quantity = Integer.parseInt(tfQ.getText().trim());
-            int tax = Integer.parseInt(tfTax.getText().trim());
+            try{
+                int id = Integer.parseInt(tfID.getText().trim());
+                String name = tfName.getText().trim();
+                double price = Double.parseDouble(tfPrice.getText().trim());
+                int quantity = Integer.parseInt(tfQ.getText().trim());
+                int tax = Integer.parseInt(tfTax.getText().trim());
 
 
-            DatabaseConn.updateItemFromList(id,name,price,tax,quantity);
-            tfDisable();
-            btnSave.setEnabled(false);
-            insertRow=jt.getSelectedRow();
-            refresh.doClick();
+                DatabaseConn.updateItemFromList(id,name,price,tax,quantity);
+                tfDisable();
+                btnSave.setEnabled(false);
+                insertRow=jt.getSelectedRow();
+                refresh.doClick();
+            }catch (NumberFormatException exception){
+                JOptionPane.showMessageDialog(null,"Wrong input type");
+            }
+
 
         });
         Design.f.add(btnSave);
@@ -327,6 +338,7 @@ public class InventoryFrame  {
             boolean de;
             try{
                 tfDisable();
+                dtm.setColumnCount(0);
                 dtm.setRowCount(0);
                 de = true;
             }catch (Exception exception){

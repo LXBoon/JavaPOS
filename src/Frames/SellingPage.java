@@ -26,7 +26,7 @@ public class SellingPage {
     static DefaultTableModel dtmsp;
     static int rn;
 
-    static JButton btnNewSell,btnNum,btnAddSell,btnEditSell,btnSaveSell,btnDeleteSell,btnCompletePurchase,refresh;
+    static JButton btnNewSell,btnNum,btnAddSell,btnEditSell,btnSaveSell,btnDeleteSell,btnCompletePurchase,refresh,btnCancelPurchase;
     static JTextField textFieldSell,textFieldQ,textFieldEditQ;
     static JLabel labelSell;
     static JInternalFrame i;
@@ -45,7 +45,7 @@ public class SellingPage {
 
     static String type,ogQty,date;
     static double paid,change,totalP,totTax,totPrice;
-    static int sellItemID,rowIndex;//the ID off sell table
+    static int sellItemID;//the ID off sell table
     static long itemID;
 
     
@@ -223,38 +223,34 @@ public class SellingPage {
         btnAddSell.setFocusable(false);
         btnAddSell.setEnabled(false);
         btnAddSell.addActionListener(e->{
+            long id = Long.parseLong(textFieldSell.getText());
+            int ItemQuantity = DatabaseConn.getItemQuantity(id);
+            if (ItemQuantity>0){
+                int quantity = Integer.parseInt(textFieldQ.getText());
+                double price = quantity * DatabaseConn.getItemPrice(id);;
+                double tax = getItemTax(id);
+                String name = getItemName(id);
+                double taxX = price * tax / 100;
+                price += taxX;
+                price = Double.parseDouble(df.format(price));
+                addSell(id,name,quantity,price,tax,rn);
 
-            long id = Long.parseLong(textFieldSell.getText().trim());
-            int quantity = Integer.parseInt(textFieldQ.getText());
-            double price = quantity * DatabaseConn.getItemPrice(id);;
-            double tax = getItemTax(id);
-
-            String name = getItemName(id);
-
-            addSell(id,name,quantity,price,tax,rn);
-            double taxX = price * tax / 100;
-            JOptionPane.showMessageDialog(null,taxX);
-            totTax += taxX;
-
-
-
-            refresh.doClick();
-
-            totPrice= DatabaseConn.getTotalPrice(rn);
-            TotalPrice.setText(df.format(totPrice));
-
-            //totTax = DatabaseConn.getTotalTax(rn);
-            totalTax.setText(df.format(totTax));
-
-
-
-
-            textFieldSell.setText(null);
-            textFieldQ.setText("1");
-            no=true;
-            q=false;
-            eq =false;
-            textFieldSell.requestFocus();
+                totTax += taxX;
+                refresh.doClick();
+                totPrice= DatabaseConn.getTotalPrice(rn);
+                TotalPrice.setText(df.format(totPrice));
+                //totTax = DatabaseConn.getTotalTax(rn);
+                totalTax.setText(df.format(totTax));
+                textFieldSell.setText(null);
+                textFieldQ.setText("1");
+                no=true;
+                q=false;
+                eq =false;
+                textFieldSell.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null,"Ran out of Item in Inventory");
+                textFieldSell.setText(null);
+            }
         });
         Design.f.add(btnAddSell);
 
@@ -297,7 +293,6 @@ public class SellingPage {
     }
 
     static void tableButtons(){
-
         btnEditSell = new JButton("Edit Quantity");
         btnEditSell.setBounds(550,125,120,30);
         btnEditSell.setVisible(true);
@@ -364,6 +359,7 @@ public class SellingPage {
             try {
                 qty = Integer.parseInt(textFieldEditQ.getText());
                 if (qty>=1) {
+
                     long id = itemID;
                     int quantity = Integer.parseInt(ogQty);
                     price = quantity * DatabaseConn.getItemPrice(id);;
@@ -376,8 +372,11 @@ public class SellingPage {
                     price = quantity * DatabaseConn.getItemPrice(id);;
                     tax = getItemTax(id);
                     taxX = price * tax / 100;
+
                     totTax += taxX;
                     totalTax.setText(df.format(totTax));
+
+
 
                     textFieldSell.setText(null);
                     textFieldQ.setText("1");
@@ -390,6 +389,7 @@ public class SellingPage {
 
                     updateQuantity(sellItemID, itemID, qty, price);
                     totPrice= DatabaseConn.getTotalPrice(rn);
+                    totPrice+=taxX;
                     TotalPrice.setText(df.format(totPrice));
 
                     DatabaseConn.sellTable(dtmsp,rn);
@@ -413,7 +413,7 @@ public class SellingPage {
         refresh.addActionListener(e -> {
             boolean de;
             try{
-
+                dtmsp.setColumnCount(0);
                 dtmsp.setRowCount(0);
                 de = true;
             }catch (Exception exception){
@@ -425,22 +425,19 @@ public class SellingPage {
                 //JOptionPane.showMessageDialog(null,insertRow);
                 //jt.setRowSelectionInterval(insertRow,insertRow);
             }
-
         });
         Design.f.add(refresh);
+
         refresh.setFocusable(false);
         refresh.setBorder(BorderFactory.createEtchedBorder());
         refresh.setVisible(false);
         SwingUtilities.updateComponentTreeUI(Design.f);
-
-
         btnDeleteSell = new JButton("Delete");
         btnDeleteSell.setBounds(550,175,120,30);
         btnDeleteSell.setVisible(true);
         btnDeleteSell.setFocusable(false);
         btnDeleteSell.setEnabled(false);
         btnDeleteSell.addActionListener(e->{
-
             long id = itemID;
             int quantity = Integer.parseInt(ogQty);
             double price = quantity * DatabaseConn.getItemPrice(id);;
@@ -448,48 +445,29 @@ public class SellingPage {
             double taxX = price * tax / 100;
             totTax -= taxX;
             totalTax.setText(df.format(totTax));
-
-
-
-
             textFieldSell.setText(null);
             textFieldQ.setText("1");
             no=true;
             q=false;
             eq = false;
             textFieldSell.requestFocus();
-
-
-
-
-
             DatabaseConn.deleteSell(sellItemID,itemID);
-
-
             refresh.doClick();
-
-
-
-
             totPrice = DatabaseConn.getTotalPrice(rn);
             TotalPrice.setText(df.format(totPrice));
-
-            //jtsp.clearSelection();
-
         });
         btnDeleteSell.setBackground(new Color(199, 30, 4));
         Design.f.add(btnDeleteSell);
 
-
         btnCompletePurchase = new JButton("Complete Purchase");
-        btnCompletePurchase.setBounds(550,550,150,30);
+        btnCompletePurchase.setBounds(550,500,150,30);
         btnCompletePurchase.setVisible(true);
         btnCompletePurchase.setFocusable(false);
         btnCompletePurchase.setBackground(new Color(121, 255, 106));
         btnCompletePurchase.addActionListener(e->{
-
             try {
-                totalP = getTotalPrice(rn);
+                totTax = Double.parseDouble(totalTax.getText());
+                totalP = Double.parseDouble(TotalPrice.getText());
                 if (card.isSelected()) {
                     paid = totalP;
                     type = "card";
@@ -522,10 +500,11 @@ public class SellingPage {
                     area1.setText(area1.getText()+"\n"+name+"\t"+quantity+"\t"+price+"\t"+tax+"\n");
                 }
                 area1.setText(area1.getText()+"-----------------------------------------------------\n"
-                        +"Total Price: "+totalP+"\nTotal Tax:"+totTax+"\nPaid amount: "+ paid+"\nChange: "+change);
+                        +"Total Price: "+totalP+"\nTotal Tax:"+totTax+"\nPaid amount: "+ paid+"\nChange: "+chng);
                 area1.setText(area1.getText()+"");
                 area1.print();
                 dtmsp.setRowCount(0);
+                dtmsp.setColumnCount(0);
                 btnAddSell.setEnabled(false);
                 textFieldSell.setEnabled(false);
                 textFieldQ.setEnabled(false);
@@ -546,11 +525,39 @@ public class SellingPage {
         });
         Design.f.add(btnCompletePurchase);
 
+        btnCancelPurchase = new JButton("Cansel Purchase");
+        btnCancelPurchase.setBounds(550,550,150,30);
+        btnCancelPurchase.setVisible(true);
+        btnCancelPurchase.setFocusable(false);
+        btnCancelPurchase.setBackground(new Color(243, 35, 35));
+        btnCancelPurchase.addActionListener(e->{
+            try {
 
+                int rowCount = jtsp.getRowCount();
 
-
-
-
+                for (int i =0; i<rowCount; i++){
+                    int id = (int) jtsp.getValueAt(i,0);
+                    long itemID = (long) jtsp.getValueAt(i,1);
+                    DatabaseConn.cancelPurchase(id,itemID);
+                }
+                dtmsp.setRowCount(0);
+                dtmsp.setColumnCount(0);
+                btnAddSell.setEnabled(false);
+                textFieldSell.setEnabled(false);
+                textFieldQ.setEnabled(false);
+                paidAmount.setText(null);
+                paidAmount.setVisible(false);
+                TotalPrice.setText(null);
+                totalTax.setText(null);
+                btnNewSell.setEnabled(true);
+                totalP=0;
+                totTax=0;
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                throw new RuntimeException(ex);
+            }
+        });
+        Design.f.add(btnCancelPurchase);
 
         area1 = new JTextArea();
         area1.setBounds(600,250,200,300);
@@ -558,7 +565,6 @@ public class SellingPage {
         JScrollPane sp = new JScrollPane(area1);
         Design.f.getContentPane().add(sp);
         Design.f.add(area1);
-
 
         cash = new JRadioButton("Cash");
         cash.setBounds(550,300,120,50);
@@ -589,8 +595,6 @@ public class SellingPage {
         paymentType= new ButtonGroup();
         paymentType.add(cash);
         paymentType.add(card);
-
-
         paidAmount = new JTextArea();
         paidAmount.setBounds(550,400,120,50);
         paidAmount.setVisible(false);
@@ -608,7 +612,6 @@ public class SellingPage {
         TotalPrice.setVisible(true);
         Design.f.add(TotalPrice);
 
-
         JLabel labelTax = new JLabel();
         labelTax.setText("Tax: ");
         labelTax.setBounds(250,622,120,20);
@@ -620,9 +623,6 @@ public class SellingPage {
         totalTax.setBounds(370,622,120,20);
         totalTax.setVisible(true);
         Design.f.add(totalTax);
-
-
-
 
     }
 

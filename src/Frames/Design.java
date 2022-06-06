@@ -98,7 +98,10 @@ public class Design {
         btnInventory.addActionListener(evt -> {
             if(evt.getSource()==btnInventory){
                 try{
-                    loadInventoryPage();
+                    try {
+                        SellingPage.btnCancelPurchase.doClick();
+                    }catch (NullPointerException e){
+                    }                    loadInventoryPage();
                     btnInventory.setEnabled(false);
                 }
                 catch (Exception ex){
@@ -120,6 +123,10 @@ public class Design {
         btnStaff.addActionListener(evt -> {
             if(evt.getSource()==btnStaff){
                 //showMessageDialog(null, "btn Manage Staff");
+                try {
+                    SellingPage.btnCancelPurchase.doClick();
+                }catch (NullPointerException e){
+                }
                 loadStaffPage();
                 btnStaff.setEnabled(false);
             }
@@ -132,7 +139,14 @@ public class Design {
         btnLoad(btnReports,"Reports",f);
         btnReports.addActionListener(evt -> {
             if(evt.getSource()==btnReports){
+                try {
+                    SellingPage.btnCancelPurchase.doClick();
+                }catch (NullPointerException e){
+                }
+
+
                 loadReportPage();
+                btnReports.setEnabled(false);
             }
         });
         f.add(btnReports);
@@ -150,7 +164,10 @@ public class Design {
                 int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the program?", "Exit Program Message Box", JOptionPane.YES_NO_OPTION);
                 if (confirmed == JOptionPane.YES_OPTION) {
                     //f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
-                    f.dispose();
+                    try {
+                        SellingPage.btnCancelPurchase.doClick();
+                    }catch (NullPointerException e){
+                    }                    f.dispose();
                 }
                 DatabaseConn.foundUser = false;
             }
