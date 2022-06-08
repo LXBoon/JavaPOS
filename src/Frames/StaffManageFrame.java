@@ -1,16 +1,17 @@
 package Frames;
 
 import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.Serial;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static Frames.DatabaseConn.*;
 
@@ -23,6 +24,7 @@ public class StaffManageFrame {
     static double Salary;
     //static JLabel l;
     static int y=50,x=250,slcId;
+    static JButton add, cancel,update;
 
 
     static JTable jtST;
@@ -158,11 +160,11 @@ public class StaffManageFrame {
         editStaff.setVisible(true);
         editStaff.setBackground(Color.yellow);
         editStaff.addActionListener(e->{
-            //Update sql
-            UpdateStaffFrame();
+            btnNewStaff.setEnabled(false);
             deleteStaff.setEnabled(false);
             editStaff.setEnabled(false);
-            jtST.clearSelection();
+            //Update sql
+            UpdateStaffFrame();
         });
         Design.f.add(editStaff);
 
@@ -205,7 +207,7 @@ public class StaffManageFrame {
 
     static void newStaffFrame(){
 
-        f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -261,7 +263,7 @@ public class StaffManageFrame {
         createTF(position,"Position");
         createTF(salary,"Salary");
 
-        JButton add =new JButton("Add");
+        add =new JButton("Add");
 
         add.addActionListener(e->{
             try{
@@ -296,7 +298,7 @@ public class StaffManageFrame {
         f.add(add);
 
 
-        JButton cancel =new JButton("Cancel");
+        cancel =new JButton("Cancel");
         cancel.setBounds(x-150,y,120,30);
         cancel.setBackground(new Color(255, 85, 85));
         cancel.setFocusable(false);
@@ -316,7 +318,8 @@ public class StaffManageFrame {
 
     }
     static void UpdateStaffFrame(){
-        f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        //if (f.isActive()) f.dispose();
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -372,7 +375,7 @@ public class StaffManageFrame {
         createTF(position,"Position",slcPosition);
         createTF(salary,"Salary",slcSalary);
 
-        JButton update =new JButton("Update");
+        update =new JButton("Update");
         update.addActionListener(e->{
             try{
 
@@ -389,6 +392,7 @@ public class StaffManageFrame {
 
                 f.dispose();
                 dtmST.setRowCount(0);
+                dtmST.setColumnCount(0);
                 showStaffTable(dtmST);
                 JOptionPane.showMessageDialog(null,"Updated "+fn+" "+ln+" to Staff");
                 id.setText(null);FN.setText(null);LN.setText(null);
@@ -408,7 +412,7 @@ public class StaffManageFrame {
         f.add(update);
 
 
-        JButton cancel =new JButton("Cancel");
+        cancel =new JButton("Cancel");
         cancel.setBounds(x-150,y,120,30);
         cancel.setBackground(new Color(255, 85, 85));
         cancel.setFocusable(false);

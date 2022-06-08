@@ -1,10 +1,10 @@
 package Frames;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Arrays;
-
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 
 
 
@@ -68,14 +68,12 @@ public class LoginFrame  implements ActionListener {
         f.setVisible(true);
 
 
-        cbshowpass.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    tfupass.setEchoChar((char) 0);
-                } else {
-                    tfupass.setEchoChar('*');
+        cbshowpass.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                tfupass.setEchoChar((char) 0);
+            } else {
+                tfupass.setEchoChar('*');
 
-                }
             }
         });
     }
@@ -88,7 +86,7 @@ public class LoginFrame  implements ActionListener {
             String pas = String.valueOf(pass);
             String un = tfun.getText().trim();
             DatabaseConn.findUser(un,pas);
-            if (DatabaseConn.foundUser == true){
+            if (DatabaseConn.foundUser){
                 System.out.println("Log in seceded");
                 uGood = true;
                 tfun.setText(null);
@@ -98,7 +96,7 @@ public class LoginFrame  implements ActionListener {
 
             }else {
                 uGood = false;
-                System.out.println("Log in failed");
+                JOptionPane.showMessageDialog(null,"Wrong name or password");
             }
         }
     }

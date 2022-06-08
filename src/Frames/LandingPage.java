@@ -1,28 +1,17 @@
 package Frames;
 
 
-import java.awt.*;
-
 import javax.swing.*;
-
-
-import static javax.swing.JOptionPane.showMessageDialog;
-
-
-
-import java.awt.event.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDateTime;
-
-import java.time.format.DateTimeFormatter;
 
 
 
 public class LandingPage extends JFrame {
-    //public static JInternalFrame frame2 = new JInternalFrame();
-    //public static JFrame f = new JFrame();
 
 
     static Font myFontN= new Font("Courier", Font.PLAIN, 20);
@@ -57,9 +46,7 @@ public class LandingPage extends JFrame {
                 if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                     try {
                         Desktop.getDesktop().browse(new URI("https://twitter.com/MustafaW97"));
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (URISyntaxException ex) {
+                    } catch (IOException | URISyntaxException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
@@ -98,9 +85,7 @@ public class LandingPage extends JFrame {
                 if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                     try {
                         Desktop.getDesktop().browse(new URI("https://github.com/LXBoon"));
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (URISyntaxException ex) {
+                    } catch (IOException | URISyntaxException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
@@ -139,9 +124,7 @@ public class LandingPage extends JFrame {
                 if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                     try {
                         Desktop.getDesktop().browse(new URI("https://www.linkedin.com/in/mustafa-w-0a5813224/"));
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (URISyntaxException ex) {
+                    } catch (IOException | URISyntaxException ex) {
                         throw new RuntimeException(ex);
                     }
                 }

@@ -1,22 +1,15 @@
 package Frames;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.print.PrinterException;
 import java.io.Serial;
-import java.security.Key;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Vector;
 
 import static Frames.DatabaseConn.*;
 
@@ -26,9 +19,15 @@ public class SellingPage {
     static DefaultTableModel dtmsp;
     static int rn;
 
-    static JButton btnNewSell,btnNum,btnAddSell,btnEditSell,btnSaveSell,btnDeleteSell,btnCompletePurchase,refresh,btnCancelPurchase;
+    static JButton btnNewSell;
+    static JButton btnAddSell;
+    static JButton btnEditSell;
+    static JButton btnSaveSell;
+    static JButton btnDeleteSell;
+    static JButton btnCompletePurchase;
+    static JButton refresh;
+    static JButton btnCancelPurchase;
     static JTextField textFieldSell,textFieldQ,textFieldEditQ;
-    static JLabel labelSell;
     static JInternalFrame i;
     
     
@@ -60,42 +59,19 @@ public class SellingPage {
             }
         };
 
-        /*
-        listener.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                try{
-                    sellItemID = Integer.parseInt(jtsp.getValueAt(jtsp.getSelectedRow(),0).toString());
-                    itemID = Long.parseLong(jtsp.getValueAt(jtsp.getSelectedRow(),1).toString());
-                    ogQty = jtsp.getValueAt(jtsp.getSelectedRow(),3).toString();
-                    btnDeleteSell.setEnabled(true);
-                    btnEditSell.setEnabled(true);
-                    //JOptionPane.showMessageDialog(null,ogQty);
-                    textFieldEditQ.setText(ogQty);
-                }catch (Exception exception){
-                    throw new RuntimeException(exception);
-                }
-            }
-        });
 
-         */
+        jtsp.getSelectionModel().addListSelectionListener(e -> {
+            try{
+                sellItemID = Integer.parseInt(jtsp.getValueAt(jtsp.getSelectedRow(),0).toString());
+                itemID = Long.parseLong(jtsp.getValueAt(jtsp.getSelectedRow(),1).toString());
+                ogQty = jtsp.getValueAt(jtsp.getSelectedRow(),3).toString();
+                btnDeleteSell.setEnabled(true);
+                btnEditSell.setEnabled(true);
+                //JOptionPane.showMessageDialog(null,ogQty);
+                textFieldEditQ.setText(ogQty);
 
-
-        jtsp.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                try{
-                    sellItemID = Integer.parseInt(jtsp.getValueAt(jtsp.getSelectedRow(),0).toString());
-                    itemID = Long.parseLong(jtsp.getValueAt(jtsp.getSelectedRow(),1).toString());
-                    ogQty = jtsp.getValueAt(jtsp.getSelectedRow(),3).toString();
-                    btnDeleteSell.setEnabled(true);
-                    btnEditSell.setEnabled(true);
-                    //JOptionPane.showMessageDialog(null,ogQty);
-                    textFieldEditQ.setText(ogQty);
-
-                }catch (Exception exception){
-                    throw new RuntimeException(exception);
-                }
+            }catch (Exception exception){
+                throw new RuntimeException(exception);
             }
         });
         i = new JInternalFrame(("Receipt"),false,false,false,false);
@@ -116,7 +92,7 @@ public class SellingPage {
         Design.f.add(i);
     }
 
-    static void loadSellField(JLabel l){
+    static void loadSellField(){
         btnNewSell = new JButton("New sell");
         btnNewSell.setBounds(900,80,100,20);
         btnNewSell.setEnabled(true);
@@ -147,7 +123,7 @@ public class SellingPage {
         });
         Design.f.add(btnNewSell);
 
-        l = new JLabel("Item NO:");
+        JLabel l = new JLabel("Item NO:");
         l.setBounds(850,120,150,20);
         l.setVisible(true);
         Design.f.add(l);
@@ -156,9 +132,7 @@ public class SellingPage {
         textFieldSell.setBounds(900,120,150,20);
         textFieldSell.setVisible(true);
         textFieldSell.setEnabled(false);
-        textFieldSell.addActionListener(e ->{
-            btnAddSell.doClick();
-        });
+        textFieldSell.addActionListener(e -> btnAddSell.doClick());
         textFieldSell.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -192,9 +166,7 @@ public class SellingPage {
         textFieldQ.setBounds(900,150,150,20);
         textFieldQ.setVisible(true);
         textFieldQ.setEnabled(false);
-        textFieldQ.addActionListener(e->{
-            btnAddSell.doClick();
-        });
+        textFieldQ.addActionListener(e-> btnAddSell.doClick());
         textFieldQ.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -230,7 +202,7 @@ public class SellingPage {
             if (ItemQuantity>0){
                 int quantity = Integer.parseInt(textFieldQ.getText());
                 if (ItemQuantity-quantity>=0){
-                    double price = quantity * DatabaseConn.getItemPrice(id);;
+                    double price = quantity * DatabaseConn.getItemPrice(id);
                     double tax = getItemTax(id);
                     String name = getItemName(id);
                     double taxX = price * tax / 100;
@@ -265,38 +237,37 @@ public class SellingPage {
 
     }
 
-    static void newButton(JButton btn, String text,int x,int y){
+    static void newButton(String text, int x, int y){
 
-        btn = new JButton(text);
+        JButton btn = new JButton(text);
         btn.setBounds(x,y,45,45);
         btn.setFont(myFont);
         btn.setVisible(true);
         btn.setFocusable(false);
-        JButton finalBtn = btn;
         btn.addActionListener(e->{
             if (q){
                 String og = textFieldQ.getText();
-                textFieldQ.setText(og+ finalBtn.getText());
+                textFieldQ.setText(og+ btn.getText());
             } else if (no) {
                 String og = textFieldSell.getText();
-                textFieldSell.setText(og+ finalBtn.getText());
+                textFieldSell.setText(og+ btn.getText());
             }
             else if (eq){
                 String og = textFieldEditQ.getText();
-                textFieldEditQ.setText(og+ finalBtn.getText());
+                textFieldEditQ.setText(og+ btn.getText());
             }
         });
 
         Design.f.add(btn);
     }
     static void loadButtons(){
-        newButton(btnNum,"0",900,500);
-        newButton(btnNum,".",950,500);
+        newButton("0",900,500);
+        newButton(".",950,500);
         int x = 850, y = 450;
         for (int i=1; i<=9;i++){
             if (i == 4 || i == 7){ y-= 50; x = 850; }
             String str = Integer.toString(i);
-            newButton(btnNum,str,x,y);
+            newButton(str,x,y);
             x+=50;
         }
     }
@@ -361,8 +332,8 @@ public class SellingPage {
         btnSaveSell.setFocusable(false);
         btnSaveSell.setEnabled(false);
         btnSaveSell.addActionListener(e->{
-            int qty = 0;
-            double price=0;
+            int qty;
+            double price;
             try {
                 qty = Integer.parseInt(textFieldEditQ.getText());
                 long id = itemID;
@@ -370,13 +341,13 @@ public class SellingPage {
                 if (qty>=1) {
                     if (ItemQuantity-qty>=0){
                         int quantity = Integer.parseInt(ogQty);
-                        price = quantity * DatabaseConn.getItemPrice(id);;
+                        price = quantity * DatabaseConn.getItemPrice(id);
                         double tax = getItemTax(id);
                         double taxX = price * tax / 100;
                         totTax -= taxX;
                         id = itemID;
                         quantity = qty;
-                        price = quantity * DatabaseConn.getItemPrice(id);;
+                        price = quantity * DatabaseConn.getItemPrice(id);
                         tax = getItemTax(id);
                         taxX = price * tax / 100;
                         totTax += taxX;
@@ -423,8 +394,6 @@ public class SellingPage {
             }
             if (de) {
                 DatabaseConn.sellTable(dtmsp,rn);
-                //JOptionPane.showMessageDialog(null,insertRow);
-                //jt.setRowSelectionInterval(insertRow,insertRow);
             }
         });
         Design.f.add(refresh);
@@ -440,7 +409,7 @@ public class SellingPage {
         btnDeleteSell.addActionListener(e->{
             long id = itemID;
             int quantity = Integer.parseInt(ogQty);
-            double price = quantity * DatabaseConn.getItemPrice(id);;
+            double price = quantity * DatabaseConn.getItemPrice(id);
             double tax = getItemTax(id);
             double taxX = price * tax / 100;
             totTax -= taxX;
@@ -631,10 +600,7 @@ public class SellingPage {
 
 
     public static void loadSellingPage(){
-        JLabel test = new JLabel("This is selling page");
-        test.setVisible(true);
-        test.setBounds(950,500,200,200);
-        Design.f.add(test);
+
         newSellTable();
         try{
             dtmsp.setRowCount(0);
@@ -642,7 +608,7 @@ public class SellingPage {
         catch (Exception e){
             throw new RuntimeException(e);
         }
-        loadSellField(labelSell);
+        loadSellField();
         loadButtons();
         tableButtons();
 

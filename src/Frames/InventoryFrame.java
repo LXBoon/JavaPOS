@@ -208,7 +208,7 @@ public class InventoryFrame  {
         btnSave.setBackground(new Color(12, 255, 0));
         btnSave.addActionListener(e -> {
             try{
-                int id = Integer.parseInt(tfID.getText().trim());
+                long id = Long.parseLong(tfID.getText().trim());
                 String name = tfName.getText().trim();
                 double price = Double.parseDouble(tfPrice.getText().trim());
                 int quantity = Integer.parseInt(tfQ.getText().trim());
@@ -224,6 +224,7 @@ public class InventoryFrame  {
 
             }catch (NumberFormatException exception){
                 JOptionPane.showMessageDialog(null,"Wrong input type");
+                throw  new RuntimeException(exception);
             }
 
 
@@ -258,6 +259,7 @@ public class InventoryFrame  {
             public void insertUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
                 dtm.setRowCount(0);
+                dtm.setColumnCount(0);
                 String by = cb.getItemAt(cb.getSelectedIndex());
                 DatabaseConn.search(dtm,searchText.getText(),by);
                 searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
@@ -267,6 +269,7 @@ public class InventoryFrame  {
             public void removeUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
                 dtm.setRowCount(0);
+                dtm.setColumnCount(0);
                 String by = cb.getItemAt(cb.getSelectedIndex());
                 DatabaseConn.search(dtm,searchText.getText(),by);
                 searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);

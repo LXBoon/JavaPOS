@@ -3,12 +3,7 @@ package Frames;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static Frames.DatabaseConn.calculateProfit;
-import static Frames.DatabaseConn.itemLogSearch;
-import static java.sql.Date.valueOf;
+import java.text.DecimalFormat;
 
 public class DatabaseConn {
 
@@ -25,13 +20,8 @@ public class DatabaseConn {
     public  static String password ="Reet369*";
 
     //online mysql - my php admin   host
-    /*
-    public static String connString="jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11495022";
-    public static String user = "sql11495022";
-    public static String password = "rB154EAxrZ";
-
-     */
     public  static  boolean foundUser;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
 
     public static void findUser(String x, String y){
@@ -73,39 +63,6 @@ public class DatabaseConn {
         }
     }
 
-    void connCheck(){
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con=DriverManager.getConnection(connString, user, password);
-            Statement stmt=con.createStatement();
-            rs=stmt.executeQuery("select * from user_table Where Name='Admin'");
-
-            while(rs.next()) {
-                if (rs.getString("Name").equals("Admin")){
-                    break;
-                }
-            }
-            con.close();
-        }catch(Exception e){
-            throw new RuntimeException(e);
-        }finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) { /* Ignored */}
-            }
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) { /* Ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* Ignored */}
-            }
-        }
-    }
     public static String[] columns;
     public static String[][] data;
     public static void displayItemList(DefaultTableModel tm){
@@ -119,10 +76,9 @@ public class DatabaseConn {
             columns = new String[rsd.getColumnCount()];
             for (int i = 1; i<= rsd.getColumnCount();i++){
                 columns[i-1]= rsd.getColumnLabel(i);
-                if (tm.getColumnCount()>= columns.length){
+                if (tm.getColumnCount()!= columns.length){
+                    tm.addColumn(rsd.getColumnName(i));
                 }
-                else
-                tm.addColumn(rsd.getColumnName(i));
             }
             while (rs.next()){
                 String id = rs.getString("ID");
@@ -221,7 +177,7 @@ public class DatabaseConn {
 
     }
 
-    public static void  updateItemFromList(int id,String name, double price,int quantity, int tax){
+    public static void  updateItemFromList(long id,String name, double price,int quantity, int tax){
         try {
             conn = DriverManager.getConnection(connString,user,password);
             st = conn.createStatement();//crating statement object
@@ -231,7 +187,7 @@ public class DatabaseConn {
             ps.setDouble   (2, price);
             ps.setInt(3, quantity);
             ps.setInt(4,tax);
-            ps.setInt (5,id );
+            ps.setLong (5,id );
             ps.execute();
             JOptionPane.showMessageDialog(null,"Updated successfully");
 
@@ -268,13 +224,11 @@ public class DatabaseConn {
             ResultSetMetaData rsd = rs.getMetaData();
             columns = new String[rsd.getColumnCount()];
             for (int i = 1; i<= rsd.getColumnCount();i++){
-                columns[i-1]= rsd.getColumnLabel(i).toString();
+                columns[i-1]= rsd.getColumnLabel(i);
 
-                if (tm.getColumnCount()>= columns.length){
-
-                }
-                else
+                if (tm.getColumnCount()!= columns.length){
                     tm.addColumn(rsd.getColumnName(i));
+                }
             }
             while (rs.next()){
                 String id = rs.getString("ID");
@@ -309,7 +263,7 @@ public class DatabaseConn {
 
 
     public static int GetReceiptNum(){
-        int num=0;
+        int num;
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con=DriverManager.getConnection(connString, user, password);
@@ -387,21 +341,16 @@ public class DatabaseConn {
     }
     public static void addSell(long Item_id,String Item_name, int Item_quantity,double Item_price,double TaxPercentage,int rec_id){
         try {
-            long id= Item_id;
-            String name=Item_name;
-            int quantity=Item_quantity,receipt_id=rec_id;
-            double price=Item_price;
-            double tax = TaxPercentage;
             conn = DriverManager.getConnection(connString, user, password);
             st = conn.createStatement();//crating statement object
             String query = "insert into sells_table (Item_id,Name,Quantity,Price,Tax,Recipt_id) values(?,?,?,?,?,?)";//Storing MySQL query in A string variable
             ps = conn.prepareStatement(query);
-            ps.setLong (1,id );
-            ps.setString (2, name);
-            ps.setInt(3, quantity);
-            ps.setDouble   (4, price);
-            ps.setDouble(5,tax);
-            ps.setInt(6, receipt_id);
+            ps.setLong (1, Item_id);
+            ps.setString (2, Item_name);
+            ps.setInt(3, Item_quantity);
+            ps.setDouble   (4, Item_price);
+            ps.setDouble(5, TaxPercentage);
+            ps.setInt(6, rec_id);
             ps.execute();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null,e);
@@ -426,14 +375,12 @@ public class DatabaseConn {
     }
     public static void newReceipt(int receipt_id,String date){
         try{
-            int id= receipt_id;
-            String Date = date;
             conn = DriverManager.getConnection(connString, user, password);
             st = conn.createStatement();
             String query = "insert into receipt_table (ID,Date) values (?,?)";
             ps = conn.prepareStatement(query);
-            ps.setLong (1,id );
-            ps.setString(2,Date);
+            ps.setLong (1, receipt_id);
+            ps.setString(2, date);
             ps.execute();
 
         }catch (Exception e){
@@ -537,7 +484,9 @@ public class DatabaseConn {
             if (rs != null) {
                 try {
                     rs.close();
-                } catch (SQLException e) { }
+                } catch (SQLException ignored) {
+                    throw new RuntimeException(ignored);
+                }
             }
             if (ps != null) {
                 try {
@@ -743,10 +692,11 @@ public class DatabaseConn {
             columns = new String[rsd.getColumnCount()];
             for (int i = 1; i<= rsd.getColumnCount();i++){
                 columns[i-1]= rsd.getColumnLabel(i);
-                if (tm.getColumnCount()>= columns.length){
-                }
-                else
+                if (tm.getColumnCount()!= columns.length){
                     tm.addColumn(rsd.getColumnName(i));
+                }
+
+
             }
             while (rs.next()){
                 String id = rs.getString("ID");
@@ -886,11 +836,8 @@ public class DatabaseConn {
             ResultSetMetaData rsd = rs.getMetaData();
             columns = new String[rsd.getColumnCount()];
             for (int i = 1; i<= rsd.getColumnCount();i++){
-                columns[i-1]= rsd.getColumnLabel(i).toString();
-                if (tm.getColumnCount()>= columns.length){
-
-                }
-                else {
+                columns[i-1]= rsd.getColumnLabel(i);
+                if (tm.getColumnCount()!= columns.length){
                     tm.addColumn(rsd.getColumnName(i));
                 }
             }
@@ -1083,6 +1030,54 @@ public class DatabaseConn {
             }
         }
     }
+    public static void staffLogTableSearch(DefaultTableModel tm,String text,String by){
+        //SELECT * FROM myshopdb.item_log_table;
+        try {
+            conn = DriverManager.getConnection(connString,user,password);
+            st = conn.createStatement();//crating statement object
+            String query = "SELECT * FROM staff_log_table where "+by+" like '%"+text+"%'";//Storing MySQL query in A string variable
+            rs = st.executeQuery(query);//executing query and storing result in ResultSet
+            ResultSetMetaData rsd = rs.getMetaData();
+            columns = new String[rsd.getColumnCount()];
+            for (int i = 1; i<= rsd.getColumnCount();i++){
+                columns[i-1]= rsd.getColumnLabel(i);
+                if (tm.getColumnCount()!= columns.length){
+                    tm.addColumn(rsd.getColumnName(i));
+                }
+            }
+            while (rs.next()){
+                String ID = rs.getString(1);String date = rs.getString(2);
+                String type = rs.getString(3);String staffID = rs.getString(4);
+                String oldID = rs.getString(5);String oldFN = rs.getString(6);
+                String oldLN = rs.getString(7);String oldPH = rs.getString(8);
+                String oldE = rs.getString(9);String oldPO = rs.getString(10);
+                String oldSalary = rs.getString(11);String newID = rs.getString(12);
+                String FN = rs.getString(13);String LN = rs.getString(14);
+                String PH = rs.getString(15);String E = rs.getString(16);
+                String PO = rs.getString(17);String salary = rs.getString(18);
+                tm.addRow(new Object[]{ID,date,type,staffID,oldID,oldFN,oldLN,oldPH,oldE,oldPO,oldSalary,newID,FN,LN,PH,E,PO,salary});
+            }
+            conn.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
 
     public static void receiptTable(DefaultTableModel tm){
         try {
@@ -1134,7 +1129,7 @@ public class DatabaseConn {
     }
 
 
-    public static void sellsTableSearch(DefaultTableModel tm,int rID){
+    public static void sellsTableSearch(DefaultTableModel tm,String text,String by){
         try {
             conn = DriverManager.getConnection(connString, user, password);
             //SELECT * FROM Customers
@@ -1143,7 +1138,7 @@ public class DatabaseConn {
             String query = "SELECT myshopdb.sells_table.Item_id, myshopdb.sells_table.Name, myshopdb.sells_table.Quantity, myshopdb.sells_table.Price,myshopdb.sells_table.Tax, myshopdb.sells_table.Recipt_id FROM myshopdb.sells_table \n" +
                     "left JOIN myshopdb.receipt_table ON \n" +
                     "myshopdb.sells_table.Recipt_id = receipt_table.ID \n" +
-                    "where receipt_table.TotalTax is not null and myshopdb.sells_table.Recipt_id="+rID+";";
+                    "where receipt_table.TotalTax is not null and myshopdb.sells_table."+by+" like '%"+text+"%';";
             rs = st.executeQuery(query);
             ResultSetMetaData rsd = rs.getMetaData();
             columns = new String[rsd.getColumnCount()];
@@ -1161,6 +1156,57 @@ public class DatabaseConn {
                 String tax = rs.getString(5);
                 String rn = rs.getString(6);
                 tm.addRow(new Object[]{id,name,quantity,price,tax,rn});
+            }
+            conn.close();
+        } catch (SQLException e) {
+
+
+            throw new RuntimeException(e);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* Ignored */}
+            }
+        }
+    }
+    public static void sellsTableSearchR(DefaultTableModel tm,int rn){
+        try {
+            conn = DriverManager.getConnection(connString, user, password);
+            //SELECT * FROM Customers
+            //WHERE CustomerName LIKE '%or%'
+            st = conn.createStatement();//crating statement object
+            String query = "SELECT myshopdb.sells_table.Item_id, myshopdb.sells_table.Name, myshopdb.sells_table.Quantity, myshopdb.sells_table.Price,myshopdb.sells_table.Tax, myshopdb.sells_table.Recipt_id FROM myshopdb.sells_table \n" +
+                    "left JOIN myshopdb.receipt_table ON \n" +
+                    "myshopdb.sells_table.Recipt_id = receipt_table.ID \n" +
+                    "where receipt_table.TotalTax is not null and myshopdb.sells_table.Recipt_id="+rn+";";
+            rs = st.executeQuery(query);
+            ResultSetMetaData rsd = rs.getMetaData();
+            columns = new String[rsd.getColumnCount()];
+            for (int i = 1; i<= rsd.getColumnCount();i++){
+                columns[i-1]= rsd.getColumnLabel(i);
+                if (tm.getColumnCount()!= columns.length){
+                    tm.addColumn(rsd.getColumnName(i));
+                }
+            }
+            while (rs.next()){
+                String id = rs.getString(1);
+                String name = rs.getString(2);
+                String quantity = rs.getString(3);
+                String price = rs.getString(4);
+                String tax = rs.getString(5);
+                String rnn = rs.getString(6);
+                tm.addRow(new Object[]{id,name,quantity,price,tax,rnn});
             }
             conn.close();
         } catch (SQLException e) {
@@ -1220,11 +1266,13 @@ public class DatabaseConn {
                 } catch (SQLException e) { /* Ignored */}
             }
         }
+        p = Double.parseDouble(df.format(p));
+        System.out.println(p);
         return p;
     }
 
 
-    public static double calculateTax(int sYear,int sMonth,int sDay ,int eYear,int eMonth,int eDay){
+    public static double calculateTax(int sYear, int sMonth, int sDay , int eYear, int eMonth, int eDay){
         double p = 0;
         String dateStart = (sYear+"-"+sMonth+"-"+sDay);
         String dateEnd = (eYear+"-"+eMonth+"-"+eDay);
@@ -1258,6 +1306,8 @@ public class DatabaseConn {
                 } catch (SQLException e) { /* Ignored */}
             }
         }
+        p = Double.parseDouble(df.format(p));
+        System.out.println(p);
         return p;
     }
 

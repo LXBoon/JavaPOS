@@ -1,21 +1,16 @@
 package Frames;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import static javax.swing.JOptionPane.showMessageDialog;
 
 public class Design {
 
     // Design components
     public static JFrame f = new JFrame();
-    public  static JDesktopPane desktopPane = new JDesktopPane();
     public static int yPos=100;
     public static Color grayish = new Color(100, 114, 140);
     public static Color darkGrayish = new Color(85, 85, 87);
@@ -257,7 +252,7 @@ public class Design {
 
     //load landing page
     public static void loadLandingPage(){
-        setPageLabel("About page");
+
         LandingPage.componentLoad(f);
     }
 
