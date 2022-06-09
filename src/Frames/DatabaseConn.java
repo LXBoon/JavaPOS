@@ -19,7 +19,7 @@ public class DatabaseConn {
     public  static String user ="user name";
     public  static String password ="Password";
 
-    //online mysql - my php admin   host
+    
     public  static  boolean foundUser;
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
