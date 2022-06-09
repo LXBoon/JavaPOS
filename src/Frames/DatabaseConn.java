@@ -15,9 +15,9 @@ public class DatabaseConn {
 
     //on device mysql - my php admin   host
 
-    public  static String connString ="jdbc:mysql://localhost:3306/myshopdb";
-    public  static String user ="root";
-    public  static String password ="Reet369*";
+    public  static String connString ="Insert your conn string here";
+    public  static String user ="user name";
+    public  static String password ="Password";
 
     //online mysql - my php admin   host
     public  static  boolean foundUser;
