@@ -4,30 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Design {
-
     // Design components
     public static JFrame f = new JFrame();
     public static int yPos=100;
-    public static Color grayish = new Color(100, 114, 140);
-    public static Color darkGrayish = new Color(85, 85, 87);
-    public static Color fff = Color.white;
-    public static JLabel lDate,lTime;
-    public static JPanel leftPanel,rightPanel;
-    public static JButton btnSellPage, btnInventory, btnStaff, btnReports, btnExit;
-
-    public static void setPageLabel(String y){
-        pageLabel = new JLabel(y);
+    private static final Color grayish = new Color(100, 114, 140);
+    private static final Color darkGrayish = new Color(85, 85, 87);
+    private static final Color fff = Color.white;
+    private static JButton btnSellPage, btnInventory, btnStaff, btnReports, btnExit;
+    private static void setPageLabel(String y){
+        JLabel pageLabel = new JLabel(y);
         pageLabel.setBounds(220,20,500,40);
         pageLabel.setFont(new Font("Serif", Font.PLAIN, 30));
         pageLabel.setVisible(true);
         f.add(pageLabel);
     }
-
-    public static void btnLoad(JButton x, String y, JFrame f){
+    private static void btnLoad(JButton x, String y, JFrame f){
         x.setVisible(true);
         x.setText(y);
         x.setFocusable(false);
@@ -65,7 +58,7 @@ public class Design {
 
         SwingUtilities.updateComponentTreeUI(f);
     }
-    public static void btnSellPageLoad(JFrame f){
+    private static void btnSellPageLoad(JFrame f){
         btnSellPage = new JButton();
         btnLoad(btnSellPage, "Sell Page",f);
         btnSellPage.addActionListener(evt -> {
@@ -87,7 +80,7 @@ public class Design {
         f.add(btnSellPage);
         yPos +=100;
     }
-    public static void btnInventoryLoad(JFrame f){
+    private static void btnInventoryLoad(JFrame f){
         btnInventory = new JButton();
         btnLoad(btnInventory, "Manage Inventory",f);
         btnInventory.addActionListener(evt -> {
@@ -112,7 +105,7 @@ public class Design {
         f.add(btnInventory);
         yPos +=100;
     }
-    public static void btnStaffLoad(JFrame f){
+    private static void btnStaffLoad(JFrame f){
         btnStaff = new JButton();
         btnLoad(btnStaff,"Manage Staff",f);
         btnStaff.addActionListener(evt -> {
@@ -129,7 +122,7 @@ public class Design {
         f.add(btnStaff);
         yPos +=100;
     }
-    public static void btnReportsLoad(JFrame f){
+    private static void btnReportsLoad(JFrame f){
         btnReports = new JButton();
         btnLoad(btnReports,"Reports",f);
         btnReports.addActionListener(evt -> {
@@ -147,7 +140,7 @@ public class Design {
         f.add(btnReports);
         yPos +=100;
     }
-    public static void btnExitLoad(JFrame f){
+    private static void btnExitLoad(JFrame f){
         btnExit = new JButton("Exit");
         btnExit.setBounds(40, yPos+120, 100, 40);
         btnExit.setBackground(Color.red);
@@ -196,29 +189,29 @@ public class Design {
 
         f.add(btnExit);
     }
-    public static void leftPanelLoad(JFrame f){
-        leftPanel = new JPanel();
+    private static void leftPanelLoad(JFrame f){
+        JPanel leftPanel = new JPanel();
         leftPanel.setBounds(0, 0, 200, 720);
         leftPanel.setBackground(Color.darkGray);
         f.add(leftPanel);
     }
-    public static void rightPanelLoad(JFrame f){
-        rightPanel = new JPanel();
+    private static void rightPanelLoad(JFrame f){
+        JPanel rightPanel = new JPanel();
         rightPanel.setBounds(200, 0, 880, 720);
         rightPanel.setBackground(Color.lightGray);
         f.add(rightPanel);
     }
-    public static void LoadDate(JFrame f){
-        lDate = new JLabel();
-        lDate.setBounds(950, 10, 200, 50);
-        lDate.setText(LocalDateTime.now().format( DateTimeFormatter.ofPattern( "uuuu-MM-dd" )));
-        lDate.setVisible(true);
-        f.add(lDate);
-        lTime=new JLabel();
-        lTime.setBounds(950, 30, 200, 50);
-        lTime.setText(LocalDateTime.now().format( DateTimeFormatter.ofPattern( "HH:mm:ss" )));
-        lTime.setVisible(true);
-        f.add(lTime);
+    private static void LoadFrame(JFrame f){
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        DatabaseConn.foundUser = false;
+        f.setSize(1080,720);
+        f.setLayout(null);
+        f.setVisible(true);
+        f.setResizable(false);
+        f.setLocationRelativeTo(null);
+        f.setForeground(new Color(0, 23, 64));
+        //isOn = true;
     }
     public static void loadDesign(JFrame f){
         //set yPos of Des,gn to 100 so btns on the left sid go back to original place
@@ -231,32 +224,12 @@ public class Design {
         btnExitLoad(f);
         leftPanelLoad(f);
         rightPanelLoad(f);
-        LoadDate(f);
     }
-    public static void LoadFrame(JFrame f){
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        DatabaseConn.foundUser = false;
-        f.setSize(1080,720);
-        f.setLayout(null);
-        f.setVisible(true);
-        f.setResizable(false);
-        f.setLocationRelativeTo(null);
-        f.setForeground(new Color(0, 23, 64));
-        //isOn = true;
-    }
-
-
-    public static JLabel pageLabel;
-
-
     //load landing page
     public static void loadLandingPage(){
 
         LandingPage.componentLoad(f);
     }
-
-
     //inventory frame load
     public static void loadInventoryPage(){
 
@@ -268,10 +241,6 @@ public class Design {
         loadDesign(f);
         SwingUtilities.updateComponentTreeUI(f);
     }
-
-
-
-
     //load sell page
     public static void LoadSellPage(){
         f.dispose();
@@ -293,8 +262,6 @@ public class Design {
         loadDesign(f);
         SwingUtilities.updateComponentTreeUI(f);
     }
-
-
     //report page load
     public static void loadReportPage(){
         f.dispose();
@@ -305,14 +272,5 @@ public class Design {
         loadDesign(f);
         SwingUtilities.updateComponentTreeUI(f);
     }
-
-
-
-
-
-
-
-
-
 
 }

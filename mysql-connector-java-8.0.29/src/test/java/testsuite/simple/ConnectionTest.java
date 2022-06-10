@@ -229,19 +229,19 @@ public class ConnectionTest extends BaseTestCase {
                 @SuppressWarnings("unused")
                 String connectionId = getSingleValueWithQuery("SELECT CONNECTION_ID()").toString();
 
-                System.out.println("Please kill the MySQL server now and press return...");
+                ("Please kill the MySQL server now and press return...");
                 System.in.read();
 
-                System.out.println("Waiting for TCP/IP timeout...");
+                ("Waiting for TCP/IP timeout...");
                 Thread.sleep(10);
 
-                System.out.println("Attempting auto reconnect");
+                ("Attempting auto reconnect");
 
                 try {
                     clusterConn.setAutoCommit(true);
                     clusterConn.setAutoCommit(false);
                 } catch (SQLException sqlEx) {
-                    System.out.println(sqlEx);
+                    (sqlEx);
                 }
 
                 //
@@ -303,11 +303,11 @@ public class ConnectionTest extends BaseTestCase {
 
             Thread.sleep(timeoutSecs * 2 * 1000);
         } catch (SQLException sqlEx) {
-            System.out.println("Caught SQLException due to deadlock/lock timeout");
-            System.out.println("SQLState: " + sqlEx.getSQLState());
-            System.out.println("Vendor error: " + sqlEx.getErrorCode());
-            System.out.println("Message: " + sqlEx.getMessage());
-            System.out.println("Stacktrace: ");
+            ("Caught SQLException due to deadlock/lock timeout");
+            ("SQLState: " + sqlEx.getSQLState());
+            ("Vendor error: " + sqlEx.getErrorCode());
+            ("Message: " + sqlEx.getMessage());
+            ("Stacktrace: ");
             sqlEx.printStackTrace();
 
             //
@@ -374,7 +374,7 @@ public class ConnectionTest extends BaseTestCase {
         DatabaseMetaData dbmd = this.conn.getMetaData();
 
         if (dbmd.supportsSavepoints()) {
-            System.out.println("Testing SAVEPOINTs");
+            ("Testing SAVEPOINTs");
 
             try {
                 this.conn.setAutoCommit(true);
@@ -422,7 +422,7 @@ public class ConnectionTest extends BaseTestCase {
                 this.conn.setAutoCommit(true);
             }
         } else {
-            System.out.println("MySQL version does not support SAVEPOINTs");
+            ("MySQL version does not support SAVEPOINTs");
         }
     }
 
@@ -693,7 +693,7 @@ public class ConnectionTest extends BaseTestCase {
                 failoverConnection = getFailoverConnection(props);
 
                 String originalConnectionId = getSingleIndexedValueWithQuery(failoverConnection, 1, "SELECT connection_id()").toString();
-                System.out.println("Original Connection Id = " + originalConnectionId);
+                ("Original Connection Id = " + originalConnectionId);
 
                 assertTrue(!failoverConnection.isReadOnly(), "Connection should not be in READ_ONLY state");
 
@@ -716,7 +716,7 @@ public class ConnectionTest extends BaseTestCase {
                 failoverConnection.setAutoCommit(true);
 
                 String newConnectionId = getSingleIndexedValueWithQuery(failoverConnection, 1, "SELECT connection_id()").toString();
-                System.out.println("new Connection Id = " + newConnectionId);
+                ("new Connection Id = " + newConnectionId);
 
                 assertTrue(!newConnectionId.equals(originalConnectionId), "We should have a new connection to the server in this case");
                 assertTrue(!failoverConnection.isReadOnly(), "Connection should not be read-only");
@@ -1049,7 +1049,7 @@ public class ConnectionTest extends BaseTestCase {
                 counter.wait();
 
                 if (counter.workerCount == 0) {
-                    System.out.println("Done!");
+                    ("Done!");
                     break;
                 }
             }

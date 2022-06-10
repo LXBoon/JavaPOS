@@ -78,19 +78,19 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
         BASELINE_TIMES.put("PreparedStatement.setObject() on a string", new Double(0.00793));
         BASELINE_TIMES.put("PreparedStatement.setDouble()", new Double(0.0246));
 
-        System.out.println("Calculating global performance scaling factor...");
+        ("Calculating global performance scaling factor...");
         for (int i = 0; i < scaleFactorSamples.length; i++) {
             scaleFactorSamples[i] = calculateScaleFactor();
             scaleFactor += scaleFactorSamples[i];
         }
         scaleFactor /= scaleFactorSamples.length;
-        System.out.println("Global performance scaling factor is: " + scaleFactor);
+        ("Global performance scaling factor is: " + scaleFactor);
     }
 
     @BeforeEach
     public void setUp() throws Exception {
-        System.out.println("Adjusting global performance scaling factor...");
-        System.out.println("Gobal performance scaling factor adjusted from: " + scaleFactor + " to: " + adjustScaleFactor());
+        ("Adjusting global performance scaling factor...");
+        ("Gobal performance scaling factor adjusted from: " + scaleFactor + " to: " + adjustScaleFactor());
     }
 
     private static final double adjustScaleFactor() {
@@ -154,7 +154,7 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
 
         double acceptableTime = LEEWAY * baselineExecTimeMs.doubleValue() * scaleFactor * adjustForVendor;
 
-        System.out.println(testType + ": avg time = " + avgExecTimeMs + ", acceptable time = " + acceptableTime);
+        (testType + ": avg time = " + avgExecTimeMs + ", acceptable time = " + acceptableTime);
 
         assertTrue(avgExecTimeMs <= acceptableTime,
                 "Average execution time of " + avgExecTimeMs + " ms. exceeded baseline * leeway of " + acceptableTime + " ms.");
@@ -293,7 +293,7 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
                     lastBlock = totalTime;
                 }
 
-                System.out.println(messageBuf.toString());
+                (messageBuf.toString());
 
             }
 
@@ -308,7 +308,7 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
 
         PreparedStatement pStmt = this.conn.prepareStatement("INSERT INTO marktest VALUES (?, ?, ?, ?, ?)");
 
-        System.out.println(pStmt.toString());
+        (pStmt.toString());
 
         start = currentTimeMillis();
 
@@ -316,7 +316,7 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
             pStmt.setInt(1, 1);
         }
 
-        System.out.println(pStmt.toString());
+        (pStmt.toString());
 
         double setIntAvgMs = (double) (currentTimeMillis() - start) / numLoops;
 

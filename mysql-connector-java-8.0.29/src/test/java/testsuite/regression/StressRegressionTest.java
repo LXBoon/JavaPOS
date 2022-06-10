@@ -66,7 +66,7 @@ public class StressRegressionTest extends BaseTestCase {
     @Test
     @Disabled("It's a very long test")
     public synchronized void testContention() throws Exception {
-        System.out.println("Calculating baseline elapsed time...");
+        ("Calculating baseline elapsed time...");
 
         long start = System.currentTimeMillis();
 
@@ -74,11 +74,11 @@ public class StressRegressionTest extends BaseTestCase {
 
         long singleThreadElapsedTimeMillis = System.currentTimeMillis() - start;
 
-        System.out.println("Single threaded execution took " + singleThreadElapsedTimeMillis + " ms.");
+        ("Single threaded execution took " + singleThreadElapsedTimeMillis + " ms.");
 
         int numThreadsToStart = 95;
 
-        System.out.println("\nStarting " + numThreadsToStart + " threads.");
+        ("\nStarting " + numThreadsToStart + " threads.");
 
         this.numThreadsStarted = numThreadsToStart;
 
@@ -102,7 +102,7 @@ public class StressRegressionTest extends BaseTestCase {
         }
 
         // Collect statistics...
-        System.out.println("Done!");
+        ("Done!");
 
         double avgElapsedTimeMillis = 0;
 
@@ -116,10 +116,10 @@ public class StressRegressionTest extends BaseTestCase {
 
         Collections.sort(elapsedTimes);
 
-        System.out.println("Average elapsed time per-thread was " + avgElapsedTimeMillis + " ms.");
-        System.out.println("Median elapsed time per-thread was " + elapsedTimes.get(elapsedTimes.size() / 2) + " ms.");
-        System.out.println("Minimum elapsed time per-thread was " + elapsedTimes.get(0) + " ms.");
-        System.out.println("Maximum elapsed time per-thread was " + elapsedTimes.get(elapsedTimes.size() - 1) + " ms.");
+        ("Average elapsed time per-thread was " + avgElapsedTimeMillis + " ms.");
+        ("Median elapsed time per-thread was " + elapsedTimes.get(elapsedTimes.size() / 2) + " ms.");
+        ("Minimum elapsed time per-thread was " + elapsedTimes.get(0) + " ms.");
+        ("Maximum elapsed time per-thread was " + elapsedTimes.get(elapsedTimes.size() - 1) + " ms.");
     }
 
     @Test
@@ -204,7 +204,7 @@ public class StressRegressionTest extends BaseTestCase {
             this.threadConn = getConnectionWithProps(new Properties());
             this.threadStmt = this.threadConn.createStatement();
 
-            System.out.println(this.threadConn);
+            (this.threadConn);
         }
 
         @Override
@@ -215,7 +215,7 @@ public class StressRegressionTest extends BaseTestCase {
                 contentiousWork(this.threadConn, this.threadStmt, this.threadNumber);
                 this.elapsedTimeMillis = System.currentTimeMillis() - start;
 
-                System.out.println("Thread " + this.threadNumber + " finished.");
+                ("Thread " + this.threadNumber + " finished.");
             } finally {
                 if (this.elapsedTimeMillis == 0) {
                     this.elapsedTimeMillis = System.currentTimeMillis() - start;
@@ -290,7 +290,7 @@ public class StressRegressionTest extends BaseTestCase {
                     connList[i].close();
                 }
 
-                System.out.println(minConnTime + "/" + maxConnTime + "/" + averageTime);
+                (minConnTime + "/" + maxConnTime + "/" + averageTime);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -327,7 +327,7 @@ public class StressRegressionTest extends BaseTestCase {
         Thread job1 = new Thread(new Runnable() {
             public void run() {
                 try {
-                    System.out.println("Starting job 1 (" + Thread.currentThread().getName() + ") - PreparedStatement.set[Timestamp|Date|Time]()...");
+                    ("Starting job 1 (" + Thread.currentThread().getName() + ") - PreparedStatement.set[Timestamp|Date|Time]()...");
                     PreparedStatement testPstmt = testConn.prepareStatement("SELECT ?, ?, ?");
 
                     Timestamp ts = new Timestamp(System.currentTimeMillis());
@@ -342,7 +342,7 @@ public class StressRegressionTest extends BaseTestCase {
                         testPstmt.setTime(3, tm);
                         testPstmt.execute();
                     }
-                    System.out.println(
+                    (
                             "Finishing job 1 (" + Thread.currentThread().getName() + ") after " + SharedInfoForTestBug67760.job1Iterations + " iterations...");
                     testPstmt.close();
                 } catch (Exception e) {
@@ -358,7 +358,7 @@ public class StressRegressionTest extends BaseTestCase {
         Thread job2 = new Thread(new Runnable() {
             public void run() {
                 try {
-                    System.out.println("Starting job 2 (" + Thread.currentThread().getName() + ") - ResultSet.get[Timestamp|Date|Time]()...");
+                    ("Starting job 2 (" + Thread.currentThread().getName() + ") - ResultSet.get[Timestamp|Date|Time]()...");
                     PreparedStatement testPstmt = testConn.prepareStatement("SELECT NOW(), CAST(NOW() AS DATE), CAST(NOW() AS TIME)");
 
                     while (SharedInfoForTestBug67760.running) {
@@ -371,7 +371,7 @@ public class StressRegressionTest extends BaseTestCase {
                         testRs.getTime(3);
                         testRs.close();
                     }
-                    System.out.println(
+                    (
                             "Finishing job 2 (" + Thread.currentThread().getName() + ") after " + SharedInfoForTestBug67760.job2Iterations + " iterations...");
                     testPstmt.close();
                 } catch (Exception e) {
@@ -390,7 +390,7 @@ public class StressRegressionTest extends BaseTestCase {
         final int delta0IterationsCountdownSize = 20;
         int delta0IterationsCountdown = delta0IterationsCountdownSize;
 
-        System.out.println("Start concurrent jobs and let them run for aproximatly " + (recheckWaitTimeUnit * recheckWaitTimeCountdown / 1000) + " seconds...");
+        ("Start concurrent jobs and let them run for aproximatly " + (recheckWaitTimeUnit * recheckWaitTimeCountdown / 1000) + " seconds...");
         final long startTime = System.currentTimeMillis();
         long elapsedTime = 0;
         job1.start();
@@ -416,24 +416,24 @@ public class StressRegressionTest extends BaseTestCase {
                 if (job1.isAlive() && job2.isAlive()) {
                     // there must be a deadlock
                     elapsedTime = System.currentTimeMillis() - startTime;
-                    System.out.println("Possible deadlock detected after " + elapsedTime + " milliseconds.");
+                    ("Possible deadlock detected after " + elapsedTime + " milliseconds.");
 
                     ThreadMXBean threadMXbean = ManagementFactory.getThreadMXBean();
 
                     ThreadInfo thread1Info = threadMXbean.getThreadInfo(job1.getId(), Integer.MAX_VALUE);
                     System.out.printf("%n%s stopped at iteration %d, blocked by the lock %s, owned by %s%n", job1.getName(),
                             SharedInfoForTestBug67760.job1Iterations, thread1Info.getLockName(), thread1Info.getLockOwnerName());
-                    System.out.println("Stacktrace:");
+                    ("Stacktrace:");
                     for (StackTraceElement element : thread1Info.getStackTrace()) {
-                        System.out.println("  " + element);
+                        ("  " + element);
                     }
 
                     ThreadInfo thread2Info = threadMXbean.getThreadInfo(job2.getId(), Integer.MAX_VALUE);
                     System.out.printf("%n%s stopped at iteration %d, blocked by the lock %s, owned by %s%n", job2.getName(),
                             SharedInfoForTestBug67760.job2Iterations, thread2Info.getLockName(), thread2Info.getLockOwnerName());
-                    System.out.println("Stacktrace:");
+                    ("Stacktrace:");
                     for (StackTraceElement element : thread2Info.getStackTrace()) {
-                        System.out.println("   " + element);
+                        ("   " + element);
                     }
 
                     fail("Possible deadlock detected after " + elapsedTime
@@ -443,7 +443,7 @@ public class StressRegressionTest extends BaseTestCase {
         } while (--recheckWaitTimeCountdown > 0);
 
         elapsedTime = System.currentTimeMillis() - startTime;
-        System.out.println("The test ended gracefully after " + elapsedTime + " milliseconds.");
+        ("The test ended gracefully after " + elapsedTime + " milliseconds.");
 
         assertTrue(elapsedTime >= recheckWaitTimeUnit * recheckWaitTimeCountdown,
                 "Test expected to run at least for " + (recheckWaitTimeUnit * recheckWaitTimeCountdown) + " milliseconds.");

@@ -51,11 +51,11 @@ public class ServerControllerTest extends BaseTestCase {
     public void testServerController() throws Exception {
         String baseDir = System.getProperty(PropertyDefinitions.SYSP_testsuite_serverController_basedir);
         if (baseDir != null) {
-            System.out.println("Starting server @ " + baseDir);
+            ("Starting server @ " + baseDir);
 
             ServerController controller = new ServerController(baseDir);
-            System.out.println(controller.start());
-            System.out.println("Hit enter to stop server....");
+            (controller.start());
+            ("Hit enter to stop server....");
             System.in.read();
             controller.stop(true);
         }

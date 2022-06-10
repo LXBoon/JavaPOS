@@ -98,12 +98,12 @@ public class RetrievalPerfTest extends BaseTestCase {
         double fullTime = (fullEnd - fullBegin) / 1000;
         double queriesPerSec = NUM_TESTS / fullTime;
         double rowsPerSec = (NUM_ROWS * NUM_TESTS) / fullTime;
-        System.out.println("\nQuery Cache From Heap Retrieval\n");
-        System.out.println("Full test took: " + fullTime + " seconds.");
-        System.out.println("Queries/second: " + queriesPerSec);
-        System.out.println("Rows/second: " + rowsPerSec);
-        System.out.println("Avg. Query Exec Time: " + averageQueryTimeMs + " ms");
-        System.out.println("Avg. Traversal Time: " + averageTraversalTimeMs + " ms");
+        ("\nQuery Cache From Heap Retrieval\n");
+        ("Full test took: " + fullTime + " seconds.");
+        ("Queries/second: " + queriesPerSec);
+        ("Rows/second: " + rowsPerSec);
+        ("Avg. Query Exec Time: " + averageQueryTimeMs + " ms");
+        ("Avg. Traversal Time: " + averageTraversalTimeMs + " ms");
 
         // We're doing something wrong if we can't beat 45 seconds :(
         assertTrue(fullTime < 45);
@@ -142,12 +142,12 @@ public class RetrievalPerfTest extends BaseTestCase {
         double fullTime = (fullEnd - fullBegin) / 1000;
         double queriesPerSec = NUM_TESTS / fullTime;
         double rowsPerSec = (NUM_ROWS * NUM_TESTS) / fullTime;
-        System.out.println("\nHEAP Table Retrieval\n");
-        System.out.println("Full test took: " + fullTime + " seconds.");
-        System.out.println("Queries/second: " + queriesPerSec);
-        System.out.println("Rows/second: " + rowsPerSec);
-        System.out.println("Avg. Query Exec Time: " + averageQueryTimeMs + " ms");
-        System.out.println("Avg. Traversal Time: " + averageTraversalTimeMs + " ms");
+        ("\nHEAP Table Retrieval\n");
+        ("Full test took: " + fullTime + " seconds.");
+        ("Queries/second: " + queriesPerSec);
+        ("Rows/second: " + rowsPerSec);
+        ("Avg. Query Exec Time: " + averageQueryTimeMs + " ms");
+        ("Avg. Traversal Time: " + averageTraversalTimeMs + " ms");
 
         // We're doing something wrong if we can't beat 45 seconds :(
         assertTrue(fullTime < 45);
@@ -186,12 +186,12 @@ public class RetrievalPerfTest extends BaseTestCase {
         double fullTime = (fullEnd - fullBegin) / 1000;
         double queriesPerSec = NUM_TESTS / fullTime;
         double rowsPerSec = (NUM_ROWS * NUM_TESTS) / fullTime;
-        System.out.println("\nMyIsam Retrieval\n");
-        System.out.println("Full test took: " + fullTime + " seconds.");
-        System.out.println("Queries/second: " + queriesPerSec);
-        System.out.println("Rows/second: " + rowsPerSec);
-        System.out.println("Avg. Query Exec Time: " + averageQueryTimeMs + " ms");
-        System.out.println("Avg. Traversal Time: " + averageTraversalTimeMs + " ms");
+        ("\nMyIsam Retrieval\n");
+        ("Full test took: " + fullTime + " seconds.");
+        ("Queries/second: " + queriesPerSec);
+        ("Rows/second: " + rowsPerSec);
+        ("Avg. Query Exec Time: " + averageQueryTimeMs + " ms");
+        ("Avg. Traversal Time: " + averageTraversalTimeMs + " ms");
 
         // We're doing something wrong if we can't beat 45 seconds :(
         assertTrue(fullTime < 45);

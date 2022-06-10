@@ -495,7 +495,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
             for (int i = 0; i < numCols; i++) {
                 String columnName = rsmd.getColumnName(i + 1);
                 String columnTypeName = rsmd.getColumnTypeName(i + 1);
-                System.out.println(columnName + " -> " + columnTypeName);
+                (columnName + " -> " + columnTypeName);
             }
         } finally {
             this.stmt.execute("DROP TABLE IF EXISTS typesRegressTest");
@@ -732,7 +732,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
             big5Stmt = big5Conn.createStatement();
 
             byte[] foobar = testString.getBytes("Big5");
-            System.out.println(Arrays.toString(foobar));
+            (Arrays.toString(foobar));
 
             this.rs = big5Stmt.executeQuery("select 1 as '\u5957 \u9910'");
             String retrString = this.rs.getMetaData().getColumnName(1);
@@ -1071,7 +1071,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), databaseTerm);
 
-                System.out.println("useInformationSchema=" + useIS + ", databaseTerm=" + databaseTerm);
+                ("useInformationSchema=" + useIS + ", databaseTerm=" + databaseTerm);
 
                 Connection con = getConnectionWithProps(props);
 
@@ -1544,19 +1544,19 @@ public class MetaDataRegressionTest extends BaseTestCase {
 
     @Test
     public void testCharacterSetForDBMD() throws Exception {
-        System.out.println("testCharacterSetForDBMD:");
+        ("testCharacterSetForDBMD:");
         String quoteChar = this.conn.getMetaData().getIdentifierQuoteString();
 
         String tableName = quoteChar + "\u00e9\u0074\u00e9" + quoteChar;
         createTable(tableName, "(field1 int)");
         this.rs = this.conn.getMetaData().getTables(this.conn.getCatalog(), null, "%", new String[] { "TABLE" });
         while (this.rs.next()) {
-            System.out.println(this.rs.getString("TABLE_NAME") + " -> " + new String(this.rs.getBytes("TABLE_NAME"), "UTF-8"));
+            (this.rs.getString("TABLE_NAME") + " -> " + new String(this.rs.getBytes("TABLE_NAME"), "UTF-8"));
         }
         this.rs = this.conn.getMetaData().getTables(this.conn.getCatalog(), null, tableName, new String[] { "TABLE" });
         assertEquals(true, this.rs.next());
-        System.out.println(this.rs.getString("TABLE_NAME"));
-        System.out.println(new String(this.rs.getBytes("TABLE_NAME"), "UTF-8"));
+        (this.rs.getString("TABLE_NAME"));
+        (new String(this.rs.getBytes("TABLE_NAME"), "UTF-8"));
     }
 
     /**
@@ -1967,7 +1967,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
     public void testBug20491() throws Exception {
         this.rs = this.stmt.executeQuery("SHOW VARIABLES LIKE '%char%'");
         while (this.rs.next()) {
-            System.out.println(this.rs.getString(1) + " = " + this.rs.getString(2));
+            (this.rs.getString(1) + " = " + this.rs.getString(2));
         }
         this.rs.close();
 
@@ -2147,7 +2147,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -2379,7 +2379,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
         Field[] typeFields = Types.class.getFields();
 
         for (int i = 0; i < typeFields.length; i++) {
-            System.out.println(typeFields[i].getName() + " -> " + typeFields[i].getType().getClass());
+            (typeFields[i].getName() + " -> " + typeFields[i].getType().getClass());
 
             if (Modifier.isStatic(typeFields[i].getModifiers())) {
                 try {
@@ -2930,7 +2930,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                         }
                     }
 
-                    System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                    ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
                 }
             }
         } finally {
@@ -3208,16 +3208,16 @@ public class MetaDataRegressionTest extends BaseTestCase {
             props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "false");
             pedanticConn = getConnectionWithProps(props);
 
-            System.out.println("1. Non-pedantic, without I_S.");
+            ("1. Non-pedantic, without I_S.");
             testBug65871_testCatalogs(nonPedanticConn);
 
-            System.out.println("2. Pedantic, without I_S.");
+            ("2. Pedantic, without I_S.");
             testBug65871_testCatalogs(pedanticConn);
 
-            System.out.println("3. Non-pedantic, with I_S.");
+            ("3. Non-pedantic, with I_S.");
             testBug65871_testCatalogs(nonPedanticConn_IS);
 
-            System.out.println("4. Pedantic, with I_S.");
+            ("4. Pedantic, with I_S.");
             testBug65871_testCatalogs(pedanticConn_IS);
 
         } finally {
@@ -4288,10 +4288,10 @@ public class MetaDataRegressionTest extends BaseTestCase {
         DatabaseMetaData dbmd = this.conn.getMetaData();
         this.rs = dbmd.getCatalogs();
 
-        System.out.println("Catalogs:");
-        System.out.println("--------------------------------------------------");
+        ("Catalogs:");
+        ("--------------------------------------------------");
         while (this.rs.next()) {
-            System.out.println("\t" + this.rs.getString(1));
+            ("\t" + this.rs.getString(1));
         }
         this.rs.beforeFirst();
 
@@ -4326,7 +4326,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -5009,7 +5009,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                 } else if (warn.getMessage().startsWith("UNSIGNED for decimal and floating point data types is deprecated")) {
                     cnt4++;
                 } else {
-                    System.out.println(warn.getMessage());
+                    (warn.getMessage());
                 }
                 warn = warn.getNextWarning();
             }

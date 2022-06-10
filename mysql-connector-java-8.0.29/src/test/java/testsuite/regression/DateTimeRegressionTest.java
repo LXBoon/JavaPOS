@@ -89,7 +89,7 @@ public class DateTimeRegressionTest extends BaseTestCase {
 
             String tsValueAsString = getSingleValue("testBug3620", "field1", null).toString();
 
-            System.out.println("Timestamp as string with no calendar: " + tsValueAsString.toString());
+            ("Timestamp as string with no calendar: " + tsValueAsString.toString());
 
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
@@ -106,8 +106,8 @@ public class DateTimeRegressionTest extends BaseTestCase {
 
             Timestamp tsValueAsTimestamp = (Timestamp) getSingleValue("testBug3620", "field1", null);
 
-            System.out.println("Timestamp as string with UTC calendar: " + tsValueAsString.toString());
-            System.out.println("Timestamp as Timestamp with UTC calendar: " + tsValueAsTimestamp);
+            ("Timestamp as string with UTC calendar: " + tsValueAsString.toString());
+            ("Timestamp as Timestamp with UTC calendar: " + tsValueAsTimestamp);
 
             this.rs = tsStmt.executeQuery("SELECT field1 FROM testBug3620");
             this.rs.next();
@@ -122,7 +122,7 @@ public class DateTimeRegressionTest extends BaseTestCase {
 
             Timestamp tsValueStmtNoCal = this.rs.getTimestamp(1);
 
-            System.out.println("Timestamp specifying UTC calendar from normal statement: " + tsValueUTC.toString());
+            ("Timestamp specifying UTC calendar from normal statement: " + tsValueUTC.toString());
 
             PreparedStatement tsPstmtRetr = this.conn.prepareStatement("SELECT field1 FROM testBug3620");
 
@@ -131,7 +131,7 @@ public class DateTimeRegressionTest extends BaseTestCase {
 
             Timestamp tsValuePstmtUTC = this.rs.getTimestamp(1, cal);
 
-            System.out.println("Timestamp specifying UTC calendar from prepared statement: " + tsValuePstmtUTC.toString());
+            ("Timestamp specifying UTC calendar from prepared statement: " + tsValuePstmtUTC.toString());
 
             //
             // We use this testcase with other vendors, JDBC spec requires result set fields can only be read once, although MySQL doesn't require this ;)
@@ -141,7 +141,7 @@ public class DateTimeRegressionTest extends BaseTestCase {
 
             Timestamp tsValuePstmtNoCal = this.rs.getTimestamp(1);
 
-            System.out.println("Timestamp specifying no calendar from prepared statement: " + tsValuePstmtNoCal.toString());
+            ("Timestamp specifying no calendar from prepared statement: " + tsValuePstmtNoCal.toString());
 
             long stmtDeltaTWithCal = (ts.getTime() - tsValueStmtNoCal.getTime());
 
@@ -152,13 +152,13 @@ public class DateTimeRegressionTest extends BaseTestCase {
 
             long pStmtDeltaTWithCal = (ts.getTime() - tsValuePstmtNoCal.getTime());
 
-            System.out.println(
+            (
                     Math.abs(pStmtDeltaTWithCal - pointInTimeOffset) + " < " + epsillon + (Math.abs(pStmtDeltaTWithCal - pointInTimeOffset) < epsillon));
             assertTrue((Math.abs(pStmtDeltaTWithCal - pointInTimeOffset) < epsillon),
                     "Difference between original timestamp and timestamp retrieved using java.sql.PreparedStatement "
                             + "set in database using UTC calendar is not ~= " + epsillon + ", it is actually " + pStmtDeltaTWithCal);
 
-            System.out.println("Difference between original ts and ts with no calendar: " + (ts.getTime() - tsValuePstmtNoCal.getTime()) + ", offset should be "
+            ("Difference between original ts and ts with no calendar: " + (ts.getTime() - tsValuePstmtNoCal.getTime()) + ", offset should be "
                     + pointInTimeOffset);
         } finally {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug3620");
@@ -266,7 +266,7 @@ public class DateTimeRegressionTest extends BaseTestCase {
 
         Calendar cal2 = Calendar.getInstance();
         cal2.setTime(sqlDate);
-        System.out.println(new java.sql.Date(cal2.getTime().getTime()));
+        (new java.sql.Date(cal2.getTime().getTime()));
         this.pstmt = nonLegacyConn.prepareStatement("INSERT INTO testBug15604_date_cal VALUES (?)");
 
         this.pstmt.setDate(1, sqlDate, cal);
@@ -295,7 +295,7 @@ public class DateTimeRegressionTest extends BaseTestCase {
         for (boolean useSSPS : new boolean[] { false, true }) {
             for (boolean sendFr : new boolean[] { false, true }) {
 
-                System.out.println("useServerPrepStmts=" + useSSPS + "; sendFractSeconds=" + sendFr);
+                ("useServerPrepStmts=" + useSSPS + "; sendFractSeconds=" + sendFr);
 
                 props.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "" + useSSPS);
                 props.setProperty(PropertyKey.sendFractionalSeconds.getKeyName(), "" + sendFr);
@@ -986,9 +986,9 @@ public class DateTimeRegressionTest extends BaseTestCase {
         this.stmt.execute("insert into testBug20316640 values('2038-01-19 03:14:07','18:59:59','9999-12-31')");
         this.rs = this.stmt.executeQuery("select * from testBug20316640");
         this.rs.next();
-        System.out.println("Col 1 [" + this.rs.getTimestamp("c1", null) + "]");
-        System.out.println("Col 2 [" + this.rs.getTime("c2", null) + "]");
-        System.out.println("Col 3 [" + this.rs.getDate("c3", null) + "]");
+        ("Col 1 [" + this.rs.getTimestamp("c1", null) + "]");
+        ("Col 2 [" + this.rs.getTime("c2", null) + "]");
+        ("Col 3 [" + this.rs.getDate("c3", null) + "]");
     }
 
     /**

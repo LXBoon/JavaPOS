@@ -186,7 +186,7 @@ public abstract class BasePerfTest extends BaseTestCase {
         messageBuf.append(" m-o-e: ");
         messageBuf.append(numberFormatter.format(getMarginOfError()));
 
-        System.out.println(messageBuf.toString());
+        (messageBuf.toString());
     }
 
     private double getConfidenceLookup() {

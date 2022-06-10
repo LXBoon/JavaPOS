@@ -76,6 +76,6 @@ public class SSLTest extends BaseTestCase {
 
         getConnectionWithProps(sslUrl.toString(), "");
 
-        System.out.println("<<<<<<<<<<< Look for SSL debug output >>>>>>>>>>>");
+        ("<<<<<<<<<<< Look for SSL debug output >>>>>>>>>>>");
     }
 }

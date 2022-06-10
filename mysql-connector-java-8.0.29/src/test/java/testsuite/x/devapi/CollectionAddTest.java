@@ -382,10 +382,10 @@ public class CollectionAddTest extends BaseCollectionTestCase {
         DbDoc doc = null;
         doc = docs.next();
         assertEquals("1000", ((JsonString) doc.get("_id")).getString());
-        System.out.println("ID :" + ((JsonString) doc.get("_id")).getString());
-        System.out.println("F1 :" + ((JsonString) doc.get("f1")).getString());
-        System.out.println("F2 :" + ((JsonString) doc.get("f2")).getString());
-        System.out.println("F3 :" + ((JsonNumber) doc.get("f3")).getInteger());
+        ("ID :" + ((JsonString) doc.get("_id")).getString());
+        ("F1 :" + ((JsonString) doc.get("f1")).getString());
+        ("F2 :" + ((JsonString) doc.get("f2")).getString());
+        ("F3 :" + ((JsonNumber) doc.get("f3")).getInteger());
     }
 
     @Test
@@ -540,7 +540,7 @@ public class CollectionAddTest extends BaseCollectionTestCase {
             longdata = buildString(datalen + i, 'X');
             json = json + longdata + "\"}";
             res = this.collection.add(json).add(json.replaceAll("6", "7")).add(json.replaceAll("6", "8")).execute();
-            System.out.println("getGeneratedIds: " + res.getGeneratedIds());
+            ("getGeneratedIds: " + res.getGeneratedIds());
 
         }
         assertEquals((maxrec * 3), this.collection.count());

@@ -6,41 +6,35 @@ import java.sql.*;
 import java.text.DecimalFormat;
 
 public class DatabaseConn {
-
-
-    static Connection conn;
-    static Statement st;
-    static ResultSet rs;
-    static PreparedStatement ps;
+    private static Connection conn;
+    private static Statement st;
+    private static ResultSet rs;
+    private static PreparedStatement ps;
 
     //on device mysql - my php admin   host
 
-    public  static String connString ="jdbc:mysql://localhost:3306/myshopdb";
-    public  static String user ="root";
-    public  static String password ="Reet369*";
+    private  static final String connString ="jdbc:mysql://localhost:3306/myshopdb";
+    private  static final String user ="root";
+    private  static final String password ="Reet369*";
 
     //online mysql - my php admin   host
-    public  static  boolean foundUser;
+
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
-
+    public  static  boolean foundUser;
     public static void findUser(String x, String y){
         try {
             conn = DriverManager.getConnection(connString, user, password);
             String sql ="select * from user_table where Name = '"+x+"' and Password ='"+y+"'";
             st = conn.createStatement();
             rs=st.executeQuery(sql);
-
             while (rs.next()){
-
                 if (rs.getString("Name").equals(x) && rs.getString("Password").equals(y)){
-
                     foundUser = true;
                     break;
                 }
             }
             conn.close();
-
         } catch (SQLException e) {
             foundUser = false;
             throw new RuntimeException(e);
@@ -146,7 +140,6 @@ public class DatabaseConn {
     }
 
     public  static void  deleteFromItemList(long x){
-
         try {
             conn = DriverManager.getConnection(connString, user, password);
             st = conn.createStatement();
@@ -172,9 +165,6 @@ public class DatabaseConn {
                 } catch (SQLException e) { /* Ignored */}
             }
         }
-
-
-
     }
 
     public static void  updateItemFromList(long id,String name, double price,int quantity, int tax){
@@ -211,8 +201,6 @@ public class DatabaseConn {
                 } catch (SQLException e) { /* Ignored */}
             }
         }
-
-
     }
 
     public static void search(DefaultTableModel tm,String x,String y){
@@ -237,7 +225,6 @@ public class DatabaseConn {
                 String tax = rs.getString("TaxPercentage");
                 String quantity = rs.getString("Quantity");
                 tm.addRow(new Object[]{id, name,price,tax,quantity });//Adding row in Table
-
             }
             conn.close();
         } catch (SQLException e) {
@@ -1267,7 +1254,7 @@ public class DatabaseConn {
             }
         }
         p = Double.parseDouble(df.format(p));
-        System.out.println(p);
+
         return p;
     }
 
@@ -1307,7 +1294,6 @@ public class DatabaseConn {
             }
         }
         p = Double.parseDouble(df.format(p));
-        System.out.println(p);
         return p;
     }
 
@@ -1362,16 +1348,6 @@ public class DatabaseConn {
         }
     }
 
-
-
-
-    public static void main(String[] args) {
-
-        //System.out.println(calculateProfit("2022-6-5","2022-6-6"));
-
-
-
-    }
 
 }
 

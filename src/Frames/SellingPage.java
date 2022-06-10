@@ -15,8 +15,8 @@ import static Frames.DatabaseConn.*;
 
 public class SellingPage {
 
-    static JTable jtsp;
-    static DefaultTableModel dtmsp;
+    static JTable jts;
+    static DefaultTableModel dtm;
     static int rn;
 
     static JButton btnNewSell;
@@ -47,11 +47,9 @@ public class SellingPage {
     static int sellItemID;//the ID off sell table
     static long itemID;
 
-    
-
     static void newSellTable(){
-        dtmsp = new DefaultTableModel();
-        jtsp = new JTable(dtmsp){
+        dtm = new DefaultTableModel();
+        jts = new JTable(dtm){
             @Serial
             private static final long serialVersionUID = 1L;
             public boolean isCellEditable(int row, int column) {
@@ -60,11 +58,11 @@ public class SellingPage {
         };
 
 
-        jtsp.getSelectionModel().addListSelectionListener(e -> {
+        jts.getSelectionModel().addListSelectionListener(e -> {
             try{
-                sellItemID = Integer.parseInt(jtsp.getValueAt(jtsp.getSelectedRow(),0).toString());
-                itemID = Long.parseLong(jtsp.getValueAt(jtsp.getSelectedRow(),1).toString());
-                ogQty = jtsp.getValueAt(jtsp.getSelectedRow(),3).toString();
+                sellItemID = Integer.parseInt(jts.getValueAt(jts.getSelectedRow(),0).toString());
+                itemID = Long.parseLong(jts.getValueAt(jts.getSelectedRow(),1).toString());
+                ogQty = jts.getValueAt(jts.getSelectedRow(),3).toString();
                 btnDeleteSell.setEnabled(true);
                 btnEditSell.setEnabled(true);
                 //JOptionPane.showMessageDialog(null,ogQty);
@@ -80,11 +78,11 @@ public class SellingPage {
         i.setVisible(true);
         i.setClosable(false);
 
-        sellTable(dtmsp,rn);
+        sellTable(dtm,rn);
 
-        jtsp.setVisible(true);
-        jtsp.setBounds(50,50,200,200);
-        JScrollPane sp=new JScrollPane(jtsp);
+        jts.setVisible(true);
+        jts.setBounds(50,50,200,200);
+        JScrollPane sp=new JScrollPane(jts);
         sp.setVisible(true);
         sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -114,8 +112,6 @@ public class SellingPage {
                 Date datef = new Date(System.currentTimeMillis());
                 date = DH.format(datef);
                 newReceipt(rn,date);
-
-
             }catch (Exception exception){
                 throw new RuntimeException(exception);
             }
@@ -211,7 +207,8 @@ public class SellingPage {
                     addSell(id,name,quantity,price,tax,rn);
 
                     totTax += taxX;
-                    refresh.doClick();
+                    //refresh.doClick();
+                    refresh();
                     totPrice= DatabaseConn.getTotalPrice(rn);
                     TotalPrice.setText(df.format(totPrice));
                     //totTax = DatabaseConn.getTotalTax(rn);
@@ -272,6 +269,21 @@ public class SellingPage {
         }
     }
 
+    static void refresh(){
+        boolean de;
+        try{
+            dtm.setColumnCount(0);
+            dtm.setRowCount(0);
+            de = true;
+        }catch (Exception exception){
+            de = false;
+            refresh.doClick();
+        }
+        if (de) {
+            DatabaseConn.sellTable(dtm,rn);
+        }
+    }
+
     static void tableButtons(){
         btnEditSell = new JButton("Edit Quantity");
         btnEditSell.setBounds(550,125,120,30);
@@ -279,7 +291,6 @@ public class SellingPage {
         btnEditSell.setFocusable(false);
         btnEditSell.setEnabled(false);
         btnEditSell.addActionListener(e->{
-
             btnSaveSell.setEnabled(true);
             btnDeleteSell.setEnabled(false);
             textFieldEditQ.setEnabled(true);
@@ -363,8 +374,9 @@ public class SellingPage {
                         totPrice= DatabaseConn.getTotalPrice(rn);
                         totPrice+=taxX;
                         TotalPrice.setText(df.format(totPrice));
-                        DatabaseConn.sellTable(dtmsp,rn);
-                        refresh.doClick();
+                        DatabaseConn.sellTable(dtm,rn);
+                        //refresh.doClick();
+                        refresh();
                     }
                     else {
                         JOptionPane.showMessageDialog(null,"Can not sell Item amount that exceeds the amount in Inventory\n" +
@@ -385,15 +397,15 @@ public class SellingPage {
         refresh.addActionListener(e -> {
             boolean de;
             try{
-                dtmsp.setColumnCount(0);
-                dtmsp.setRowCount(0);
+                dtm.setColumnCount(0);
+                dtm.setRowCount(0);
                 de = true;
             }catch (Exception exception){
                 de = false;
                 refresh.doClick();
             }
             if (de) {
-                DatabaseConn.sellTable(dtmsp,rn);
+                DatabaseConn.sellTable(dtm,rn);
             }
         });
         Design.f.add(refresh);
@@ -421,7 +433,7 @@ public class SellingPage {
             eq = false;
             textFieldSell.requestFocus();
             DatabaseConn.deleteSell(sellItemID,itemID);
-            refresh.doClick();
+            refresh();
             totPrice = DatabaseConn.getTotalPrice(rn);
             TotalPrice.setText(df.format(totPrice));
         });
@@ -451,44 +463,33 @@ public class SellingPage {
                 String ch =df.format(change);
                 double chng= Double.parseDouble(ch);
                 setPurchase(rn,totalP,paid,chng,type,totTax);
-
                 JOptionPane.showMessageDialog(null,"Total price:  "+totalP+"\nPaid: "+paid+"\nchange:  "+chng+" ");
-
                 String areaString = "------------------- RECEIPT -------------------";
                 area1.setText("Receipt NO:"+rn+"\n");
                 area1.setText(area1.getText()+"\nDate:"+date+"\n");
                 area1.setText(area1.getText()+"\n"+areaString+"\n");
-
                 area1.setText(area1.getText()+"\nName\tQuantity\tPrice\tTax\n");
                 area1.setText(area1.getText()+"\n----------------------------------------------------\n");
-
-                for (int i =0;i<jtsp.getRowCount();i++){
-                    String name = jtsp.getValueAt(i,2).toString();
-                    String quantity = jtsp.getValueAt(i,3).toString();
-                    String price = jtsp.getValueAt(i,4).toString();
-                    String tax =jtsp.getValueAt(i,5).toString();
+                for (int i = 0; i< jts.getRowCount(); i++){
+                    String name = jts.getValueAt(i,2).toString();
+                    String quantity = jts.getValueAt(i,3).toString();
+                    String price = jts.getValueAt(i,4).toString();
+                    String tax = jts.getValueAt(i,5).toString();
                     area1.setText(area1.getText()+"\n"+name+"\t"+quantity+"\t"+price+"\t"+tax+"\n");
                 }
                 area1.setText(area1.getText()+"-----------------------------------------------------\n"
                         +"Total Price: "+totalP+"\nTotal Tax:"+totTax+"\nPaid amount: "+ paid+"\nChange: "+chng);
                 area1.setText(area1.getText()+"");
                 area1.print();
-                dtmsp.setRowCount(0);
-                dtmsp.setColumnCount(0);
-                btnAddSell.setEnabled(false);
-                textFieldSell.setEnabled(false);
-                textFieldQ.setEnabled(false);
-                paidAmount.setText(null);
-                paidAmount.setVisible(false);
-                TotalPrice.setText(null);
-                totalTax.setText(null);
-                btnNewSell.setEnabled(true);
+                dtm.setRowCount(0);dtm.setColumnCount(0);
+                btnAddSell.setEnabled(false);textFieldSell.setEnabled(false);
+                textFieldQ.setEnabled(false);btnNewSell.setEnabled(true);
+                paidAmount.setText(null);paidAmount.setVisible(false);
+                TotalPrice.setText(null);totalTax.setText(null);
                 totalP=0;
                 totTax=0;
                 btnCompletePurchase.setEnabled(false);
                 btnCancelPurchase.setEnabled(false);
-
-
             } catch (PrinterException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 throw new RuntimeException(ex);
@@ -505,15 +506,15 @@ public class SellingPage {
         btnCancelPurchase.addActionListener(e->{
             try {
 
-                int rowCount = jtsp.getRowCount();
+                int rowCount = jts.getRowCount();
 
                 for (int i =0; i<rowCount; i++){
-                    int id = (int) jtsp.getValueAt(i,0);
-                    long itemID = (long) jtsp.getValueAt(i,1);
+                    int id = (int) jts.getValueAt(i,0);
+                    long itemID = (long) jts.getValueAt(i,1);
                     DatabaseConn.cancelPurchase(id,itemID);
                 }
-                dtmsp.setRowCount(0);
-                dtmsp.setColumnCount(0);
+                dtm.setRowCount(0);
+                dtm.setColumnCount(0);
                 btnAddSell.setEnabled(false);
                 textFieldSell.setEnabled(false);
                 textFieldQ.setEnabled(false);
@@ -603,7 +604,7 @@ public class SellingPage {
 
         newSellTable();
         try{
-            dtmsp.setRowCount(0);
+            dtm.setRowCount(0);
         }
         catch (Exception e){
             throw new RuntimeException(e);

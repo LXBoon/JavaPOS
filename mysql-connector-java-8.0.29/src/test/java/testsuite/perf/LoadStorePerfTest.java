@@ -63,7 +63,7 @@ public class LoadStorePerfTest extends BasePerfTest {
         if ((newTableType != null) && (newTableType.length() > 0)) {
             this.tableType = newTableType;
 
-            System.out.println("Using specified table type of '" + this.tableType + "'");
+            ("Using specified table type of '" + this.tableType + "'");
         }
 
         try {
@@ -108,7 +108,7 @@ public class LoadStorePerfTest extends BasePerfTest {
             numLoops = 32;
         }
 
-        System.out.println("Inserting " + numLoops + " rows to retrieve...");
+        ("Inserting " + numLoops + " rows to retrieve...");
 
         for (int i = 0; i < numLoops; i++) {
             this.stmt.executeUpdate("INSERT INTO perfLoadStore (priKey, fk1, fk2, dtField, charField1, charField2, charField3, charField4, "
@@ -283,7 +283,7 @@ public class LoadStorePerfTest extends BasePerfTest {
             addResult(tps);
             System.out.print("1 [ " + numFormatter.format(getMeanValue()) + " ] ");
         } else {
-            System.out.println("Warm-up: " + tps + " trans/sec");
+            ("Warm-up: " + tps + " trans/sec");
         }
     }
 
@@ -302,9 +302,9 @@ public class LoadStorePerfTest extends BasePerfTest {
                 System.out.print(".");
             }
 
-            System.out.println();
-            System.out.println("Warm-up period ends");
-            System.out.println("\nUnits for this test are transactions/sec.");
+            ();
+            ("Warm-up period ends");
+            ("\nUnits for this test are transactions/sec.");
         } catch (Exception ex) {
             ex.printStackTrace();
 

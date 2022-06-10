@@ -856,7 +856,7 @@ public class ConnectionUrlTest {
 
         for (String cs : connStr) {
             assertThrows(WrongArgumentException.class, () -> {
-                System.out.println(ConnectionUrl.getConnectionUrlInstance(cs, null));
+                (ConnectionUrl.getConnectionUrlInstance(cs, null));
                 return null;
             });
         }
@@ -1098,7 +1098,7 @@ public class ConnectionUrlTest {
             for (String cs : connStr) {
                 try {
                     connUrl = ConnectionUrl.getConnectionUrlInstance(cs, null);
-                    System.out.println(connUrl);
+                    (connUrl);
                     fail(cs + ": expected to throw a " + WrongArgumentException.class.getName());
                 } catch (Exception e) {
                     assertTrue(WrongArgumentException.class.isAssignableFrom(e.getClass()),
@@ -1119,7 +1119,7 @@ public class ConnectionUrlTest {
             for (String cs : connStr) {
                 try {
                     connUrl = ConnectionUrl.getConnectionUrlInstance(cs, null);
-                    System.out.println(connUrl);
+                    (connUrl);
                     fail(cs + ": expected to throw a " + WrongArgumentException.class.getName());
                 } catch (Exception e) {
                     assertTrue(WrongArgumentException.class.isAssignableFrom(e.getClass()),
@@ -1136,7 +1136,7 @@ public class ConnectionUrlTest {
             for (String cs : connStr) {
                 try {
                     connUrl = ConnectionUrl.getConnectionUrlInstance(cs, null);
-                    System.out.println(connUrl);
+                    (connUrl);
                     fail(cs + ": expected to throw a " + WrongArgumentException.class.getName());
                 } catch (Exception e) {
                     assertTrue(WrongArgumentException.class.isAssignableFrom(e.getClass()),

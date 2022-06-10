@@ -233,28 +233,28 @@ public final class PooledConnectionRegressionTest extends BaseTestCase {
 
                 try {
                     // Try to reclaim connection.
-                    System.out.println("Before connection reclaim.");
+                    ("Before connection reclaim.");
 
                     _conn = pc.getConnection();
 
-                    System.out.println("After connection reclaim.");
+                    ("After connection reclaim.");
                 } finally {
                     if (_conn != null) {
-                        System.out.println("Before connection.close().");
+                        ("Before connection.close().");
 
                         // This should generate a close event.
                         _conn.close();
 
-                        System.out.println("After connection.close().");
+                        ("After connection.close().");
                     }
                 }
             }
         } finally {
             if (pc != null) {
-                System.out.println("Before pooledConnection.close().");
+                ("Before pooledConnection.close().");
                 // This should not generate a close event.
                 pc.close();
-                System.out.println("After pooledConnection.close().");
+                ("After pooledConnection.close().");
             }
         }
 
@@ -321,22 +321,22 @@ public final class PooledConnectionRegressionTest extends BaseTestCase {
             for (int i = 0; i < NB_TESTS; i++) {
                 Connection pConn = pc.getConnection();
 
-                System.out.println("Before connection.close().");
+                ("Before connection.close().");
 
                 // This should generate a close event.
                 pConn.close();
 
-                System.out.println("After connection.close().");
+                ("After connection.close().");
             }
         } finally {
             if (pc != null) {
                 try {
-                    System.out.println("Before pooledConnection.close().");
+                    ("Before pooledConnection.close().");
 
                     // This should not generate a close event.
                     pc.close();
 
-                    System.out.println("After pooledConnection.close().");
+                    ("After pooledConnection.close().");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -351,12 +351,12 @@ public final class PooledConnectionRegressionTest extends BaseTestCase {
     protected final class ConnectionListener implements ConnectionEventListener {
         public void connectionClosed(ConnectionEvent event) {
             PooledConnectionRegressionTest.this.closeEventCount++;
-            System.out.println(PooledConnectionRegressionTest.this.closeEventCount + " - Connection closed.");
+            (PooledConnectionRegressionTest.this.closeEventCount + " - Connection closed.");
         }
 
         public void connectionErrorOccurred(ConnectionEvent event) {
             PooledConnectionRegressionTest.this.connectionErrorEventCount++;
-            System.out.println("Connection error: " + event.getSQLException());
+            ("Connection error: " + event.getSQLException());
         }
     }
 

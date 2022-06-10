@@ -109,7 +109,7 @@ public class ResultSetTest extends BaseTestCase {
 
         while (charsetNames.hasNext()) {
             String charsetName = charsetNames.next();
-            System.out.println(charsetName);
+            (charsetName);
 
             if (charsetName.equalsIgnoreCase("LATIN7") || charsetName.equalsIgnoreCase("BINARY")) {
                 continue; // no mapping in Java

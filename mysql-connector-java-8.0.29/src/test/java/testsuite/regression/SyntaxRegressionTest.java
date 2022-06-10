@@ -2038,7 +2038,7 @@ public class SyntaxRegressionTest extends BaseTestCase {
             assertFalse(this.rs.next());
 
         } else { // Syntax can still be tested by with different outcome.
-            System.out.println("Although not required it is recommended that the 'keyring_file' plugin is properly installed and configured to run this test.");
+            ("Although not required it is recommended that the 'keyring_file' plugin is properly installed and configured to run this test.");
 
             String err = "Can't find master key from keyring.*";
 

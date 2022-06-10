@@ -1095,7 +1095,7 @@ public class StatementsTest extends BaseTestCase {
             this.rs.next();
 
             long end = System.currentTimeMillis();
-            System.out.println(i + " columns = " + (end - start) + " ms");
+            (i + " columns = " + (end - start) + " ms");
         }
     }
 
@@ -1403,7 +1403,7 @@ public class StatementsTest extends BaseTestCase {
 
             int cnt = 0;
             while (this.rs.next()) {
-                System.out.println(++cnt);
+                (++cnt);
                 for (int k = 0; k < 14; k++) {
                     if (differentTypes[idx][k] == null) {
                         assertTrue(this.rs.getObject(k + 1) == null,

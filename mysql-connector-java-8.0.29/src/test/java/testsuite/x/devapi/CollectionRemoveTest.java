@@ -698,7 +698,7 @@ public class CollectionRemoveTest extends BaseCollectionTestCase {
         try {
             this.schema.dropCollection(null);
         } catch (Exception e) {
-            System.out.println("ERROR : " + e.getMessage());
+            ("ERROR : " + e.getMessage());
             assertTrue(e.getMessage().contains("must not be null"));
         }
 

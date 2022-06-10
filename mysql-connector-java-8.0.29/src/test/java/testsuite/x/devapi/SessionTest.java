@@ -2313,15 +2313,15 @@ public class SessionTest extends DevApiBaseTestCase {
 
             while (sqlRes.hasNext()) {
                 r = sqlRes.next();
-                //                System.out.println("col1 :" + r.getInt("col1"));
-                //                System.out.println("col2 :" + r.getLong("col2"));
-                //                System.out.println("col3 :" + r.getBigDecimal("col3"));
-                //                System.out.println("col4 :" + r.getBoolean("col4"));
-                //                System.out.println("col5 :" + r.getInt("col5"));
-                //                System.out.println("col6 :" + r.getDouble("col6"));
-                //                System.out.println("col7 :" + r.getString("col7"));
-                //                System.out.println("col8 :" + r.getString("col8"));
-                //                System.out.println("col9 :" + r.getString("col9"));
+                //                ("col1 :" + r.getInt("col1"));
+                //                ("col2 :" + r.getLong("col2"));
+                //                ("col3 :" + r.getBigDecimal("col3"));
+                //                ("col4 :" + r.getBoolean("col4"));
+                //                ("col5 :" + r.getInt("col5"));
+                //                ("col6 :" + r.getDouble("col6"));
+                //                ("col7 :" + r.getString("col7"));
+                //                ("col8 :" + r.getString("col8"));
+                //                ("col9 :" + r.getString("col9"));
             }
 
             asyncRes = this.session.sql("update testExecAsync set c2=c2-1").executeAsync();

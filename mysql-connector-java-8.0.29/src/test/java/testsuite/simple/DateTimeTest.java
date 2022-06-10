@@ -250,7 +250,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -486,7 +486,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -810,7 +810,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -1103,7 +1103,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -1371,7 +1371,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -1630,7 +1630,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -1818,7 +1818,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -2036,7 +2036,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -2291,7 +2291,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -2504,8 +2504,8 @@ public class DateTimeTest extends BaseTestCase {
         TimeZone serverTz;
         try (Connection testConn = getConnectionWithProps(props)) {
             serverTz = ((MysqlConnection) testConn).getSession().getServerSession().getSessionTimeZone();
-            System.out.println("Local tz: " + TimeZone.getDefault());
-            System.out.println("Server tz: " + serverTz);
+            ("Local tz: " + TimeZone.getDefault());
+            ("Server tz: " + serverTz);
         }
 
         OffsetDateTime odt_20200101_120000_123456_05_00 = OffsetDateTime.of(2020, 1, 1, 12, 00, 00, withFract ? 123456000 : 0, ZoneOffset.ofHours(5));
@@ -2521,7 +2521,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -2879,8 +2879,8 @@ public class DateTimeTest extends BaseTestCase {
         TimeZone serverTz;
         try (Connection testConn = getConnectionWithProps(props)) {
             serverTz = ((MysqlConnection) testConn).getSession().getServerSession().getSessionTimeZone();
-            System.out.println("Local tz: " + TimeZone.getDefault());
-            System.out.println("Server tz: " + serverTz);
+            ("Local tz: " + TimeZone.getDefault());
+            ("Server tz: " + serverTz);
         }
 
         ZonedDateTime zdt_20200101_120000_123456_05_00 = ZonedDateTime.of(withFract ? ldt_20200101_120000_123456 : ldt_20200101_120000_123456.withNano(0),
@@ -2897,7 +2897,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -3247,7 +3247,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -3471,7 +3471,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -3602,7 +3602,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -3834,7 +3834,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -3959,7 +3959,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -4070,7 +4070,7 @@ public class DateTimeTest extends BaseTestCase {
                                     for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                         for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                            System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession="
+                                            ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession="
                                                     + forceConnectionTimeZoneToSession + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts="
                                                     + useSSPS + "; sendFractSeconds=" + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 
@@ -4435,7 +4435,7 @@ public class DateTimeTest extends BaseTestCase {
                                 for (boolean sendFractionalSeconds : new boolean[] { false, true }) {
                                     for (boolean sendTimeFract : new boolean[] { false, true }) {
 
-                                        System.out.println("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
+                                        ("connTimeZone=" + connectionTZ + "; forceConnTimeZoneToSession=" + forceConnectionTimeZoneToSession
                                                 + "; preserveInstants=" + preserveInstants + "; useServerPrepStmts=" + useSSPS + "; sendFractSeconds="
                                                 + sendFractionalSeconds + "; sendFractSecondsForTime=" + sendTimeFract);
 

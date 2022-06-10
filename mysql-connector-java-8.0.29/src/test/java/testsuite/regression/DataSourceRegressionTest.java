@@ -393,7 +393,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
         MysqlDataSource myDs = new MysqlDataSource();
         myDs.setUrl(dbUrl);
         Reference asRef = myDs.getReference();
-        System.out.println(asRef);
+        (asRef);
 
         removeFromRef(asRef, "port");
         removeFromRef(asRef, PropertyKey.USER.getKeyName());
@@ -515,7 +515,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
                 this.rs.close();
                 if (connIsAlive) {
                     connAliveChecks--;
-                    System.out.println("Connection id " + connId + " is still alive. Checking " + connAliveChecks + " more times.");
+                    ("Connection id " + connId + " is still alive. Checking " + connAliveChecks + " more times.");
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {

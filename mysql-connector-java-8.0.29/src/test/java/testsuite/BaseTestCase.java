@@ -631,9 +631,9 @@ public abstract class BaseTestCase {
      */
     @BeforeEach
     public void setUpBase(TestInfo testInfo) throws Exception {
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("Running test " + testInfo.getTestClass().get().getName() + "#" + testInfo.getDisplayName());
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        ("Running test " + testInfo.getTestClass().get().getName() + "#" + testInfo.getDisplayName());
+        ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Class.forName(this.dbClass);
         this.createdObjects = new ArrayList<>();
 

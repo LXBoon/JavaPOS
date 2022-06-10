@@ -91,7 +91,7 @@ public class TestUtils {
                 if (address instanceof Inet6Address) {
                     addresses.add((Inet6Address) address);
                 }
-                System.out.println(address.getHostAddress());
+                (address.getHostAddress());
             }
         } catch (UnknownHostException e) {
             // Failed to get the network interfaces. Return an empty list. 

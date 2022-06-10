@@ -75,7 +75,7 @@ public class DateTest extends BaseTestCase {
         cal.set(Calendar.MILLISECOND, 0);
         cal.set(Calendar.AM_PM, Calendar.AM);
         cal.getTime();
-        System.out.println(cal);
+        (cal);
 
         // DateFormat df = SimpleDateFormat.getInstance();
         DateFormat df = TimeUtil.getSimpleDateFormat(null, "yyyy/MM/dd HH:mm:ss z", null);
@@ -86,13 +86,13 @@ public class DateTest extends BaseTestCase {
         java.sql.Date nowDate = new java.sql.Date(cal.getTime().getTime());
         Timestamp nowDatetime = new Timestamp(cal.getTime().getTime());
         java.sql.Time nowTime = new java.sql.Time(cal.getTime().getTime());
-        System.out.println("** Times with given calendar (before storing) **\n");
-        System.out.println("TIMESTAMP:\t" + nowTstamp.getTime() + " -> " + df.format(nowTstamp));
-        System.out.println("DATE:\t\t" + nowDate.getTime() + " -> " + df.format(nowDate));
-        System.out.println("DATETIME:\t" + nowDatetime.getTime() + " -> " + df.format(nowDatetime));
-        System.out.println("DATE:\t\t" + nowDate.getTime() + " -> " + df.format(nowDate));
-        System.out.println("TIME:\t\t" + nowTime.getTime() + " -> " + df.format(nowTime));
-        System.out.println("\n");
+        ("** Times with given calendar (before storing) **\n");
+        ("TIMESTAMP:\t" + nowTstamp.getTime() + " -> " + df.format(nowTstamp));
+        ("DATE:\t\t" + nowDate.getTime() + " -> " + df.format(nowDate));
+        ("DATETIME:\t" + nowDatetime.getTime() + " -> " + df.format(nowDatetime));
+        ("DATE:\t\t" + nowDate.getTime() + " -> " + df.format(nowDate));
+        ("TIME:\t\t" + nowTime.getTime() + " -> " + df.format(nowTime));
+        ("\n");
         this.pstmt.setTimestamp(1, nowTstamp, calGMT);
         // have to use the same TimeZone as used to create or there will be
         // shift
@@ -116,12 +116,12 @@ public class DateTest extends BaseTestCase {
             java.sql.Timestamp thenDatetime = this.rs.getTimestamp(3, calGMT);
 
             java.sql.Time thenTime = this.rs.getTime(4, cal);
-            System.out.println("** Times with given calendar (retrieved from database) **\n");
-            System.out.println("TIMESTAMP:\t" + thenTstamp.getTime() + " -> " + df.format(thenTstamp));
-            System.out.println("DATE:\t\t" + thenDate.getTime() + " -> " + df.format(thenDate));
-            System.out.println("DATETIME:\t" + thenDatetime.getTime() + " -> " + df.format(thenDatetime));
-            System.out.println("TIME:\t\t" + thenTime.getTime() + " -> " + df.format(thenTime));
-            System.out.println("\n");
+            ("** Times with given calendar (retrieved from database) **\n");
+            ("TIMESTAMP:\t" + thenTstamp.getTime() + " -> " + df.format(thenTstamp));
+            ("DATE:\t\t" + thenDate.getTime() + " -> " + df.format(thenDate));
+            ("DATETIME:\t" + thenDatetime.getTime() + " -> " + df.format(thenDatetime));
+            ("TIME:\t\t" + thenTime.getTime() + " -> " + df.format(thenTime));
+            ("\n");
         }
 
         this.rs.close();
@@ -326,10 +326,10 @@ public class DateTest extends BaseTestCase {
             pStmt.executeUpdate();
             this.rs = this.stmt.executeQuery("SELECT * FROM testReggieBug");
             this.rs.next();
-            System.out.println(this.rs.getDate(1));
+            (this.rs.getDate(1));
             this.rs = this.conn.prepareStatement("SELECT * FROM testReggieBug").executeQuery();
             this.rs.next();
-            System.out.println(this.rs.getDate(1));
+            (this.rs.getDate(1));
 
         } finally {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testReggieBug");
@@ -354,19 +354,19 @@ public class DateTest extends BaseTestCase {
         this.pstmt = this.conn.prepareStatement("SELECT time_field, date_field, datetime_field, timestamp_field FROM testNativeConversions");
         ResultSet rs1 = this.pstmt.executeQuery();
         assertTrue(rs1.next());
-        System.out.println(rs1.getTime(1));
-        System.out.println(rs1.getTime(2));
-        System.out.println(rs1.getTime(3));
-        System.out.println(rs1.getTime(4));
-        System.out.println();
-        System.out.println(rs1.getDate(1));
-        System.out.println(rs1.getDate(2));
-        System.out.println(rs1.getDate(3));
-        System.out.println(rs1.getDate(4));
-        System.out.println();
-        System.out.println(rs1.getTimestamp(1));
-        System.out.println(rs1.getTimestamp(2));
-        System.out.println(rs1.getTimestamp(3));
-        System.out.println(rs1.getTimestamp(4));
+        (rs1.getTime(1));
+        (rs1.getTime(2));
+        (rs1.getTime(3));
+        (rs1.getTime(4));
+        ();
+        (rs1.getDate(1));
+        (rs1.getDate(2));
+        (rs1.getDate(3));
+        (rs1.getDate(4));
+        ();
+        (rs1.getTimestamp(1));
+        (rs1.getTimestamp(2));
+        (rs1.getTimestamp(3));
+        (rs1.getTimestamp(4));
     }
 }

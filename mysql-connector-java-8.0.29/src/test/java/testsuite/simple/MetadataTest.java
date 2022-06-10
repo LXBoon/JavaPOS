@@ -85,7 +85,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -126,7 +126,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 ResultSet rs1 = null;
@@ -238,7 +238,7 @@ public class MetadataTest extends BaseTestCase {
                     props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                     props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                    System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                    ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                     try {
                         conn1 = getConnectionWithProps(props);
@@ -431,7 +431,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -580,7 +580,7 @@ public class MetadataTest extends BaseTestCase {
             assertTrue(!((Boolean) this.rs.getObject(2)).booleanValue());
             assertEquals(this.rs.getObject(3), null);
 
-            System.out.println(this.rs.getObject(1) + ", " + this.rs.getObject(2) + ", " + this.rs.getObject(3));
+            (this.rs.getObject(1) + ", " + this.rs.getObject(2) + ", " + this.rs.getObject(3));
 
             this.rs = this.conn.prepareStatement("SELECT field1, field2, field3 FROM testBitType").executeQuery();
             this.rs.next();
@@ -599,7 +599,7 @@ public class MetadataTest extends BaseTestCase {
 
             createTable("testBitField", "(field1 BIT(9))");
             this.rs = this.stmt.executeQuery("SELECT field1 FROM testBitField");
-            System.out.println(this.rs.getMetaData().getColumnClassName(1));
+            (this.rs.getMetaData().getColumnClassName(1));
         } finally {
         }
     }
@@ -748,7 +748,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -900,7 +900,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -1077,7 +1077,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -1143,7 +1143,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -1206,7 +1206,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -1284,7 +1284,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -1423,7 +1423,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -1489,7 +1489,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -1769,7 +1769,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {
@@ -1841,7 +1841,7 @@ public class MetadataTest extends BaseTestCase {
                 props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "" + useIS);
                 props.setProperty(PropertyKey.databaseTerm.getKeyName(), dbMapsToSchema ? DatabaseTerm.SCHEMA.name() : DatabaseTerm.CATALOG.name());
 
-                System.out.println("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
+                ("useIS=" + useIS + ", dbMapsToSchema=" + dbMapsToSchema);
 
                 Connection conn1 = null;
                 try {

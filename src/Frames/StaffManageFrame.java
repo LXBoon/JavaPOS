@@ -62,8 +62,9 @@ public class StaffManageFrame {
                 deleteStaff.setEnabled(true);
                 editStaff.setEnabled(true);
 
+
             }catch (Exception exception){
-                System.out.println(exception);
+
             }
         });
         i = new JInternalFrame(("Staff"),false,false,false,false);
@@ -126,9 +127,9 @@ public class StaffManageFrame {
                 newStaffFrame();
                 jtST.clearSelection();
             }catch (Exception exception){
+                JOptionPane.showMessageDialog(null,exception);
                 throw new RuntimeException(exception);
             }
-
         });
         Design.f.add(btnNewStaff);
 
@@ -142,12 +143,11 @@ public class StaffManageFrame {
         deleteStaff.setForeground(Color.white);
         deleteStaff.addActionListener(e->{
             //delete from sql
-            deleteStaff(slcId);
+            DatabaseConn.deleteStaff(slcId);
             dtmST.setRowCount(0);
-            showStaffTable(dtmST);
-            JOptionPane.showMessageDialog(null,"Updated "+fn+" "+ln+" to Staff");
-            deleteStaff.setEnabled(false);
-            editStaff.setEnabled(false);
+            dtmST.setColumnCount(0);
+            DatabaseConn.showStaffTable(dtmST);
+            JOptionPane.showMessageDialog(null,"Deleted "+slcFN+" "+slcLN+" from Staff");
             jtST.clearSelection();
         });
         Design.f.add(deleteStaff);
@@ -159,11 +159,7 @@ public class StaffManageFrame {
         editStaff.setEnabled(false);
         editStaff.setVisible(true);
         editStaff.setBackground(Color.yellow);
-        editStaff.addActionListener(e->{
-            btnNewStaff.setEnabled(false);
-            deleteStaff.setEnabled(false);
-            editStaff.setEnabled(false);
-            //Update sql
+        editStaff.addActionListener(e-> {
             UpdateStaffFrame();
         });
         Design.f.add(editStaff);
@@ -206,41 +202,30 @@ public class StaffManageFrame {
     }
 
     static void newStaffFrame(){
-
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
-
             }
-
             @Override
             public void windowClosing(WindowEvent e) {
                 f.setEnabled(true);
                 y=50;
             }
-
             @Override
             public void windowClosed(WindowEvent e) {
                 f.setEnabled(true);
                 y=50;
             }
-
             @Override
             public void windowIconified(WindowEvent e) {
-
             }
-
             @Override
             public void windowDeiconified(WindowEvent e) {
-
             }
-
             @Override
             public void windowActivated(WindowEvent e) {
-
             }
-
             @Override
             public void windowDeactivated(WindowEvent e) {
                 f.setEnabled(true);
@@ -253,6 +238,7 @@ public class StaffManageFrame {
         f.setResizable(false);
         f.setLocationRelativeTo(null);
         f.setForeground(new Color(0, 23, 64));
+        f.setTitle("Adding new staff");
         f.setVisible(true);
 
         createTF(id,"ID");
@@ -262,9 +248,7 @@ public class StaffManageFrame {
         createTF(email,"Email");
         createTF(position,"Position");
         createTF(salary,"Salary");
-
         add =new JButton("Add");
-
         add.addActionListener(e->{
             try{
                 ID = Long.parseLong(id.getText());
@@ -274,22 +258,20 @@ public class StaffManageFrame {
                 Email = email.getText();
                 Position = position.getText();
                 Salary = Double.parseDouble(salary.getText());
-                addStaff(ID,fn,ln, Phone, Email, Position, Salary);
+                DatabaseConn.addStaff(ID,fn,ln, Phone, Email, Position, Salary);
                 Design.f.setEnabled(true);
                 f.dispose();
                 dtmST.setRowCount(0);
-                showStaffTable(dtmST);
+                dtmST.setColumnCount(0);
+                DatabaseConn.showStaffTable(dtmST);
                 JOptionPane.showMessageDialog(null,"Added "+fn+" "+ln+" to Staff");
                 id.setText(null);FN.setText(null);LN.setText(null);
                 phone.setText(null);email.setText(null);position.setText(null);
                 salary.setText(null);
-
-
-
             }catch (Exception exception){
+                JOptionPane.showMessageDialog(null,exception);
                 throw new RuntimeException(exception);
             }
-
         });
         add.setBounds(x,y,120,30);
         add.setBackground(new Color(91, 255, 12));
@@ -313,9 +295,6 @@ public class StaffManageFrame {
             Design.f.setEnabled(true);
         });
         f.add(cancel);
-
-
-
     }
     static void UpdateStaffFrame(){
         //if (f.isActive()) f.dispose();
@@ -366,7 +345,7 @@ public class StaffManageFrame {
         f.setLocationRelativeTo(null);
         f.setForeground(new Color(0, 23, 64));
         f.setVisible(true);
-
+        f.setTitle("Update information about staff");
         createTF(id,"ID",slcIDNum);
         createTF(FN,"First Name",slcFN);
         createTF(LN,"Last Name",slcLN);
@@ -374,11 +353,9 @@ public class StaffManageFrame {
         createTF(email,"Email",slcEmail);
         createTF(position,"Position",slcPosition);
         createTF(salary,"Salary",slcSalary);
-
         update =new JButton("Update");
         update.addActionListener(e->{
             try{
-
                 ID = Long.parseLong(id.getText());
                 fn = FN.getText();
                 ln = LN.getText();
@@ -386,24 +363,17 @@ public class StaffManageFrame {
                 Email = email.getText();
                 Position = position.getText();
                 Salary = Double.parseDouble(salary.getText());
-
-                updateStaff(slcId,ID,fn,ln, Phone, Email, Position, Salary);
-
-
+                DatabaseConn.updateStaff(slcId,ID,fn,ln, Phone, Email, Position, Salary);
                 f.dispose();
                 dtmST.setRowCount(0);
                 dtmST.setColumnCount(0);
-                showStaffTable(dtmST);
+                DatabaseConn.showStaffTable(dtmST);
                 JOptionPane.showMessageDialog(null,"Updated "+fn+" "+ln+" to Staff");
                 id.setText(null);FN.setText(null);LN.setText(null);
                 phone.setText(null);email.setText(null);position.setText(null);
                 salary.setText(null);
-
-
             }catch (Exception exception){
-                System.out.println(exception);
             }
-
         });
         update.setBounds(x,y,120,30);
         update.setBackground(new Color(91, 255, 12));
@@ -451,8 +421,9 @@ public class StaffManageFrame {
             public void insertUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
                 dtmST.setRowCount(0);
+                dtmST.setColumnCount(0);
                 String by = cb.getItemAt(cb.getSelectedIndex());
-                searchStaff(dtmST,searchText.getText(),by);
+                DatabaseConn.searchStaff(dtmST,searchText.getText(),by);
                 searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
             }
 
@@ -460,8 +431,9 @@ public class StaffManageFrame {
             public void removeUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
                 dtmST.setRowCount(0);
+                dtmST.setColumnCount(0);
                 String by = cb.getItemAt(cb.getSelectedIndex());
-                searchStaff(dtmST,searchText.getText(),by);
+                DatabaseConn.searchStaff(dtmST,searchText.getText(),by);
                 searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
             }
 
@@ -469,8 +441,9 @@ public class StaffManageFrame {
             public void changedUpdate(DocumentEvent e) {
                 searchText.setText(search.getText().trim());
                 dtmST.setRowCount(0);
+                dtmST.setColumnCount(0);
                 String by = cb.getItemAt(cb.getSelectedIndex());
-                searchStaff(dtmST,searchText.getText(),by);
+                DatabaseConn.searchStaff(dtmST,searchText.getText(),by);
                 searchText.setText("Searching ' "+search.getText().trim()+" ' in table By "+by);
             }
         });

@@ -97,7 +97,7 @@ public class TranslateExceptions {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println("Applying TranslateExceptions.");
+        ("Applying TranslateExceptions.");
 
         verbose = "true".equalsIgnoreCase(args[1]);
 
@@ -727,7 +727,7 @@ public class TranslateExceptions {
 
     private static void sysOutPrintln(String s) {
         if (verbose) {
-            System.out.println(s);
+            (s);
         }
     }
 

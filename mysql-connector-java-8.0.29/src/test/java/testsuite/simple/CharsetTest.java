@@ -266,8 +266,8 @@ public class CharsetTest extends BaseTestCase {
     public void testCharsetMapping() throws Exception {
         SortedMap<String, Charset> availableCharsets = Charset.availableCharsets();
         Set<String> k = availableCharsets.keySet();
-        System.out.println("Java encoding --> Initial encoding (Can encode), Encoding by index, Index by encoding, collation by index, charset by index...");
-        System.out.println("===================================");
+        ("Java encoding --> Initial encoding (Can encode), Encoding by index, Index by encoding, collation by index, charset by index...");
+        ("===================================");
         Iterator<String> i1 = k.iterator();
         while (i1.hasNext()) {
             String canonicalName = i1.next();
@@ -277,7 +277,7 @@ public class CharsetTest extends BaseTestCase {
             int index = CharsetMappingWrapper.getStaticCollationIndexForJavaEncoding(canonicalName, this.serverVersion);
             String csname = CharsetMappingWrapper.getStaticMysqlCharsetNameForCollationIndex(index);
 
-            System.out.println((canonicalName + "                              ").substring(0, 26) + " (" + cs.canEncode() + ") --> "
+            ((canonicalName + "                              ").substring(0, 26) + " (" + cs.canEncode() + ") --> "
                     + CharsetMappingWrapper.getStaticJavaEncodingForCollationIndex(index) + "  :  " + index + "  :  "
                     + CharsetMappingWrapper.getStaticCollationNameForCollationIndex(index) + "  :  "
                     + CharsetMappingWrapper.getStaticMysqlCharsetNameForCollationIndex(index) + "  :  "
@@ -292,7 +292,7 @@ public class CharsetTest extends BaseTestCase {
                 String alias = j.next();
                 index = CharsetMappingWrapper.getStaticCollationIndexForJavaEncoding(alias, this.serverVersion);
                 csname = CharsetMappingWrapper.getStaticMysqlCharsetNameForCollationIndex(index);
-                System.out.println("   " + (alias + "                              ").substring(0, 30) + " --> "
+                ("   " + (alias + "                              ").substring(0, 30) + " --> "
                         + CharsetMappingWrapper.getStaticJavaEncodingForCollationIndex(index) + "  :  " + index + "  :  "
                         + CharsetMappingWrapper.getStaticCollationNameForCollationIndex(index) + "  :  "
                         + CharsetMappingWrapper.getStaticMysqlCharsetNameForCollationIndex(index) + "  :  "
@@ -302,13 +302,13 @@ public class CharsetTest extends BaseTestCase {
                         + CharsetMappingWrapper.getStaticCollationIndexForJavaEncoding(alias, this.serverVersion) + "  :  "
                         + CharsetMappingWrapper.isStaticMultibyteCharset(alias));
             }
-            System.out.println("===================================");
+            ("===================================");
         }
         for (int i = 1; i < CharsetMapping.MAP_SIZE; i++) {
             String csname = CharsetMappingWrapper.getStaticMysqlCharsetNameForCollationIndex(i);
             if (csname != null) {
                 String enc = CharsetMappingWrapper.getStaticJavaEncodingForCollationIndex(i);
-                System.out.println((i + "   ").substring(0, 4) + " by index--> "
+                ((i + "   ").substring(0, 4) + " by index--> "
                         + (CharsetMappingWrapper.getStaticCollationNameForCollationIndex(i) + "                    ").substring(0, 20) + "  :  "
                         + (csname + "          ").substring(0, 10) + "  :  " + (enc + "                    ").substring(0, 20)
 
@@ -697,17 +697,17 @@ public class CharsetTest extends BaseTestCase {
             System.out.print("\t\t");
         }
 
-        System.out.println();
+        ();
 
         while (this.rs.next()) {
-            System.out.println(this.rs.getString(1) + "\t\t" + this.rs.getString(2) + "\t\t" + this.rs.getString(3));
+            (this.rs.getString(1) + "\t\t" + this.rs.getString(2) + "\t\t" + this.rs.getString(3));
 
             if (this.rs.getString(1).equals("CYR SMALL A")) {
                 this.rs.getString(2);
             }
         }
 
-        System.out.println();
+        ();
 
         this.stmt.executeUpdate("SET NAMES utf8");
         this.rs = this.stmt.executeQuery("SELECT _koi8r 0xC1;");
@@ -721,18 +721,18 @@ public class CharsetTest extends BaseTestCase {
             System.out.print("\t\t");
         }
 
-        System.out.println();
+        ();
 
         while (this.rs.next()) {
-            System.out.println(this.rs.getString(1).equals("\u0430") + "\t\t");
-            System.out.println(new String(this.rs.getBytes(1), "KOI8_R"));
+            (this.rs.getString(1).equals("\u0430") + "\t\t");
+            (new String(this.rs.getBytes(1), "KOI8_R"));
 
         }
 
         char[] c = new char[] { 0xd0b0 };
 
-        System.out.println(new String(c));
-        System.out.println("\u0430");
+        (new String(c));
+        ("\u0430");
     }
 
     /**
@@ -765,7 +765,7 @@ public class CharsetTest extends BaseTestCase {
                 props.setProperty(PropertyKey.allowPublicKeyRetrieval.getKeyName(), "true");
                 props.setProperty(PropertyKey.characterEncoding.getKeyName(), enc);
 
-                System.out.println(", Java encoding " + enc);
+                (", Java encoding " + enc);
 
                 charsetConn = getConnectionWithProps(props);
 
@@ -848,12 +848,12 @@ public class CharsetTest extends BaseTestCase {
             utf8Conn = getConnectionWithProps(props);
             this.rs = utf8Conn.createStatement().executeQuery("SHOW VARIABLES LIKE 'character_%'");
             while (this.rs.next()) {
-                System.out.println(this.rs.getString(1) + " = " + this.rs.getString(2));
+                (this.rs.getString(1) + " = " + this.rs.getString(2));
             }
 
             this.rs = utf8Conn.createStatement().executeQuery("SHOW VARIABLES LIKE 'collation_%'");
             while (this.rs.next()) {
-                System.out.println(this.rs.getString(1) + " = " + this.rs.getString(2));
+                (this.rs.getString(1) + " = " + this.rs.getString(2));
             }
         } finally {
             if (utf8Conn != null) {
@@ -929,8 +929,8 @@ public class CharsetTest extends BaseTestCase {
 
             String retrievedString = this.rs.getString(1);
 
-            System.out.println(latin1String);
-            System.out.println(retrievedString);
+            (latin1String);
+            (retrievedString);
 
             if (!retrievedString.equals(latin1String)) {
                 int stringLength = Math.min(retrievedString.length(), latin1String.length());
@@ -969,7 +969,7 @@ public class CharsetTest extends BaseTestCase {
             bytesOut.append(" ");
         }
 
-        System.out.println(bytesOut.toString());
+        (bytesOut.toString());
 
         String origString = new String(origByteStream, "SJIS");
         byte[] newByteStream = StringUtils.getBytes(origString, "SJIS");
@@ -984,7 +984,7 @@ public class CharsetTest extends BaseTestCase {
             bytesOut.append(" ");
         }
 
-        System.out.println(bytesOut.toString());
+        (bytesOut.toString());
 
         //
         // Now, insert and retrieve the value from the database
@@ -1004,7 +1004,7 @@ public class CharsetTest extends BaseTestCase {
             this.rs = sjisStmt.executeQuery("SHOW VARIABLES LIKE 'character_set%'");
 
             while (this.rs.next()) {
-                System.out.println(this.rs.getString(1) + " = " + this.rs.getString(2));
+                (this.rs.getString(1) + " = " + this.rs.getString(2));
             }
 
             sjisStmt.executeUpdate("DROP TABLE IF EXISTS sjisTest");
@@ -1027,7 +1027,7 @@ public class CharsetTest extends BaseTestCase {
                     bytesOut.append(" ");
                 }
 
-                System.out.println("Value retrieved from database: " + bytesOut.toString());
+                ("Value retrieved from database: " + bytesOut.toString());
 
                 String testValue = this.rs.getString(1);
 
@@ -1136,7 +1136,7 @@ public class CharsetTest extends BaseTestCase {
         assertTrue(this.rs.next());
 
         String testValue = this.rs.getString(1);
-        System.out.println(testValue);
+        (testValue);
         assertTrue(testValue.equals(charsToTest));
 
     }
@@ -1254,7 +1254,7 @@ public class CharsetTest extends BaseTestCase {
         String codePage1252 = new String(new byte[] { (byte) 0x80, (byte) 0x82, (byte) 0x83, (byte) 0x84, (byte) 0x85, (byte) 0x86, (byte) 0x87, (byte) 0x88,
                 (byte) 0x89, (byte) 0x8a, (byte) 0x8b, (byte) 0x8c, (byte) 0x8e }, "Cp1252");
 
-        System.out.println(codePage1252);
+        (codePage1252);
 
         Properties props = new Properties();
         props.setProperty(PropertyKey.sslMode.getKeyName(), SslMode.DISABLED.name());

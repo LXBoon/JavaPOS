@@ -239,7 +239,7 @@ public class StatementRegressionTest extends BaseTestCase {
         cmd.setLength(cmd.length() - 2); // trim the final ", "
 
         // execute and print it
-        System.out.println(cmd.toString());
+        (cmd.toString());
 
         PreparedStatement pStmt = this.conn.prepareStatement(cmd.toString(), Statement.RETURN_GENERATED_KEYS);
 
@@ -250,7 +250,7 @@ public class StatementRegressionTest extends BaseTestCase {
         }
 
         // print out what actually happened
-        System.out.println("Expect " + newKeys + " generated keys, starting from " + nextID);
+        ("Expect " + newKeys + " generated keys, starting from " + nextID);
 
         this.rs = pStmt.getGeneratedKeys();
         StringBuilder res = new StringBuilder("Got keys");
@@ -274,18 +274,18 @@ public class StatementRegressionTest extends BaseTestCase {
                 "Didn't retrieve expected number of generated keys, expected " + newKeys + ", found " + numberOfGeneratedKeys);
         assertTrue(generatedKeys[0] == nextID, "Keys didn't start with correct sequence: ");
 
-        System.out.println(res.toString());
+        (res.toString());
 
         // Read and print the new state of the table
         this.rs = this.stmt.executeQuery("SELECT id, val FROM testggk");
-        System.out.println("New table contents ");
+        ("New table contents ");
 
         while (this.rs.next()) {
-            System.out.println("Id " + this.rs.getString(1) + " val " + this.rs.getString(2));
+            ("Id " + this.rs.getString(1) + " val " + this.rs.getString(2));
         }
 
         // Tidy up
-        System.out.println("");
+        ("");
         nextID += newKeys;
     }
 
@@ -312,7 +312,7 @@ public class StatementRegressionTest extends BaseTestCase {
         cmd.setLength(cmd.length() - 2); // trim the final ", "
 
         // execute and print it
-        System.out.println(cmd.toString());
+        (cmd.toString());
 
         if (useUpdate) {
             this.stmt.executeUpdate(cmd.toString(), Statement.RETURN_GENERATED_KEYS);
@@ -321,7 +321,7 @@ public class StatementRegressionTest extends BaseTestCase {
         }
 
         // print out what actually happened
-        System.out.println("Expect " + newKeys + " generated keys, starting from " + nextID);
+        ("Expect " + newKeys + " generated keys, starting from " + nextID);
 
         this.rs = this.stmt.getGeneratedKeys();
         StringBuilder res = new StringBuilder("Got keys");
@@ -345,18 +345,18 @@ public class StatementRegressionTest extends BaseTestCase {
                 "Didn't retrieve expected number of generated keys, expected " + newKeys + ", found " + numberOfGeneratedKeys);
         assertTrue(generatedKeys[0] == nextID, "Keys didn't start with correct sequence: ");
 
-        System.out.println(res.toString());
+        (res.toString());
 
         // Read and print the new state of the table
         this.rs = this.stmt.executeQuery("SELECT id, val FROM testggk");
-        System.out.println("New table contents ");
+        ("New table contents ");
 
         while (this.rs.next()) {
-            System.out.println("Id " + this.rs.getString(1) + " val " + this.rs.getString(2));
+            ("Id " + this.rs.getString(1) + " val " + this.rs.getString(2));
         }
 
         // Tidy up
-        System.out.println("");
+        ("");
         nextID += newKeys;
     }
 
@@ -1052,13 +1052,13 @@ public class StatementRegressionTest extends BaseTestCase {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug1934");
             this.stmt.executeUpdate("CREATE TABLE testBug1934 (field1 INT)");
 
-            System.out.println("Before prepareStatement()");
+            ("Before prepareStatement()");
 
             this.pstmt = this.conn.prepareStatement("INSERT INTO testBug1934 VALUES (?)", java.sql.Statement.RETURN_GENERATED_KEYS);
 
             assertTrue(this.pstmt != null);
 
-            System.out.println("After prepareStatement() - " + this.pstmt);
+            ("After prepareStatement() - " + this.pstmt);
         } finally {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug1934");
         }
@@ -1205,7 +1205,7 @@ public class StatementRegressionTest extends BaseTestCase {
             this.stmt.executeUpdate("INSERT INTO t VALUES (1)");
             this.stmt.executeUpdate("INSERT INTO t VALUES (1)");
         } catch (SQLException sqlEx) {
-            System.out.println(sqlEx.getSQLState());
+            (sqlEx.getSQLState());
         } finally {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS t");
         }
@@ -1279,8 +1279,8 @@ public class StatementRegressionTest extends BaseTestCase {
             this.rs.next();
             String tsValueAsString = new String(this.rs.getBytes(1));
             Timestamp tsValueAsTimestamp = this.rs.getTimestamp(1);
-            System.out.println("Timestamp as String, inserted with no calendar: " + tsValueAsString.toString());
-            System.out.println("Timestamp as Timestamp, inserted with no calendar: " + tsValueAsTimestamp);
+            ("Timestamp as String, inserted with no calendar: " + tsValueAsString.toString());
+            ("Timestamp as Timestamp, inserted with no calendar: " + tsValueAsTimestamp);
 
             connNoTz.createStatement().executeUpdate("DELETE FROM testBug3620");
 
@@ -1300,31 +1300,31 @@ public class StatementRegressionTest extends BaseTestCase {
             this.rs.next();
             tsValueAsString = new String(this.rs.getBytes(1));
             tsValueAsTimestamp = this.rs.getTimestamp(1);
-            System.out.println("Timestamp as String, inserted with UTC calendar: " + tsValueAsString.toString());
-            System.out.println("Timestamp as Timestamp, inserted with UTC calendar: " + tsValueAsTimestamp);
+            ("Timestamp as String, inserted with UTC calendar: " + tsValueAsString.toString());
+            ("Timestamp as Timestamp, inserted with UTC calendar: " + tsValueAsTimestamp);
 
             this.rs = tsStmt.executeQuery("SELECT field1 FROM testBug3620");
             this.rs.next();
             Timestamp tsValueUTC = this.rs.getTimestamp(1, cal);
-            System.out.println("Timestamp specifying UTC calendar from statement: " + tsValueUTC.toString());
+            ("Timestamp specifying UTC calendar from statement: " + tsValueUTC.toString());
 
             // We use this testcase with other vendors, JDBC spec requires result set fields can only be read once, although MySQL doesn't require this ;)
             this.rs = tsStmt.executeQuery("SELECT field1 FROM testBug3620");
             this.rs.next();
             Timestamp tsValueStmtNoCal = this.rs.getTimestamp(1);
-            System.out.println("Timestamp specifying no calendar from statement: " + tsValueStmtNoCal.toString());
+            ("Timestamp specifying no calendar from statement: " + tsValueStmtNoCal.toString());
 
             PreparedStatement tsPstmtRetr = connWithTz.prepareStatement("SELECT field1 FROM testBug3620");
             this.rs = tsPstmtRetr.executeQuery();
             this.rs.next();
             Timestamp tsValuePstmtUTC = this.rs.getTimestamp(1, cal);
-            System.out.println("Timestamp specifying UTC calendar from prepared statement: " + tsValuePstmtUTC.toString());
+            ("Timestamp specifying UTC calendar from prepared statement: " + tsValuePstmtUTC.toString());
 
             // We use this testcase with other vendors, JDBC spec requires result set fields can only be read once, although MySQL doesn't require this ;)
             this.rs = tsPstmtRetr.executeQuery();
             this.rs.next();
             Timestamp tsValuePstmtNoCal = this.rs.getTimestamp(1);
-            System.out.println("Timestamp specifying no calendar from prepared statement: " + tsValuePstmtNoCal.toString());
+            ("Timestamp specifying no calendar from prepared statement: " + tsValuePstmtNoCal.toString());
 
             long stmtDeltaTWithCal = (tsValueStmtNoCal.getTime() - ts.getTime());
             long deltaOrig = Math.abs(stmtDeltaTWithCal - pointInTimeOffset);
@@ -1336,7 +1336,7 @@ public class StatementRegressionTest extends BaseTestCase {
             assertTrue((deltaOrig < epsillon), "Difference between original timestamp and timestamp retrieved using java.sql.PreparedStatement "
                     + "set in database using UTC calendar is not ~= " + epsillon + ", it is actually " + deltaOrig);
 
-            System.out.println("Difference between original ts and ts with no calendar: " + (tsValuePstmtNoCal.getTime() - ts.getTime()) + ", offset should be "
+            ("Difference between original ts and ts with no calendar: " + (tsValuePstmtNoCal.getTime() - ts.getTime()) + ", offset should be "
                     + pointInTimeOffset);
         } finally {
             TimeZone.setDefault(defaultTimeZone);
@@ -1370,7 +1370,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
             SQLWarning warningChain = this.stmt.getWarnings();
 
-            System.out.println(warningChain);
+            (warningChain);
         } finally {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug3697");
         }
@@ -1394,7 +1394,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 this.stmt.executeUpdate("INSERT INTO testBug3804 VALUES ('1234567')");
             } catch (DataTruncation truncationEx) {
                 caughtTruncation = true;
-                System.out.println(truncationEx);
+                (truncationEx);
             }
 
             assertTrue(caughtTruncation, "Data truncation exception should've been thrown");
@@ -1430,7 +1430,7 @@ public class StatementRegressionTest extends BaseTestCase {
             this.rs = batchStmt.getGeneratedKeys();
 
             while (this.rs.next()) {
-                System.out.println(this.rs.getInt(1));
+                (this.rs.getInt(1));
             }
 
             this.rs = batchStmt.getGeneratedKeys();
@@ -1529,7 +1529,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
             ResultSet genKeysRs = p.getGeneratedKeys();
             genKeysRs.next();
-            System.out.println("Id: " + genKeysRs.getInt(1));
+            ("Id: " + genKeysRs.getInt(1));
             genKeysRs.close();
         } finally {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug4510");
@@ -1621,7 +1621,7 @@ public class StatementRegressionTest extends BaseTestCase {
     public void testBug5133() throws Exception {
         String query = "SELECT 1";
         String output = this.conn.prepareStatement(query).toString();
-        System.out.println(output);
+        (output);
 
         assertTrue(output.indexOf(query) != -1);
     }
@@ -1969,7 +1969,7 @@ public class StatementRegressionTest extends BaseTestCase {
      */
     @Test
     public void testGetGeneratedKeysAllCases() throws Exception {
-        System.out.println("Using Statement.executeUpdate()\n");
+        ("Using Statement.executeUpdate()\n");
 
         try {
             createGGKTables();
@@ -1985,7 +1985,7 @@ public class StatementRegressionTest extends BaseTestCase {
         nextID = 1;
         count = 0;
 
-        System.out.println("Using Statement.execute()\n");
+        ("Using Statement.execute()\n");
 
         try {
             createGGKTables();
@@ -2001,7 +2001,7 @@ public class StatementRegressionTest extends BaseTestCase {
         nextID = 1;
         count = 0;
 
-        System.out.println("Using PreparedStatement.executeUpdate()\n");
+        ("Using PreparedStatement.executeUpdate()\n");
 
         try {
             createGGKTables();
@@ -2017,7 +2017,7 @@ public class StatementRegressionTest extends BaseTestCase {
         nextID = 1;
         count = 0;
 
-        System.out.println("Using PreparedStatement.execute()\n");
+        ("Using PreparedStatement.execute()\n");
 
         try {
             createGGKTables();
@@ -2092,7 +2092,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * i = 0;
      * 
      * while (this.rs.next()) { double valToTest = vals[i++];
-     * System.out.println(this.rs.getString(1));
+     * (this.rs.getString(1));
      * assertEquals(this.rs.getDouble(1), valToTest, 0.001);
      * assertEquals(this.rs.getBigDecimal(1).doubleValue(), valToTest, 0.001); }
      * }
@@ -2114,7 +2114,7 @@ public class StatementRegressionTest extends BaseTestCase {
         File tempFile = File.createTempFile("mysql", ".txt");
 
         // tempFile.deleteOnExit();
-        System.out.println(tempFile);
+        (tempFile);
 
         Writer out = new FileWriter(tempFile);
 
@@ -2280,7 +2280,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Statement.RETURN_GENERATED_KEYS);
      * 
      * this.rs = stmt.getGeneratedKeys(); if (rs.next()) {
-     * System.out.println(rs.getInt(1)); int id = rs.getInt(1); //if
+     * (rs.getInt(1)); int id = rs.getInt(1); //if
      * (log.isDebugEnabled()) // log.debug("Retrieved ID = " + id); } //else {
      * //log.error("Can't retrieve ID with getGeneratedKeys."); // Retrieve ID
      * using a SELECT statement instead. // querySQL = "SELECT id from tab1
@@ -2324,7 +2324,7 @@ public class StatementRegressionTest extends BaseTestCase {
         this.rs = this.stmt.executeQuery("SELECT R_Date FROM testServerPrepStmtAndDate");
         this.rs.next();
 
-        System.out.println("Date that was stored (as String) " + this.rs.getString(1)); // comes back as 2002-02-02
+        ("Date that was stored (as String) " + this.rs.getString(1)); // comes back as 2002-02-02
 
         PreparedStatement pStmt = this.conn.prepareStatement("Select P_ID,R_Date from testServerPrepStmtAndDate Where R_Date = ?   and P_ID = 171576");
         pStmt.setDate(1, dt);
@@ -2386,7 +2386,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
             this.rs.next();
 
-            System.out.println("Character stream length: " + this.rs.getString(1));
+            ("Character stream length: " + this.rs.getString(1));
 
             this.rs = this.stmt.executeQuery("SELECT field1 FROM charStreamRegressTest");
 
@@ -2408,7 +2408,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
             this.rs.next();
 
-            System.out.println("Character stream length: " + this.rs.getString(1));
+            ("Character stream length: " + this.rs.getString(1));
 
             this.rs = this.stmt.executeQuery("SELECT field1 FROM charStreamRegressTest");
 
@@ -2516,7 +2516,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
             this.rs.next();
 
-            System.out.println(this.rs.getString(1));
+            (this.rs.getString(1));
 
             this.rs.getDate(1);
 
@@ -2847,7 +2847,7 @@ public class StatementRegressionTest extends BaseTestCase {
             this.pstmt.setString(1, "c:\\j%");
             // if we comment out the previous line and uncomment the following, the like clause matches
             // this.pstmt.setString(1,"c:\\\\j%");
-            System.out.println("about to execute query " + select_sql);
+            ("about to execute query " + select_sql);
             this.rs = this.pstmt.executeQuery();
             assertTrue(this.rs.next());
         } finally {
@@ -3666,8 +3666,8 @@ public class StatementRegressionTest extends BaseTestCase {
             assertEquals(earlier, timestampSeconds1);
 
             SimpleDateFormat sdf = TimeUtil.getSimpleDateFormat(null, "MM/dd/yyyy HH:mm z", TimeZone.getTimeZone("America/New_York"));
-            System.out.println(sdf.format(ts2));
-            System.out.println(sdf.format(ts1));
+            (sdf.format(ts2));
+            (sdf.format(ts1));
         } finally {
             if (nonLegacyConn != null) {
                 nonLegacyConn.close();
@@ -3730,7 +3730,7 @@ public class StatementRegressionTest extends BaseTestCase {
         Boolean oRetVal;
         String Min_Val_Query = "SELECT MIN_VAL from Bit_Tab";
         String Min_Insert = "insert into Bit_Tab values(1,0,null)";
-        // System.out.println("Value to insert=" + extractVal(Min_Insert,1));
+        // ("Value to insert=" + extractVal(Min_Insert,1));
         CallableStatement cstmt;
 
         this.stmt.executeUpdate("delete from Bit_Tab");
@@ -4818,7 +4818,7 @@ public class StatementRegressionTest extends BaseTestCase {
         } catch (BatchUpdateException sqlEx) {
             int[] updateCounts = sqlEx.getUpdateCounts();
             for (int i = 0; i < updateCounts.length; i++) {
-                System.out.println(updateCounts[i]);
+                (updateCounts[i]);
             }
         } finally {
             this.conn.rollback();
@@ -8180,7 +8180,7 @@ public class StatementRegressionTest extends BaseTestCase {
         int threadCount = sampleQueries.length;
 
         for (int c = 0; c < connectionProperties.length; c++) {
-            System.out.println("Test Connection with property '" + connectionProperties[c] + "'");
+            ("Test Connection with property '" + connectionProperties[c] + "'");
             Connection testConnection = getConnectionWithProps(connectionProperties[c]);
 
             for (int t = 0; t < threadCount; t++) {
@@ -8189,7 +8189,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
             for (int t = 0; t < threadCount; t++) {
                 try {
-                    System.out.println("   " + complService.take().get());
+                    ("   " + complService.take().get());
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 } catch (ExecutionException ex) {
@@ -8226,7 +8226,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 testStatement = (StatementImpl) this.testConnection.createStatement();
                 testStatement.closeOnCompletion();
 
-                System.out.println(threadName + " is executing: " + this.query);
+                (threadName + " is executing: " + this.query);
                 ResultSet testResultSet = testStatement.executeQuery(this.query);
                 while (testResultSet.next()) {
                     count1++;
@@ -8830,8 +8830,8 @@ public class StatementRegressionTest extends BaseTestCase {
             // Test a number of time zones that coincide with 'GMT' on the some specific point in time.
             for (String tz : new String[] { "Europe/Lisbon", "UTC", "GMT+00", "GMT" }) {
                 //  Europe/Lisbon ~~ WET (UTC) on 2015-01-01; ~~ CET (UTC+01) on 1970-01-01
-                System.out.println("\nServer time zone: " + tz);
-                System.out.println("---------------------------------------------------");
+                ("\nServer time zone: " + tz);
+                ("---------------------------------------------------");
 
                 testConnProps.setProperty(PropertyKey.connectionTimeZone.getKeyName(), tz);
                 testConn = getConnectionWithProps(testConnProps);
@@ -8849,8 +8849,8 @@ public class StatementRegressionTest extends BaseTestCase {
                     tz.append(tzOffset < 0 ? "-" : "+").append(String.format("%02d", Math.abs(tzOffset)));
                     tz.append(String.format(":%02d", tzSubOffset));
 
-                    System.out.println("\nServer time zone: " + tz.toString());
-                    System.out.println("---------------------------------------------------");
+                    ("\nServer time zone: " + tz.toString());
+                    ("---------------------------------------------------");
                     testConnProps.setProperty(PropertyKey.connectionTimeZone.getKeyName(), tz.toString());
                     testConn = getConnectionWithProps(testConnProps);
 
@@ -9252,9 +9252,9 @@ public class StatementRegressionTest extends BaseTestCase {
         @Override
         public QueryInterceptor init(MysqlConnection conn, Properties props, Log log) {
             super.init(conn, props, log);
-            System.out.println("\nuseServerPrepStmts: " + props.getProperty(PropertyKey.useServerPrepStmts.getKeyName()) + " | rewriteBatchedStatements: "
+            ("\nuseServerPrepStmts: " + props.getProperty(PropertyKey.useServerPrepStmts.getKeyName()) + " | rewriteBatchedStatements: "
                     + props.getProperty(PropertyKey.rewriteBatchedStatements.getKeyName()));
-            System.out.println("--------------------------------------------------------------------------------");
+            ("--------------------------------------------------------------------------------");
             this.expected = Boolean.parseBoolean(props.getProperty(PropertyKey.rewriteBatchedStatements.getKeyName())) ? expectedRWBS : expectedNonRWBS;
             return this;
         }
@@ -9267,7 +9267,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 query = query.substring(query.indexOf(':') + 2);
             }
             if (query != null && query.indexOf("testBug77681") != -1) {
-                System.out.println(this.execCounter + " --> " + query);
+                (this.execCounter + " --> " + query);
                 assertFalse(this.execCounter > this.expected.length, "Failed to rewrite statements");
                 assertEquals(this.expected[this.execCounter++], query.charAt(0), "Wrong statement at execution number " + this.execCounter);
             }
@@ -9653,9 +9653,9 @@ public class StatementRegressionTest extends BaseTestCase {
                 final String testCase = String.format("Case: [Close STMTs: %s, Use cache: %s, Poolable: %s ]", closeStmt ? "Y" : "N", useCache ? "Y" : "N",
                         poolable ? "Y" : "N");
 
-                System.out.println();
-                System.out.println(testCase);
-                System.out.println("********************************************************************************");
+                ();
+                (testCase);
+                ("********************************************************************************");
 
                 createTable("testBug80615", "(id INT)");
 
@@ -9773,7 +9773,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 actualCloseCount = this.rs.getInt(2);
             }
         }
-        System.out.println();
+        ();
 
         assertEquals(expectedPrepCount, actualPrepCount, testCase);
         assertEquals(expectedExecCount, actualExecCount, testCase);
@@ -10435,7 +10435,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 ResultSet rset = this.stmt.executeQuery("select * from testBug26995710");
                 rsmd = rset.getMetaData();
                 colCnt = rsmd.getColumnCount();
-                System.out.println(" Column Cnt = " + colCnt);
+                (" Column Cnt = " + colCnt);
                 while (rset.next()) {
                     for (i = 1; i <= colCnt; i++) {
                         System.out.print(" [" + rset.getString(i) + "]");
@@ -10468,7 +10468,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 rset = ps.executeQuery();
                 rsmd = rset.getMetaData();
                 colCnt = rsmd.getColumnCount();
-                System.out.println(" Column Cnt = " + colCnt);
+                (" Column Cnt = " + colCnt);
                 while (rset.next()) {
                     for (i = 1; i <= colCnt; i++) {
                         System.out.print(" [" + rset.getString(i) + "]");
@@ -10508,7 +10508,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 ps = con.prepareStatement("select count(*) from testBug26995710 ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 rset = ps.executeQuery();
                 rset.next();
-                System.out.println(" Rec Cnt " + rset.getInt(1));
+                (" Rec Cnt " + rset.getInt(1));
                 //  assertEquals(4,rs.getInt(1));   
 
                 rset.close();
@@ -10518,7 +10518,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 rset = ps.executeQuery();
                 rsmd = rset.getMetaData();
                 colCnt = rsmd.getColumnCount();
-                System.out.println(" Column Cnt = " + colCnt);
+                (" Column Cnt = " + colCnt);
                 while (rset.next()) {
                     for (i = 1; i <= colCnt; i++) {
                         System.out.print(" [" + rset.getString(i) + "]");
@@ -10579,9 +10579,9 @@ public class StatementRegressionTest extends BaseTestCase {
                 assertEquals(10, r.getInt(1));
                 ps3.close();
 
-                System.out.println("'" + ps1 + "'");
-                System.out.println("'" + ps2 + "'");
-                System.out.println("'" + ps3 + "'");
+                ("'" + ps1 + "'");
+                ("'" + ps2 + "'");
+                ("'" + ps3 + "'");
 
                 if (useSPS) {
                     assertEquals(ps1.toString(), "com.mysql.cj.jdbc.ServerPreparedStatement[1]: Select 'aaaaaaaaa' from dual");
@@ -10615,7 +10615,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assumeFalse(versionMeetsMinimum(5, 7) && !versionMeetsMinimum(5, 7, 22),
                 "This test doesn't work with MySQL 5.7.0-5.7.21 because of server Bug#27422376.");
 
-        System.out.println("running");
+        ("running");
 
         boolean useSPS = false;
         do {
@@ -10859,7 +10859,7 @@ public class StatementRegressionTest extends BaseTestCase {
             ps1.setInt(1, 123);
             ResultSet rs1 = ps1.executeQuery();
             assertTrue(rs1.next());
-            System.out.println(rs1.getString(1));
+            (rs1.getString(1));
             assertEquals(str + "123", rs1.getString(1));
 
             con1.close();
@@ -10921,7 +10921,7 @@ public class StatementRegressionTest extends BaseTestCase {
             for (boolean useSSPS : new boolean[] { false, true }) {
                 for (boolean cacheDefaultTimeZone : new boolean[] { true, false }) {
                     String errMsg = "Using useSSPS=" + useSSPS + ", cacheDefaultTimeZone=" + cacheDefaultTimeZone + ":";
-                    System.out.println(errMsg);
+                    (errMsg);
                     props.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "" + useSSPS);
                     props.put(PropertyKey.cacheDefaultTimeZone.getKeyName(), "" + cacheDefaultTimeZone);
 
@@ -11064,7 +11064,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
         do {
             final String testCase = String.format("Case: [useServerPrepStmts=%s]", useServerPrepStmts ? "Y" : "N");
-            System.out.println(testCase);
+            (testCase);
 
             props.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "" + useServerPrepStmts);
 
@@ -11087,7 +11087,7 @@ public class StatementRegressionTest extends BaseTestCase {
             this.rs = st1.executeQuery(
                     "select DATE_FORMAT(d1, '%Y-%m-%d') as d1, DATE_FORMAT(pd, '%Y-%m-%d') as pd, DATE_FORMAT(d2, '%Y-%m-%d') as d2 from testBug98536");
             this.rs.next();
-            System.out.println(this.rs.getString(1) + ", " + this.rs.getString(2) + ", " + this.rs.getString(3));
+            (this.rs.getString(1) + ", " + this.rs.getString(2) + ", " + this.rs.getString(3));
 
             assertEquals("1582-09-28", this.rs.getString(1), testCase); // according to Julian calendar
             assertEquals("1582-10-08", this.rs.getString(2), testCase); // according to proleptic Gregorian calendar
@@ -11295,7 +11295,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
             System.out.print("ts:" + ts + " ,");
             System.out.print("dt:" + ((LocalDateTime) dt).format(TimeUtil.DATETIME_FORMATTER_NO_FRACT_NO_OFFSET) + ", ");
-            System.out.println("name:" + name);
+            ("name:" + name);
 
             assertEquals(name, ((Timestamp) ts).toLocalDateTime().format(TimeUtil.DATETIME_FORMATTER_NO_FRACT_NO_OFFSET));
             assertEquals(name, ((LocalDateTime) dt).format(TimeUtil.DATETIME_FORMATTER_NO_FRACT_NO_OFFSET));
@@ -11577,7 +11577,7 @@ public class StatementRegressionTest extends BaseTestCase {
             this.rs = ps.executeQuery();
             assertTrue(this.rs.next());
             assertTrue(this.rs.getString(2).startsWith("CREATE TABLE"));
-            System.out.println(this.rs.getString(2));
+            (this.rs.getString(2));
             ps.close();
 
             ps = con.prepareStatement("SHOW CREATE VIEW testBug103878_view");
@@ -11585,7 +11585,7 @@ public class StatementRegressionTest extends BaseTestCase {
             assertTrue(this.rs.next());
             assertTrue(this.rs.getString(2).startsWith("CREATE"));
             assertTrue(this.rs.getString(2).contains("testBug103878_view"));
-            System.out.println(this.rs.getString(2));
+            (this.rs.getString(2));
             ps.close();
 
             ps = con.prepareStatement("SHOW PROCESSLIST");
@@ -11600,7 +11600,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 this.rs = ps.executeQuery();
                 assertTrue(this.rs.next());
                 assertTrue(this.rs.getString(1).startsWith("CREATE USER"));
-                System.out.println(this.rs.getString(1));
+                (this.rs.getString(1));
                 ps.close();
             }
         } finally {

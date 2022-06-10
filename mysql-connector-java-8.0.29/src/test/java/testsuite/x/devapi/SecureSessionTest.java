@@ -795,8 +795,8 @@ public class SecureSessionTest extends DevApiBaseTestCase {
                 break;
             }
         }
-        System.out.println("Server supports TLS protocols: " + serverSupportedProtocols);
-        System.out.println("Highest common TLS protocol: " + highestCommonTlsVersion);
+        ("Server supports TLS protocols: " + serverSupportedProtocols);
+        ("Highest common TLS protocol: " + highestCommonTlsVersion);
 
         return highestCommonTlsVersion;
 

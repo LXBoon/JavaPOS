@@ -675,7 +675,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                     indexFound++;
                     assertEquals(collName, row.getString("Table"));
                     String expr = row.getString("Expression");
-                    System.out.println(expr);
+                    (expr);
                     if (expr != null) {
                         arrayExpr = true;
                     }
@@ -750,7 +750,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("functional index"));
             }
 
@@ -807,7 +807,7 @@ public class CollectionTest extends BaseCollectionTestCase {
 
     //@Test
     public void testArrayIndex002() throws Exception {
-        System.out.println("testCreateIndexSanity");
+        ("testCreateIndexSanity");
 
         String collname = "coll1";
         Session sess = null;
@@ -845,7 +845,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Document is missing a required field"));
             }
 
@@ -855,7 +855,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Document is missing a required field"));
             }
 
@@ -865,7 +865,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Document is missing a required field"));
             }
 
@@ -875,7 +875,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Document is missing a required field"));
             }
 
@@ -885,7 +885,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("functional index"));
             }
 
@@ -895,7 +895,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("functional index"));
             }
 
@@ -926,7 +926,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                 coll.createIndex("multiArrayIndex",
                         "{\"fields\": [{\"field\": \"$.intField\", \"type\": \"SIGNED INTEGER\", \"array\": true}, {\"field\": \"$.dateField\", \"type\": \"DATE\", \"array\": true}, {\"field\": \"$.charField\", \"type\": \"CHAR(256)\", \"array\": true}, {\"field\": \"$.timeField\", \"type\": \"TIME\", \"array\": true}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("This version of MySQL doesn't yet support"));
             }
 
@@ -984,7 +984,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Incorrect date value"));
             }
 
@@ -994,7 +994,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Incorrect time value"));
             }
 
@@ -1050,7 +1050,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Invalid JSON value for CAST to INTEGER from column json_extract at row"));
             }
 
@@ -1060,7 +1060,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 // Behavior documented : assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Incorrect char value"));
             }
 
@@ -1116,7 +1116,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Invalid JSON value for CAST to INTEGER from column json_extract at row"));
             }
 
@@ -1126,7 +1126,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Incorrect time value"));
             }
 
@@ -1182,7 +1182,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Invalid JSON value for CAST to INTEGER from column json_extract at row"));
             }
 
@@ -1192,7 +1192,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Incorrect date value"));
             }
 
@@ -1223,7 +1223,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                 coll.createIndex("textArrayIndex", "{\"fields\": [{\"field\": \"$.textField\", \"type\": \"TEXT\", \"array\": true}]}");
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("index"));
             }
 
@@ -1231,7 +1231,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                 coll.createIndex("boolArrayIndex", "{\"fields\": [{\"field\": \"$.boolField\", \"type\": \"BOOL\", \"array\": true}]}");
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("index"));
             }
 
@@ -1239,7 +1239,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                 coll.createIndex("blobIndex", "{\"fields\": [{\"field\": \"$.blobField\", \"type\": \"BLOB\", \"array\": true}]}");
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("index"));
             }
 
@@ -1247,7 +1247,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                 coll.createIndex("sintIndex", "{\"fields\": [{\"field\": \"$.sinField\", \"type\": \"SMALLINT\", \"array\": true}]}");
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("index"));
             }
 
@@ -1311,7 +1311,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("functional index"));
             }
 
@@ -1345,7 +1345,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         + "{\"field\": \"$.uintField2\", \"type\":\"UNSIGNED INTEGER\"}," + "{\"field\": \"$.dateField\", \"type\":\"DATE\"},"
                         + "{\"field\": \"$.datetimeField\", \"type\":\"DATETIME\"}," + "{\"field\": \"$.decimalField\", \"type\":\"DECIMAL(20,9)\"}" + "]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Invalid or unsupported type specification 'BINARY(128)'"));
             }
 
@@ -1431,7 +1431,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Cannot store an array or an object in a scalar key part of the index"));
             }
 
@@ -1441,7 +1441,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 if (mysqlVersionMeetsMinimum(this.baseUrl, ServerVersion.parseVersion("8.0.18"))) {
                     assertTrue(e.getMessage().contains("Cannot store an array or an object in a scalar key part of the index"));
                 } else {
@@ -1455,7 +1455,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("functional index"));
             }
 
@@ -1464,7 +1464,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         "{\"intField\" : [1,5,4], \"dateField\" : [\"2019-1-1\", \"2019-2-1\", \"2019-3-1\", \"2019-4-1\"], \"datetimeField\" : [\"9999-12-30 23:59:59\", \"9999-12-31 23:59:59\", \"9999-12-31 23:59:59\"], \"charField\" : \"\", \"binaryField\" : \"\", \"timeField\" : [\"10.30\", \"11.30\", \"12.30\"], \"floatField\" : [51.2,52.4,53.6]}")
                         .execute();
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("functional index"));
             }
 
@@ -1484,7 +1484,7 @@ public class CollectionTest extends BaseCollectionTestCase {
      */
     @Test
     public void testArrayIndex012() throws Exception {
-        System.out.println("testCreateIndexSanity");
+        ("testCreateIndexSanity");
 
         String collname = "coll1";
         Session sess = null;
@@ -1499,168 +1499,168 @@ public class CollectionTest extends BaseCollectionTestCase {
             try {
                 coll.createIndex("intArrayIndex", "{\"fields\": [{\"field\": \"$.intField\", \"type\": \"SIGNED INTEGER\", \"array\": \"\"}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("uintArrayIndex", "{\"fields\": [{\"field\": \"$.uintField\", \"type\": \"UNSIGNED INTEGER\", \"array\": \"\"}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("floatArrayIndex", "{\"fields\": [{\"field\": \"$.floatField\", \"type\": \"DECIMAL(10,2)\", \"array\": \"\"}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("dateArrayIndex", "{\"fields\": [{\"field\": \"$.dateField\", \"type\": \"DATE\", \"array\": \"\"}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("datetimeArrayIndex", "{\"fields\": [{\"field\": \"$.datetimeField\", \"type\": \"DATETIME\", \"array\": \"\"}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("timeArrayIndex", "{\"fields\": [{\"field\": \"$.timeField\", \"type\": \"TIME\", \"array\": \"\"}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("charArrayIndex", "{\"fields\": [{\"field\": \"$.charField\", \"type\": \"CHAR(256)\", \"array\": \"\"}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("binaryArrayIndex", "{\"fields\": [{\"field\": \"$.binaryField\", \"type\": \"BINARY(256)\", \"array\": \"\"}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("intArrayIndex", "{\"fields\": [{\"field\": \"$.intField\", \"type\": \"SIGNED INTEGER\", \"array\": null}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("uintArrayIndex", "{\"fields\": [{\"field\": \"$.uintField\", \"type\": \"UNSIGNED INTEGER\", \"array\": null}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("floatArrayIndex", "{\"fields\": [{\"field\": \"$.floatField\", \"type\": \"DECIMAL(10,2)\", \"array\": null}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("dateArrayIndex", "{\"fields\": [{\"field\": \"$.dateField\", \"type\": \"DATE\", \"array\": null}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("datetimeArrayIndex", "{\"fields\": [{\"field\": \"$.datetimeField\", \"type\": \"DATETIME\", \"array\": null}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("timeArrayIndex", "{\"fields\": [{\"field\": \"$.timeField\", \"type\": \"TIME\", \"array\": null}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("charArrayIndex", "{\"fields\": [{\"field\": \"$.charField\", \"type\": \"CHAR(256)\", \"array\": null}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("binaryArrayIndex", "{\"fields\": [{\"field\": \"$.binaryField\", \"type\": \"BINARY(256)\", \"array\": null}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("intArrayIndex", "{\"fields\": [{\"field\": \"$.intField\", \"type\": \"SIGNED INTEGER\", \"array\": []}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("uintArrayIndex", "{\"fields\": [{\"field\": \"$.uintField\", \"type\": \"UNSIGNED INTEGER\", \"array\": []}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("floatArrayIndex", "{\"fields\": [{\"field\": \"$.floatField\", \"type\": \"DECIMAL(10,2)\", \"array\": []}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("dateArrayIndex", "{\"fields\": [{\"field\": \"$.dateField\", \"type\": \"DATE\", \"array\": []}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("datetimeArrayIndex", "{\"fields\": [{\"field\": \"$.datetimeField\", \"type\": \"DATETIME\", \"array\": []}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("timeArrayIndex", "{\"fields\": [{\"field\": \"$.timeField\", \"type\": \"TIME\", \"array\": []}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("charArrayIndex", "{\"fields\": [{\"field\": \"$.charField\", \"type\": \"CHAR(256)\", \"array\": []}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
             try {
                 coll.createIndex("binaryArrayIndex", "{\"fields\": [{\"field\": \"$.binaryField\", \"type\": \"BINARY(256)\", \"array\": []}]}");
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("Index field 'array' member must be boolean."));
             }
 
@@ -1733,7 +1733,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("functional index"));
             }
 
@@ -1797,7 +1797,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                         .execute();
                 assertTrue(false);
             } catch (Exception e) {
-                System.out.println("ERROR : " + e.getMessage());
+                ("ERROR : " + e.getMessage());
                 assertTrue(e.getMessage().contains("functional index"));
             }
 
@@ -1849,7 +1849,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                 i++;
             }
 
-            System.out.println("Count = " + i);
+            ("Count = " + i);
             assertTrue(i == 2);
 
             docs = coll.find("CAST(CAST('2019-2-1' as DATE) as JSON) in $.dateField").execute();
@@ -1860,7 +1860,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                 i++;
             }
 
-            System.out.println("Count = " + i);
+            ("Count = " + i);
             assertTrue(i == 3);
 
             docs = coll.find("CAST(CAST('2019-2-1' as DATE) as JSON) not in $.dateField").execute();
@@ -1870,8 +1870,8 @@ public class CollectionTest extends BaseCollectionTestCase {
                 doc = docs.next();
                 i++;
             }
-            System.out.println("Using NOT IN");
-            System.out.println("Count = " + i);
+            ("Using NOT IN");
+            ("Count = " + i);
             //assertTrue(i == 0);
 
             docs = coll.find("'2019-1-1' not in $.dateFieldWOI").execute();
@@ -1879,11 +1879,11 @@ public class CollectionTest extends BaseCollectionTestCase {
             i = 0;
             while (docs.hasNext()) {
                 doc = docs.next();
-                System.out.println((((JsonString) doc.get("dateFieldWOI")).getString()));
+                ((((JsonString) doc.get("dateFieldWOI")).getString()));
                 i++;
             }
-            System.out.println("Using NOT IN Without Index");
-            System.out.println("Count = " + i);
+            ("Using NOT IN Without Index");
+            ("Count = " + i);
 
             docs = coll.find("CAST(CAST('2019-2-1' as DATE) as JSON) overlaps $.dateField").execute();
             doc = null;
@@ -1893,7 +1893,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                 i++;
             }
 
-            System.out.println("Count = " + i);
+            ("Count = " + i);
             assertTrue(i == 3);
 
             docs = coll.find("CAST(CAST('2019-2-1' as DATE) as JSON) not overlaps $.dateField").execute();
@@ -1903,8 +1903,8 @@ public class CollectionTest extends BaseCollectionTestCase {
                 doc = docs.next();
                 i++;
             }
-            System.out.println("Using NOT OVERLAPS");
-            System.out.println("Count = " + i);
+            ("Using NOT OVERLAPS");
+            ("Count = " + i);
             //assertTrue(i == 0);
 
             docs = coll.find("CAST(CAST(:datetimeField as DATETIME) as JSON) in $.datetimeField").bind("datetimeField", "9999-12-30 23:59:59").execute();
@@ -1915,7 +1915,7 @@ public class CollectionTest extends BaseCollectionTestCase {
                 i++;
             }
 
-            System.out.println("Count = " + i);
+            ("Count = " + i);
             assertTrue(i == 2);
 
             docs = coll.find("CAST(CAST(:timeField as TIME) as JSON) in $.timeField").bind("timeField", "7.30").execute();
@@ -1926,24 +1926,24 @@ public class CollectionTest extends BaseCollectionTestCase {
                 i++;
             }
 
-            System.out.println("Count = " + i);
+            ("Count = " + i);
             assertTrue(i == 1);
 
             //Integration scenarios between Index and Overlaps. Explicit casting added due to server Bug#29752056. NOT IN and NOT OVERLAPS doesn't require explicit casting
             docs = coll.find("CAST(CAST('2019-2-1' as DATE) as JSON) in $.dateField").execute();
-            //System.out.println("Number of rows using IN with indexed array = "+docs.count());
+            //("Number of rows using IN with indexed array = "+docs.count());
             assertTrue(docs.count() == 3);
 
             docs = coll.find("'2019-2-1' not in $.dateField").execute();
-            //System.out.println("Number of rows using NOT IN without casting = "+docs.count());
+            //("Number of rows using NOT IN without casting = "+docs.count());
             assertTrue(docs.count() == 0);
 
             docs = coll.find("CAST(CAST('2019-2-1' as DATE) as JSON) overlaps $.dateField").execute();
-            //System.out.println("Number of rows using OVERLAPS with indexed array = "+docs.count());
+            //("Number of rows using OVERLAPS with indexed array = "+docs.count());
             assertTrue(docs.count() == 3);
 
             docs = coll.find("'2019-2-1' not overlaps $.dateField").execute();
-            //System.out.println("Number of rows using NOT OVERLAPS without casting = "+docs.count());
+            //("Number of rows using NOT OVERLAPS without casting = "+docs.count());
             assertTrue(docs.count() == 0);
 
             //Integration scenarios for time

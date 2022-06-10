@@ -528,7 +528,7 @@ public class CharsetRegressionTest extends BaseTestCase {
         String convertedString = StringUtils.toAsciiString(buf);
 
         for (int i = 0; i < convertedString.length(); i++) {
-            System.out.println((byte) convertedString.charAt(i));
+            ((byte) convertedString.charAt(i));
         }
 
         assertTrue(testString.equals(convertedString), "Converted string != test string");
@@ -589,7 +589,7 @@ public class CharsetRegressionTest extends BaseTestCase {
 
             String retrString = this.rs.getString(1);
 
-            System.out.println(retrString.equals(testString));
+            (retrString.equals(testString));
         } finally {
             sjisStmt.executeUpdate("DROP TABLE IF EXISTS doubleEscapeSJISTest");
         }
@@ -1125,7 +1125,7 @@ public class CharsetRegressionTest extends BaseTestCase {
             }
 
             String javaEnc = ((MysqlConnection) c).getSession().getServerSession().getCharsetSettings().getJavaEncodingForMysqlCharset(cs);
-            System.out.println(cs + "->" + javaEnc);
+            (cs + "->" + javaEnc);
             String charsetForJavaEnc = ((MysqlConnection) c).getSession().getServerSession().getCharsetSettings().getMysqlCharsetForJavaEncoding(javaEnc, sv);
             String expectedCollation = defaultCollations.get(charsetForJavaEnc);
 
@@ -1256,7 +1256,7 @@ public class CharsetRegressionTest extends BaseTestCase {
         }
 
         Map<String, String> svs = ((MysqlConnection) con).getSession().getServerSession().getServerVariables();
-        System.out.println(svs);
+        (svs);
         Map<String, String> exp = new HashMap<>();
         exp.put("character_set_client", svs.get("character_set_client"));
         exp.put("character_set_connection", svs.get("character_set_connection"));
@@ -1270,7 +1270,7 @@ public class CharsetRegressionTest extends BaseTestCase {
                         + " or variable_name='character_set_results' or variable_name='character_set_server' or variable_name='collation_server'"
                         + " or variable_name='collation_connection'");
         while (rset.next()) {
-            System.out.println(rset.getString(1) + "=" + rset.getString(2));
+            (rset.getString(1) + "=" + rset.getString(2));
             assertEquals(exp.get(rset.getString(1)), rset.getString(2), rset.getString(1));
         }
 
@@ -1294,7 +1294,7 @@ public class CharsetRegressionTest extends BaseTestCase {
                 this.setCharacterSetResultsCnt++;
                 this.setCharacterSetResultsQuery = sql.substring(sql.indexOf("SET"));
             } else if (sql.contains("SHOW VARIABLES") || sql.contains("SELECT  @@")) {
-                System.out.println(sql.substring(sql.indexOf("S")));
+                (sql.substring(sql.indexOf("S")));
                 this.queryVarsCnt++;
             }
             return null;
@@ -1308,7 +1308,7 @@ public class CharsetRegressionTest extends BaseTestCase {
             } else if (sql.contains("SET " + CharsetSettings.CHARACTER_SET_RESULTS)) {
                 this.setCharacterSetResultsCnt++;
             } else if (sql.contains("SHOW VARIABLES") || sql.contains("SELECT  @@")) {
-                System.out.println(sql.substring(sql.indexOf("S")));
+                (sql.substring(sql.indexOf("S")));
                 this.queryVarsCnt++;
             }
             return null;

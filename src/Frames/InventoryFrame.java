@@ -128,7 +128,6 @@ public class InventoryFrame  {
         SwingUtilities.updateComponentTreeUI(Design.f);
         btnNew.setEnabled(true);
         btnNew.addActionListener(e -> {
-            System.out.println("btnAddNew");
             JOptionPane.showMessageDialog(null,"Now You can Add a new Item Click Add when you are done","Adding new Item",JOptionPane.INFORMATION_MESSAGE);
             tfDisable();
             tfEnable();
@@ -154,7 +153,6 @@ public class InventoryFrame  {
                 double price = Double.parseDouble(tfPrice.getText().trim());
                 int quantity = Integer.parseInt(tfQ.getText().trim());
                 int tax = Integer.parseInt(tfTax.getText());
-
                 if (tax<0){
                     JOptionPane.showMessageDialog(null,"Tax format is wrong please do not use decimal numbers if tax percentage is 0.8 you can write it as 8 ," +
                             "\nif it is 0.18 you can write it as 18 and so on ");
@@ -165,7 +163,6 @@ public class InventoryFrame  {
                     btnAdd.setEnabled(false);
                     refresh.doClick();
                 }
-
             }
             catch (Exception exception){
                 JOptionPane.showMessageDialog(null,exception.toString());
@@ -190,7 +187,7 @@ public class InventoryFrame  {
                 refresh.doClick();
             }
             catch (Exception exception){
-                System.out.println(exception);
+
                 throw new RuntimeException(exception);
             }
         });
@@ -221,13 +218,10 @@ public class InventoryFrame  {
                     refresh.doClick();
                 }
                 else JOptionPane.showMessageDialog(null,"Quantity can't be below 0");
-
             }catch (NumberFormatException exception){
                 JOptionPane.showMessageDialog(null,"Wrong input type");
                 throw  new RuntimeException(exception);
             }
-
-
         });
         Design.f.add(btnSave);
         btnSave.setFocusable(false);
@@ -371,7 +365,7 @@ public class InventoryFrame  {
         btnEdit.setBackground(new Color(255, 158, 0));
         btnEdit.addActionListener(e -> {
             if (e.getSource()==btnEdit) {
-                System.out.println("btnEdit");
+
                 JOptionPane.showMessageDialog(null, "Now You can Edit Click Save when you are done");
                 tfEnable();
                 tfID.setEnabled(false);tfID.setBackground(new Color(154, 102, 102));

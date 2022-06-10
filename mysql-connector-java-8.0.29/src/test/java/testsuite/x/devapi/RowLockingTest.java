@@ -67,7 +67,7 @@ public class RowLockingTest extends BaseCollectionTestCase {
 
         @Override
         public void uncaughtException(Thread t, Throwable e) {
-            System.out.println("I caught the exception");
+            ("I caught the exception");
             initException[this.index] = e;
         }
     }
@@ -89,10 +89,10 @@ public class RowLockingTest extends BaseCollectionTestCase {
 
         @Override
         public void run() {
-            System.out.println("Action is " + this.action);
-            System.out.println("Lock is " + this.lock);
-            System.out.println("Condition is " + this.condition);
-            System.out.println("CheckFlag is " + RowLockingTest.this.CheckFlag);
+            ("Action is " + this.action);
+            ("Lock is " + this.lock);
+            ("Condition is " + this.condition);
+            ("CheckFlag is " + RowLockingTest.this.CheckFlag);
 
             RowResult rows = null;
             Session sess = null;
@@ -102,11 +102,11 @@ public class RowLockingTest extends BaseCollectionTestCase {
                 Table table = sess.getDefaultSchema().getCollectionAsTable(RowLockingTest.this.collectionName);
 
                 if (this.shouldWait == 1) {
-                    System.out.println("wait started");
+                    ("wait started");
                     do {
                         Thread.sleep(1000);
                     } while (RowLockingTest.this.CheckFlag != 1);
-                    System.out.println("wait ended");
+                    ("wait ended");
                 }
 
                 sess.startTransaction();
@@ -195,10 +195,10 @@ public class RowLockingTest extends BaseCollectionTestCase {
         @SuppressWarnings("deprecation")
         @Override
         public void run() {
-            System.out.println("Action is " + this.action);
-            System.out.println("Lock is " + this.lock);
-            System.out.println("Condition is " + this.condition);
-            System.out.println("CheckFlag is " + RowLockingTest.this.CheckFlag);
+            ("Action is " + this.action);
+            ("Lock is " + this.lock);
+            ("Condition is " + this.condition);
+            ("CheckFlag is " + RowLockingTest.this.CheckFlag);
 
             DocResult docs = null;
             Session sess = null;
@@ -208,11 +208,11 @@ public class RowLockingTest extends BaseCollectionTestCase {
                 Collection coll = sess.getDefaultSchema().getCollection(RowLockingTest.this.collectionName);
 
                 if (this.shouldWait == 1) {
-                    System.out.println("wait started");
+                    ("wait started");
                     do {
                         Thread.sleep(1000);
                     } while (RowLockingTest.this.CheckFlag != 1);
-                    System.out.println("wait ended");
+                    ("wait ended");
                 }
 
                 sess.startTransaction();
@@ -285,10 +285,10 @@ public class RowLockingTest extends BaseCollectionTestCase {
 
         @Override
         public void run() {
-            System.out.println("Action is " + this.action);
-            System.out.println("Lock is " + this.lock);
-            System.out.println("Condition is " + this.condition);
-            System.out.println("CheckFlag is " + RowLockingTest.this.CheckFlag);
+            ("Action is " + this.action);
+            ("Lock is " + this.lock);
+            ("Condition is " + this.condition);
+            ("CheckFlag is " + RowLockingTest.this.CheckFlag);
 
             String tabname = "newtable";
             Session sess = null;
@@ -318,7 +318,7 @@ public class RowLockingTest extends BaseCollectionTestCase {
                                 table.select("F1").where("F0 = 2").lockShared().execute();
                             }
                         } catch (Exception e) {
-                            System.out.println("ERROR(3) " + e.getMessage());
+                            ("ERROR(3) " + e.getMessage());
                             assertTrue(e.getMessage().contains("Deadlock"));
                         }
 
@@ -344,7 +344,7 @@ public class RowLockingTest extends BaseCollectionTestCase {
                                 table.select("F1").where("F0 = 1").lockShared().execute();
                             }
                         } catch (Exception e) {
-                            System.out.println("ERROR(3) " + e.getMessage());
+                            ("ERROR(3) " + e.getMessage());
                             assertTrue(e.getMessage().contains("Deadlock"));
                         }
 
@@ -382,10 +382,10 @@ public class RowLockingTest extends BaseCollectionTestCase {
 
         @Override
         public void run() {
-            System.out.println("Action is " + this.action);
-            System.out.println("Lock is " + this.lock);
-            System.out.println("Condition is " + this.condition);
-            System.out.println("CheckFlag is " + RowLockingTest.this.CheckFlag);
+            ("Action is " + this.action);
+            ("Lock is " + this.lock);
+            ("Condition is " + this.condition);
+            ("CheckFlag is " + RowLockingTest.this.CheckFlag);
 
             Session sess = null;
 
@@ -590,11 +590,11 @@ public class RowLockingTest extends BaseCollectionTestCase {
 
         } catch (RuntimeException e) {
             System.out.print("**************RuntimeException: " + i);
-            System.out.println(e.getMessage());
+            (e.getMessage());
             throw e;
         } catch (InterruptedException e) {
             System.out.print("InterruptedException: " + i);
-            System.out.println(e.getMessage());
+            (e.getMessage());
             throw e;
         }
     }
@@ -748,11 +748,11 @@ public class RowLockingTest extends BaseCollectionTestCase {
 
         } catch (RuntimeException e) {
             System.out.print("**************RuntimeException: " + i);
-            System.out.println(e.getMessage());
+            (e.getMessage());
             throw e;
         } catch (InterruptedException e) {
             System.out.print("InterruptedException: " + i);
-            System.out.println(e.getMessage());
+            (e.getMessage());
             throw e;
         }
     }
@@ -814,11 +814,11 @@ public class RowLockingTest extends BaseCollectionTestCase {
 
         } catch (RuntimeException e) {
             System.out.print("**************RuntimeException: " + i);
-            System.out.println(e.getMessage());
+            (e.getMessage());
             throw e;
         } catch (InterruptedException e) {
             System.out.print("InterruptedException: " + i);
-            System.out.println(e.getMessage());
+            (e.getMessage());
             throw e;
         } finally {
             this.session.sql("drop table if exists newtable").execute();
