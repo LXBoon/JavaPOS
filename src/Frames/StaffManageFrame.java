@@ -459,8 +459,6 @@ public class StaffManageFrame {
         staffTable();
     }
 
-    public static void main(String[] args) {
 
-    }
 
 }

@@ -36,8 +36,8 @@ public class LandingPage extends JFrame {
 
 
 
-        ImageIcon twitterIcon = new ImageIcon(new ImageIcon("images/twitter-icon.png").getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
-        JLabel twitter = new JLabel("@MustafaW97", twitterIcon, JLabel.CENTER);
+        //ImageIcon twitterIcon = new ImageIcon(new ImageIcon("images/twitter-icon.png").getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+        JLabel twitter = new JLabel("@MustafaW97", Main.twitterIcon, JLabel.CENTER);
         twitter.setBounds(200,400,300,70);
         twitter.setFont(myFontN);
         twitter.addMouseListener(new MouseListener() {
@@ -75,8 +75,8 @@ public class LandingPage extends JFrame {
         Design.f.add(twitter);
 
 
-        ImageIcon gitIcon = new ImageIcon(new ImageIcon("images/github-icon.png").getImage().getScaledInstance(100, 70, Image.SCALE_DEFAULT));
-        JLabel gitHub = new JLabel("LXBoon", gitIcon, JLabel.CENTER);
+        //ImageIcon gitIcon = new ImageIcon(new ImageIcon("images/github-icon.png").getImage().getScaledInstance(100, 70, Image.SCALE_DEFAULT));
+        JLabel gitHub = new JLabel("LXBoon", Main.gitIcon, JLabel.CENTER);
         gitHub.setBounds(400,400,300,70);
         gitHub.setFont(myFontN);
         gitHub.addMouseListener(new MouseListener() {
@@ -114,8 +114,8 @@ public class LandingPage extends JFrame {
         Design.f.add(gitHub);
 
 
-        ImageIcon linkedINIcon = new ImageIcon(new ImageIcon("images/linkedin-icon.png").getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
-        JLabel linkedIN = new JLabel("MUSTAFA WAISULLAH", linkedINIcon, JLabel.CENTER);
+        //ImageIcon linkedINIcon = new ImageIcon(new ImageIcon("images/linkedin-icon.png").getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+        JLabel linkedIN = new JLabel("MUSTAFA WAISULLAH", Main.linkedINIcon, JLabel.CENTER);
         linkedIN.setBounds(650,400,300,70);
         linkedIN.setFont(myFontN);
         linkedIN.addMouseListener(new MouseListener() {
@@ -153,8 +153,8 @@ public class LandingPage extends JFrame {
         Design.f.add(linkedIN);
 
 
-        ImageIcon emailIcon = new ImageIcon(new ImageIcon("images/email-icon.jpg").getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
-        JLabel email = new JLabel("mustafa.waisullah.1997@gmail.com\n", emailIcon, JLabel.CENTER);
+        //ImageIcon emailIcon = new ImageIcon(new ImageIcon("images/email-icon.jpg").getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+        JLabel email = new JLabel("mustafa.waisullah.1997@gmail.com\n", Main.emailIcon, JLabel.CENTER);
         email.setBounds(220,500,700,70);
         email.setFont(myFontN);
         email.addMouseListener(new MouseListener() {
@@ -204,7 +204,5 @@ public class LandingPage extends JFrame {
         //this loop stays last
     }
 
-    public static void main(String[] args) {
-        new LandingPage();
-    }
+
 }

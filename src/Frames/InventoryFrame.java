@@ -397,9 +397,7 @@ public class InventoryFrame  {
 
 
 
-    public static void main(String[] args) {
 
-    }
 
 
 

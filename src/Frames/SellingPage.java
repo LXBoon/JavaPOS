@@ -619,7 +619,5 @@ public class SellingPage {
     }
 
 
-    public static void main(String[] args) {
-        //addSell(1,"1",1,1,rn);
-    }
+
 }
