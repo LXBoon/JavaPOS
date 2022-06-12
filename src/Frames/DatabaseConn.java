@@ -11,13 +11,13 @@ public class DatabaseConn {
     private static ResultSet rs;
     private static PreparedStatement ps;
 
-    //on device mysql - my php admin   host
+    
 
-    private  static final String connString ="jdbc:mysql://localhost:3306/myshopdb";
-    private  static final String user ="root";
-    private  static final String password ="Reet369*";
+    private  static final String connString ="connString";
+    private  static final String user ="user name";
+    private  static final String password ="password*";
 
-    //online mysql - my php admin   host
+    
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
