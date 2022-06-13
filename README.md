@@ -1,3 +1,5 @@
+
+
 # How to use 
 <br/>
 
@@ -25,20 +27,22 @@
 - https://www.jetbrains.com/idea/download/#section=windows
 <br/><hr/>
 
-## How to SetUp Data Base
+## How to Set Up Data Base
 
-<h4>Open MYSQL Workbench
-    - clik the + sign 
-    
-    
-    ![plus_sign](https://user-images.githubusercontent.com/97590872/173345368-ff4f6165-7a48-4946-8879-ffb0305df91a.png)
+Open MYSQL Workbench
+<br/>
+    - clik the + sign     
+    <br/>
+![plus_sign](ss/plus_sign.png)
 
+    1- Enter a connection name
+    2- Enter User Name
+    3- Enter Password
+    4- Click ok
+![](ss/newConn.jpg)
 
+Open the Connection by Clicking it
 
-
-    
-
-    
 
 
 
@@ -50,11 +54,6 @@ Important
 
 After downloading the files of the program 
 To connect to your database, you need to change lines 18,19,20 in /src/Frames/DatabaseConn.java
-
-
-
-    
-    
 
 
 connString example:
