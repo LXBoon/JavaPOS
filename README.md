@@ -29,7 +29,8 @@
 
 <h4>Open MYSQL Workbench
     - clik the + sign 
-    ![Alt text](ss/Screenshot 2022-06-09 195748.png"Optional Title")
+    ![Alt text]([/../main/JavaPOS/ss/plus_sign.png](https://raw.githubusercontent.com/LXBoon/JavaPOS/main/ss/plus_sign.png))
+
 
 
     
