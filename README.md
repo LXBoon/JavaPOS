@@ -33,7 +33,7 @@ Open MYSQL Workbench
 <br/>
     - clik the + sign     
     <br/>
-![plus_sign](ss/plus_sign.png)
+![plus_sign](ss/plus_sign.jbg)
 
     1- Enter a connection name
     2- Enter User Name
