@@ -43,7 +43,7 @@ Open MYSQL Workbench
 
 Open the Connection by Clicking it
 
-    - click add a SQL scriot file in a new query tab
+    - click add a SQL script file in a new query tab
     - navigate to dataQuery.sql in project file and open
 ![](ss//newQuery.jpg)
 
@@ -71,7 +71,7 @@ IF all costumizations are done
 
 <br/><hr/>
 
-## connect to database in profram
+## connect to database in the code source
 
     - open untitled.iml in intellij idea
     - intellij idea will give you a small pop-up messages to download necessary items
