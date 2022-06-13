@@ -33,7 +33,7 @@ Open MYSQL Workbench
 <br/>
     - clik the + sign     
     <br/>
-![plus_sign](ss/plus_sign.jbg)
+![plus_sign](ss/plus_sign.jpg)
 
     1- Enter a connection name
     2- Enter User Name
@@ -43,18 +43,75 @@ Open MYSQL Workbench
 
 Open the Connection by Clicking it
 
+    - click add a SQL scriot file in a new query tab
+    - navigate to dataQuery.sql in project file and open
+![](ss//newQuery.jpg)
 
+To Change database name
+
+    - change all instances of new_test to a new name
+    - name must not contain spaces
+    
+Deafult Login Name and Password 
+
+    - Deafult Login name is : "Admin" 
+    - Deafult Login Password is : "admin";
+    
+Costum Login Name and Password
+    
+    Change line 15 from INSERT INTO `user_table` VALUES (1,'Admin','admin');
+    To : INSERT INTO `user_table` VALUES (1,'insert user name here','insert password here');
+
+IF all costumizations are done
+
+    - select all text by ctl + A
+    - click execute
+![](ss/createDatabase.jpg)
 
 
 <br/><hr/>
 
-<br/><br/>
-Important
+## connect to database in profram
+
+    - open untitled.iml in intellij idea
+    - intellij idea will give you a small pop-up messages to download necessary items
+    - After Downloading them all
+
+Open src/Frames/DatabaseConn
+<br/>
+![](ss/ConnString.jpg)
+<br/>
+    
+    -To connect to your database, you need to change lines 17,18,19
+    connString example:
+    jdbc:mysql://localhost:3306/databaseName
+
+<br/>
+    
+## Make a runable program anywhere at your pc
+
+    - Open File>Project Structure
+![](ss/fileProjectSt.jpg)
+    
+    - In the menue Project Settings select Artifacts and click the plus sign JAR>From modules with dependencies
+    
+![](ss/Arti2.jpg)
+
+    - In main class Chose Frames.Main
+    - Chose where to save
+    - click ok
+    - click apply and ok
+    
+On the menue bar chose Build > Builed Artifact
+
+![](ss/BuiledArti.jpg)
+
+Click Build 
+
+![](ss/BuşledArti2.jpg)
+
+Now go to where you saved the artifact and can run it from your pc, if you host the database online,
+you can access the program and your own database from any pc
+    
 
 
-After downloading the files of the program 
-To connect to your database, you need to change lines 18,19,20 in /src/Frames/DatabaseConn.java
-
-
-connString example:
-jdbc:mysql://localhost:3306/dbname
