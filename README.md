@@ -29,7 +29,11 @@
 
 <h4>Open MYSQL Workbench
     - clik the + sign 
-    ![Alt text](ss/Screenshot 2022-06-09 195748.png"Optional Title")
+    
+    
+    ![plus_sign](https://user-images.githubusercontent.com/97590872/173345368-ff4f6165-7a48-4946-8879-ffb0305df91a.png)
+
+
 
 
     
