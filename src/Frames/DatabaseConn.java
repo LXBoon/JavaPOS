@@ -13,11 +13,12 @@ public class DatabaseConn {
 
     //on device mysql - my php admin   host
 
-    private  static final String connString ="jdbc:mysql://localhost:3306/myshopdb";
-    private  static final String user ="root";
-    private  static final String password ="Reet369*";
 
-    //online mysql - my php admin   host
+    private  static final String connString ="";
+    private  static final String user ="";
+    private  static final String password ="";
+
+
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
@@ -138,6 +139,7 @@ public class DatabaseConn {
             }
         }
     }
+
 
     public  static void  deleteFromItemList(long x){
         try {
