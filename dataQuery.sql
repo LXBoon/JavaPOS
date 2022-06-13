@@ -2,7 +2,7 @@ drop database IF EXISTS new_test ;
 
 CREATE DATABASE  IF NOT EXISTS new_test;
 
-USE `new_test`;
+USE new_test;
 
 CREATE TABLE `user_table` (
   `ID` int NOT NULL AUTO_INCREMENT,
@@ -128,6 +128,6 @@ CREATE TRIGGER items_table_BEFORE_UPDATE BEFORE UPDATE ON items_table FOR EACH R
 insert into new_test.item_log_table (Item_id,Date,Type_of_operation,oldName,oldPrice,oldTaxPercentage,oldQuantity,newName,newPrice,newTaxPercentage,newQuantity)
  values (old.ID,now(),'update',old.Name,old.Price,old.TaxPercentage,old.Quantity,new.Name,new.Price,new.TaxPercentage,new.Quantity);
 
-CREATE TRIGGER items_table_BEFORE_DELETE BEFORE DELETE ON items_table FOR EACH ROW
+CREATE TRIGGER items_table_BEFORE_DELETE BEFORE DELETE ON items_table FOR EACH ROW 
 insert into new_test.item_log_table (Item_id,Date,Type_of_operation,oldName,oldPrice,oldTaxPercentage,oldQuantity,newName,newPrice,newTaxPercentage,newQuantity)
  values (old.ID,now(),'delete',old.Name,old.Price,old.TaxPercentage,old.Quantity,'null',0,0,0);
