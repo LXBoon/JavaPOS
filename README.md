@@ -1,3 +1,28 @@
+# How to use 
+<br/>
+
+## Download java
+<br/>
+https://www.java.com/en/download/manual.jsp
+<br/>
+
+## Download jdk-17
+
+<br/>
+https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+<br/>
+
+## Download and setup MYSQL Workbench (community edition is compatible) 
+<br/>
+- You can watch tutorials in YouTube  to do it Step by step, if you don't know how to. 
+<br/><br/>
+https://dev.mysql.com/downloads/
+<br/>
+
+## Download intill
+
+https://www.jetbrains.com/idea/download/#section=windows
+<br/><br/>
 Important
 
 
