@@ -1,8 +1,8 @@
-drop database IF EXISTS new_test ;
+drop database IF EXISTS myshopdb ;
 
-CREATE DATABASE  IF NOT EXISTS new_test;
+CREATE DATABASE  IF NOT EXISTS myshopdb;
 
-USE new_test;
+USE myshopdb;
 
 CREATE TABLE `user_table` (
   `ID` int NOT NULL AUTO_INCREMENT,
@@ -105,29 +105,29 @@ CREATE TABLE `item_log_table` (
 CREATE TRIGGER before_employee_update 
     AFTER INSERT ON staff_table
     FOR EACH ROW 
- insert into new_test.staff_log_table (Date,Type_of_operation,staffID,oldIdNum,oldFirstName,oldLastName,oldPhone,oldEmail,oldPosition,oldSalary,newIdNum,newFirstName,newLastName,newPhone,newEmail,newPosition,newSalary)
+ insert into myshopdb.staff_log_table (Date,Type_of_operation,staffID,oldIdNum,oldFirstName,oldLastName,oldPhone,oldEmail,oldPosition,oldSalary,newIdNum,newFirstName,newLastName,newPhone,newEmail,newPosition,newSalary)
 values (now(),'insert',new.ID,0,' ',' ',0,' ',' ',0,new.IdNum,new.FirstName,new.LastName,new.Phone,new.Email,new.Position,new.Salary);
 
 
 CREATE TRIGGER staff_table_AFTER_UPDATE AFTER UPDATE ON staff_table FOR EACH ROW 
-insert into new_test.staff_log_table (Date,Type_of_operation,staffID,oldIdNum,oldFirstName,oldLastName,oldPhone,oldEmail,oldPosition,oldSalary,newIdNum,newFirstName,newLastName,newPhone,newEmail,newPosition,newSalary)
+insert into myshopdb.staff_log_table (Date,Type_of_operation,staffID,oldIdNum,oldFirstName,oldLastName,oldPhone,oldEmail,oldPosition,oldSalary,newIdNum,newFirstName,newLastName,newPhone,newEmail,newPosition,newSalary)
 values (now(),'update',old.ID,old.IdNum,old.FirstName,old.LastName,old.Phone,old.Email,old.Position,old.Salary,new.IdNum,new.FirstName,new.LastName,new.Phone,new.Email,new.Position,new.Salary);
 
 CREATE TRIGGER staff_table_AFTER_DELETE before DELETE ON staff_table FOR EACH ROW
-insert into new_test.staff_log_table (Date,Type_of_operation,staffID,oldIdNum,oldFirstName,oldLastName,oldPhone,oldEmail,oldPosition,oldSalary,newIdNum,newFirstName,newLastName,newPhone,newEmail,newPosition,newSalary)
+insert into myshopdb.staff_log_table (Date,Type_of_operation,staffID,oldIdNum,oldFirstName,oldLastName,oldPhone,oldEmail,oldPosition,oldSalary,newIdNum,newFirstName,newLastName,newPhone,newEmail,newPosition,newSalary)
 values (now(),'delete',old.ID,old.IdNum,old.FirstName,old.LastName,old.Phone,old.Email,old.Position,old.Salary,0,' ',' ',0,' ',' ',0);
 
 
 CREATE TRIGGER items_table_AFTER_INSERT AFTER INSERT ON items_table FOR EACH ROW
-insert into new_test.item_log_table (Item_id,Date,Type_of_operation,oldName,oldPrice,oldTaxPercentage,oldQuantity,newName,newPrice,newTaxPercentage,newQuantity)
+insert into myshopdb.item_log_table (Item_id,Date,Type_of_operation,oldName,oldPrice,oldTaxPercentage,oldQuantity,newName,newPrice,newTaxPercentage,newQuantity)
  values (new.ID,now(),'insert','null',0,0,0,new.Name,new.Price,new.TaxPercentage,new.Quantity);
 
 
 
 CREATE TRIGGER items_table_BEFORE_UPDATE BEFORE UPDATE ON items_table FOR EACH ROW
-insert into new_test.item_log_table (Item_id,Date,Type_of_operation,oldName,oldPrice,oldTaxPercentage,oldQuantity,newName,newPrice,newTaxPercentage,newQuantity)
+insert into myshopdb.item_log_table (Item_id,Date,Type_of_operation,oldName,oldPrice,oldTaxPercentage,oldQuantity,newName,newPrice,newTaxPercentage,newQuantity)
  values (old.ID,now(),'update',old.Name,old.Price,old.TaxPercentage,old.Quantity,new.Name,new.Price,new.TaxPercentage,new.Quantity);
 
 CREATE TRIGGER items_table_BEFORE_DELETE BEFORE DELETE ON items_table FOR EACH ROW 
-insert into new_test.item_log_table (Item_id,Date,Type_of_operation,oldName,oldPrice,oldTaxPercentage,oldQuantity,newName,newPrice,newTaxPercentage,newQuantity)
+insert into myshopdb.item_log_table (Item_id,Date,Type_of_operation,oldName,oldPrice,oldTaxPercentage,oldQuantity,newName,newPrice,newTaxPercentage,newQuantity)
  values (old.ID,now(),'delete',old.Name,old.Price,old.TaxPercentage,old.Quantity,'null',0,0,0);
