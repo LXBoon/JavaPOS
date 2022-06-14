@@ -47,10 +47,16 @@ Open the Connection by Clicking it
     - navigate to dataQuery.sql in project file and open
 ![](ss//newQuery.jpg)
 
-To Change database name
+Database name
+<br/>
+
+Deafult name of the database is myshopdb
+<br/>
+To change databasename
 
     - change all instances of myshopdb to a new name
     - name must not contain spaces
+    
     
 Deafult Login Name and Password 
 
