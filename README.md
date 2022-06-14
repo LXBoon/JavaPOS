@@ -49,7 +49,7 @@ Open the Connection by Clicking it
 
 To Change database name
 
-    - change all instances of new_test to a new name
+    - change all instances of myshopdb to a new name
     - name must not contain spaces
     
 Deafult Login Name and Password 
